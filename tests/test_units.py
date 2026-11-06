@@ -115,13 +115,15 @@ def test_affirmative_flags_is_line_scoped():
     assert affirmative_flags("Lab panel\nNo urgent flag\nCRITICAL VALUE\n") == ["CRITICAL VALUE"]
 
 
-@pytest.mark.xfail(strict=True, reason=(
-    "BUG: NEGATION_RE looks back up to 20 word/space/hyphen chars from the flag token, across field "
-    "boundaries, so a negation belonging to an earlier field on the same line suppresses a real flag "
-    "(form-style lines such as 'Fasting: No    STAT: Yes'). Safety cross-check false negative."))
+# Regression (FAILURES.md): negation used to leak across fields on one line and hide real flags.
 @pytest.mark.parametrize("text", ["Fasting: No    STAT: Yes", "Without delay - ASAP"])
 def test_affirmative_flags_negation_does_not_leak_across_fields(text):
     assert affirmative_flags(text) != []
+
+
+@pytest.mark.parametrize("text", ["Non-urgent follow up", "No known critical values", "not urgent"])
+def test_affirmative_flags_negation_within_clause_still_suppresses(text):
+    assert affirmative_flags(text) == []
 
 
 # ---- events.redact / EventLog ----------------------------------------------

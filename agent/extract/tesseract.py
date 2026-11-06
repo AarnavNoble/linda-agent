@@ -15,7 +15,11 @@ from dataclasses import dataclass, field
 from rapidfuzz import fuzz
 
 FLAG_RE = re.compile(r"\b(CRITICAL|URGENT|STAT|EMERGENT|ASAP)\b", re.I)
-NEGATION_RE = re.compile(r"\b(no|not|non|without|none)\b[\w\s-]{0,20}$", re.I)
+# A negation only applies within its own clause and within four words of the marker:
+# "No urgent flag" / "Non-urgent" are negated; "Fasting: No    STAT: Yes" and
+# "Without delay - ASAP" are not (the negation belongs to a different field/clause).
+CLAUSE_SPLIT_RE = re.compile(r"[:;,.]|\s-\s|\s{2,}")
+NEGATION_RE = re.compile(r"\b(no|not|non|without|none)\b[\s-]*(?:\w+\s+){0,4}$", re.I)
 FOOTER_RE = re.compile(r"Transmission\s+(FX-\d+)", re.I)
 MIN_GOOD_CONF = 75.0
 
@@ -54,7 +58,8 @@ def affirmative_flags(text: str) -> list[str]:
     hits = []
     for line in text.splitlines():
         for m in FLAG_RE.finditer(line):
-            if NEGATION_RE.search(line[: m.start()]):
+            clause = CLAUSE_SPLIT_RE.split(line[: m.start()])[-1]
+            if NEGATION_RE.search(clause):
                 continue  # "No urgent flag provided" is not a flag
             hits.append(line.strip())
     return hits
