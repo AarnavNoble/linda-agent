@@ -189,11 +189,33 @@ def _agent_env(portal: Portal, work: Path, crash_at: str = "") -> dict:
             "PYTHONUNBUFFERED": "1"}
 
 
-def spawn_agent(portal: Portal, work: Path, crash_at: str = "", tag: str = "run") -> tuple[subprocess.Popen, Path]:
+# Harness-only wrapper: the agent, unmodified, except that every download of one fax gives up
+# (a persistent download failure no once-only portal fault can produce).
+_FAIL_DOWNLOAD_WRAPPER = """
+import os, sys
+import agent.runner as r
+from agent.acquire import DownloadFailed
+target, real = os.environ["CHAOS_FAIL_DOWNLOAD"], r.download_fax
+def download_fax(s, fax_id, *a, **k):
+    if fax_id == target:
+        raise DownloadFailed(f"{fax_id}: chaos: download permanently unavailable")
+    return real(s, fax_id, *a, **k)
+r.download_fax = download_fax
+from agent.__main__ import main
+sys.exit(main(["run"]))
+"""
+
+
+def spawn_agent(portal: Portal, work: Path, crash_at: str = "", tag: str = "run",
+                fail_download: str = "") -> tuple[subprocess.Popen, Path]:
     work.mkdir(parents=True, exist_ok=True)
     log = work / f"agent-{tag}-{int(time.time() * 1000)}.log"
-    p = _track(subprocess.Popen([sys.executable, "-m", "agent", "run"], cwd=ROOT,
-                                env=_agent_env(portal, work, crash_at), stdout=log.open("w"),
+    argv = [sys.executable, "-m", "agent", "run"]
+    env = _agent_env(portal, work, crash_at)
+    if fail_download:
+        argv = [sys.executable, "-c", _FAIL_DOWNLOAD_WRAPPER]
+        env["CHAOS_FAIL_DOWNLOAD"] = fail_download
+    p = _track(subprocess.Popen(argv, cwd=ROOT, env=env, stdout=log.open("w"),
                                 stderr=subprocess.STDOUT, start_new_session=True))
     return p, log
 
@@ -216,10 +238,10 @@ def finish_agent(p: subprocess.Popen, log: Path, work: Path, before_mtime: float
     return AgentRun(rc, round(time.monotonic() - t0, 1), tail, res)
 
 
-def run_agent(portal: Portal, work: Path, crash_at: str = "", tag: str = "run") -> AgentRun:
+def run_agent(portal: Portal, work: Path, crash_at: str = "", tag: str = "run", fail_download: str = "") -> AgentRun:
     t0 = time.monotonic()
     before = _results_mtime(work)
-    p, log = spawn_agent(portal, work, crash_at, tag)
+    p, log = spawn_agent(portal, work, crash_at, tag, fail_download)
     return finish_agent(p, log, work, before, t0)
 
 
@@ -265,7 +287,7 @@ def ui_snapshot(portal: Portal) -> dict:
                 s.goto_fax(r["fax_id"])
                 panel = s.routing_panel()
                 faxes[r["fax_id"]] = {
-                    "inbox_status": r["status"], "detail_status": s.transmission_info().get("Status"),
+                    "received": r["received"], "inbox_status": r["status"], "detail_status": s.transmission_info().get("Status"),
                     "panel": {"assigned_to": panel.assigned_to, "doc_type": panel.doc_type,
                               "folder": panel.folder} if panel.routed else None}
             s._click_nav("Routed Documents")
@@ -665,6 +687,56 @@ def case_reset_mid_run_409(tmp: Path, golden) -> tuple[Checks, dict, dict]:
         portal.release()
 
 
+def case_download_gives_up(tmp: Path, golden) -> tuple[Checks, dict, dict]:
+    """The earliest New fax can never be downloaded in run 1. Nothing unread may be routed, nothing that
+    could be its resend may be routed, and run 2 (download healthy again) must converge to the baseline."""
+    c = Checks()
+    portal = Portal("none", tmp).start()
+    work = tmp / "work"
+    try:
+        inbox = ui_snapshot(portal)["faxes"]
+        order = sorted(inbox, key=lambda f: (inbox[f]["received"], f))
+        target = next(f for f in order if inbox[f]["detail_status"] == "New")
+        later = {f for f in order if (inbox[f]["received"], f) > (inbox[target]["received"], target)
+                 and inbox[f]["detail_status"] == "New"}
+        r1 = run_agent(portal, work, tag="broken-download", fail_download=target)
+        evs = load_events(work)
+        run1 = run_ids(evs)[0]
+        res1 = {r["fax_id"]: r for r in (r1.results or {"results": []})["results"]}
+        c.check("run 1 exits 1 (completed with failures), not a crash", r1.rc == 1 and r1.results is not None,
+                f"rc={r1.rc}\n{r1.stderr_tail}")
+        t = res1.get(target, {})
+        c.check(f"{target}: undownloadable fax reported failed/not_processed, never decided or submitted",
+                t.get("action") == "failed" and (t.get("verification") or {}).get("status") == "not_processed"
+                and not events_for(evs, target, run1, "decided") and not events_for(evs, target, run1, "submit_"),
+                f"result={t.get('action')}/{(t.get('verification') or {}).get('status')}")
+        sub_later = sorted({e["fax_id"] for e in events_for(evs, run=run1, prefix="submit_")} & later)
+        held = sorted({e["fax_id"] for e in events_for(evs, run=run1, prefix="decision_held")})
+        c.check("faxes received after it (possible resends) were held, not submitted",
+                not sub_later and set(held) == later, f"submitted={sub_later} held={held} later={sorted(later)}")
+        earlier_ok = [f for f in order if f not in later and f != target and res1.get(f, {}).get("action") == "failed"]
+        c.check("faxes received before it were unaffected", not earlier_ok, f"{earlier_ok}")
+        ui1 = ui_snapshot(portal)
+        c.check("portal untouched for the failed and held faxes",
+                all(ui1["faxes"][f]["detail_status"] == "New" for f in later | {target}))
+
+        r2 = run_agent(portal, work, tag="healthy")
+        c.check("run 2 (download healthy) exits 0", r2.rc == 0, f"rc={r2.rc}\n{r2.stderr_tail}")
+        evs = load_events(work)
+        run2 = run_ids(evs)[-1]
+        retried = {e["fax_id"] for e in events_for(evs, run=run2, prefix="reconcile_retry_failed")}
+        c.check("run 2 retried every failed fax", retried == later | {target}, f"retried={sorted(retried)}")
+        ui = ui_snapshot(portal)
+        check_final_state(c, ui, r2.results, golden)
+        check_event_invariants(c, evs, r2.results)
+        c.check("run 2 re-reported exactly the faxes whose outcome changed",
+                set((r2.results or {}).get("newly_reported_this_run", [])) == later | {target},
+                f"{(r2.results or {}).get('newly_reported_this_run')}")
+        return c, None, {"failed_fax": target, "held": len(held), "seconds": r1.seconds + r2.seconds}
+    finally:
+        portal.release()
+
+
 def case_download_reauth(tmp: Path, golden) -> tuple[Checks, dict, dict]:
     """Session A's login expires between opening the fax and clicking Download (cookie dropped,
     which is what an expired login looks like to the browser). Pins the stranded-on-/login bug."""
@@ -766,6 +838,7 @@ CASES = [
          _kill_case("after_click#4")),
     Case("portal_reset_stale_checkpoint", "full run, sandbox reset, rerun same work dir", case_portal_reset),
     Case("reset_mid_run_409", "sandbox reset after first download: 409 + dead Session A", case_reset_mid_run_409),
+    Case("download_gives_up", "one fax undownloadable in run 1, healthy run 2", case_download_gives_up),
     Case("download_reauth", "login expires right before Download click", case_download_reauth),
     Case("two_session_409", "same-session submit is refused and classified", case_two_session_409),
 ]

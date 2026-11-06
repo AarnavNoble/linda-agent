@@ -145,7 +145,10 @@ class Runner:
             if held and decisions[rec["fax_id"]].action != ALREADY_ROUTED:
                 if rec.get("decision"):
                     self.store.update(rec["fax_id"], decision=None)
-                self.log.emit("decision_held", rec["fax_id"], blocked_by=cutoff[1])
+                if any(m["fax_id"] == rec["fax_id"] for m in missing):
+                    self.log.emit("not_decided_no_content", rec["fax_id"])
+                else:
+                    self.log.emit("decision_held", rec["fax_id"], blocked_by=cutoff[1])
                 continue
             d = decisions[rec["fax_id"]]
             self.store.advance(rec["fax_id"], "DECIDED", decision=d.to_dict())
