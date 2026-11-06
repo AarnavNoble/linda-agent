@@ -191,7 +191,10 @@ class PortalSession:
         raise PortalError(f"could not open {fax_id} after re-authentication")
 
     def assert_on_fax(self, fax_id: str) -> None:
-        h1 = self.page.locator("main h1").first.inner_text().strip()
+        h1_loc = self.page.locator("main h1")
+        if h1_loc.count() == 0:  # e.g. a bare error page served in place of the fax
+            raise PortalError(f"fax page for {fax_id} did not render (no heading) at {self.page.url}")
+        h1 = h1_loc.first.inner_text().strip()
         shown = self.transmission_info().get("Fax ID")
         if h1 != f"Fax {fax_id}" or shown != fax_id:
             raise InvariantViolation(f"wanted {fax_id}, page shows h1={h1!r} id={shown!r}")

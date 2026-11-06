@@ -2,11 +2,19 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 import os
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+
+
+def outcome_sig(res: dict) -> str:
+    """What a downstream consumer would act on: action, route, verification status, reasons."""
+    key = [res.get("action"), res.get("selected_fields"), (res.get("verification") or {}).get("status"),
+           res.get("duplicate_of"), res.get("reasons")]
+    return hashlib.sha1(json.dumps(key, sort_keys=True, default=str).encode()).hexdigest()[:16]
 
 
 def _iso(ts: float) -> str:
@@ -76,7 +84,10 @@ def write_results(store, out_dir: Path, run_id: str) -> tuple[Path, Path, Path]:
     out_dir.mkdir(parents=True, exist_ok=True)
     recs = store.all()
     results = [r["result"] for r in recs if r.get("result")]
-    newly = [r["fax_id"] for r in recs if r.get("result") and not r["reported"]]
+    unreported = [r for r in recs if r.get("result") and not r["reported"]]
+    # A fax retried after an earlier failure that ends in the *same* outcome was already reported:
+    # only a changed outcome counts as newly reported (report-once across retries).
+    newly = [r["fax_id"] for r in unreported if outcome_sig(r["result"]) != r.get("reported_sig")]
     pending = [r["fax_id"] for r in recs if not r.get("result")]
     doc = {"run_id": run_id, "generated_at": _iso(time.time()), "count": len(results),
            "newly_reported_this_run": newly, "pending": pending, "results": results}
@@ -120,6 +131,6 @@ def write_results(store, out_dir: Path, run_id: str) -> tuple[Path, Path, Path]:
     mpath.write_text("\n".join(lines) + "\n")
 
     # Report-once: mark only after the artifacts are durably written.
-    for fid in newly:
-        store.update(fid, reported=1)
+    for r in unreported:
+        store.update(r["fax_id"], reported=1, reported_sig=outcome_sig(r["result"]))
     return jpath, cpath, mpath

@@ -14,6 +14,7 @@ import time
 from dataclasses import dataclass
 from pathlib import Path
 
+from playwright.sync_api import Error as PWError
 from pypdf import PdfReader
 
 from .browser import PortalError, PortalSession
@@ -83,7 +84,7 @@ def download_fax(s: PortalSession, fax_id: str, expected_pages: int, dest_dir: P
     for attempt in range(1, max_attempts + 1):
         try:
             s.goto_fax(fax_id)  # (re)establish we are on the right fax every attempt
-        except PortalError as e:  # transient page failure: count it as an attempt and retry
+        except (PortalError, PWError) as e:  # transient page failure: count it as an attempt and retry
             last_err = f"could not open fax page: {e}"
             if on_attempt: on_attempt("download", "nav_error", last_err)
             time.sleep(min(0.5 * 2 ** (attempt - 1), 4))

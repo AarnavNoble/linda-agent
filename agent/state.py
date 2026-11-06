@@ -73,6 +73,8 @@ class Store:
         cols = {r[1] for r in self.db.execute("PRAGMA table_info(faxes)")}
         if "download_session" not in cols:
             self.db.execute("ALTER TABLE faxes ADD COLUMN download_session TEXT")
+        if "reported_sig" not in cols:  # signature of the outcome last reported (report-once across retries)
+            self.db.execute("ALTER TABLE faxes ADD COLUMN reported_sig TEXT")
 
     # ---- faxes -------------------------------------------------------------
     def get(self, fax_id: str) -> dict | None:

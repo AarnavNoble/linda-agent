@@ -234,3 +234,21 @@ def test_store_survives_reopen(tmp_path):
     s.db.close()
     rec = Store(path).get("FX-1")
     assert rec["state"] == "INTENT" and rec["intent"] == {"key": "k"}
+
+
+def test_unchanged_outcome_after_retry_is_not_reported_again(tmp_path):
+    """Breaker P1-2: a failure retried next run with the same outcome was re-reported as new."""
+    from agent import report
+    store = Store(tmp_path / "c.sqlite3")
+    store.upsert_discovered("FX-1", "2026-11-03 08:00", "S", 1, "New")
+    failed = {"fax_id": "FX-1", "action": "failed", "verification": {"status": "not_processed"}, "reasons": []}
+    store.update("FX-1", result=failed)
+    first = json.loads(report.write_results(store, tmp_path / "r", "run1")[0].read_text())
+    assert first["newly_reported_this_run"] == ["FX-1"]
+    store.update("FX-1", result=failed, reported=0)  # retried next run, same outcome
+    second = json.loads(report.write_results(store, tmp_path / "r", "run2")[0].read_text())
+    assert second["newly_reported_this_run"] == []
+    routed = {**failed, "action": "routed", "verification": {"status": "ui_verified"}}
+    store.update("FX-1", result=routed, reported=0)  # retried and the outcome changed
+    third = json.loads(report.write_results(store, tmp_path / "r", "run3")[0].read_text())
+    assert third["newly_reported_this_run"] == ["FX-1"]
