@@ -4,7 +4,9 @@ A Playwright worker that does a clinic's fax-routing job the way a person would,
 
 It is crash-safe: a durable write-ahead checkpoint means a restart, timeout or 503 never causes a second submit. Anything uncertain goes to Manual Review with a reason.
 
-**Watch it:** [`results/demo.mp4`](results/demo.mp4) is about 45 s, captioned, and recorded from the agent's own browser sessions by `make record`.
+![Demo: Session A downloads, then FX-201 routed and FX-202 sent to review, each from a fresh login, then the Routed Documents check](results/demo.gif)
+
+*45 s, recorded by `make record` from the agent's own browser sessions. Full-quality video: [`results/demo.mp4`](results/demo.mp4).*
 
 ## Result on the supplied inbox
 
