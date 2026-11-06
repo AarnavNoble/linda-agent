@@ -81,7 +81,13 @@ def download_fax(s: PortalSession, fax_id: str, expected_pages: int, dest_dir: P
     dest_dir.mkdir(parents=True, exist_ok=True)
     last_err = ""
     for attempt in range(1, max_attempts + 1):
-        s.goto_fax(fax_id)  # (re)establish we are on the right fax every attempt
+        try:
+            s.goto_fax(fax_id)  # (re)establish we are on the right fax every attempt
+        except PortalError as e:  # transient page failure: count it as an attempt and retry
+            last_err = f"could not open fax page: {e}"
+            if on_attempt: on_attempt("download", "nav_error", last_err)
+            time.sleep(min(0.5 * 2 ** (attempt - 1), 4))
+            continue
         kind, payload = _trigger_download(s, fax_id, wait_ms)
         if kind == "ok":
             dl = payload

@@ -105,8 +105,11 @@ class PortalSession:
     def _click_nav(self, name: str) -> None:
         self.ensure_auth()
         if self.page.locator(".side").count() == 0:
-            # Error pages (e.g. a 503 body) still render the shell; if not, recover via entry link.
-            raise PortalError(f"no sidebar on {self.page.url}; cannot navigate to {name}")
+            # A bare error page (e.g. a proxy 502) has no portal navigation. Re-enter through the
+            # portal's entry URL (same as start(); session cookie kept) instead of giving up.
+            self.start()
+            if self.page.locator(".side").count() == 0:
+                raise PortalError(f"no portal navigation even after re-entry ({self.page.url}); cannot open {name}")
         self.page.locator("a.nav", has_text=re.compile(rf"^{re.escape(name)}$")).click()
         self.page.wait_for_load_state("domcontentloaded")
         if self.ensure_auth():  # session expired between pages; the portal returns us to `next`
@@ -164,10 +167,21 @@ class PortalSession:
             self.page.wait_for_load_state("domcontentloaded")
             if self.ensure_auth():
                 continue  # bounced through login; redo the search from a clean inbox
-            link = self.page.locator("table[aria-label='Inbound faxes'] tbody tr td:first-child a").filter(
-                has_text=re.compile(rf"^{re.escape(fax_id)}$"))
-            if link.count() != 1:
-                raise PortalError(f"expected exactly one inbox link for {fax_id}, found {link.count()}")
+            # Search is a substring match, so other IDs that contain this one (FX-205 -> FX-2050...)
+            # can push the exact match onto a later results page: page through until it appears.
+            link = None
+            for _ in range(50):
+                cand = self.page.locator("table[aria-label='Inbound faxes'] tbody tr td:first-child a").filter(
+                    has_text=re.compile(rf"^{re.escape(fax_id)}$"))
+                if cand.count() > 1:
+                    raise PortalError(f"expected exactly one inbox link for {fax_id}, found {cand.count()}")
+                if cand.count() == 1:
+                    link = cand
+                    break
+                if not self.inbox_next():
+                    break
+            if link is None:
+                raise PortalError(f"no inbox row with fax ID exactly {fax_id}")
             link.click()
             self.page.wait_for_load_state("domcontentloaded")
             if self.ensure_auth():

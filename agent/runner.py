@@ -117,6 +117,10 @@ class Runner:
             self.crash_point("after_download", fid)
 
     def extract_all(self) -> None:
+        from .extract import tesseract
+        if not tesseract.available():
+            self.log.emit("crosscheck_unavailable",
+                          warning="tesseract not on PATH: independent OCR safety cross-check is OFF for this run")
         for rec in self.store.all():
             if not rec.get("pdf_path") or (rec.get("extraction") and rec["extraction"].get("sha256") == rec["sha256"]
                                             and not rec["extraction"].get("error")):
@@ -134,7 +138,10 @@ class Runner:
         # A fax we could not download has no content: deciding it would route a document nobody
         # read. And while its content is unknown we cannot rule out that a later fax is a resend
         # of it, so later-received faxes are held too (reported as not_processed; retried next run).
-        missing = [r for r in recs if not r.get("pdf_path") and r["state"] != "DONE" and not r.get("intent")
+        def no_content(r):  # never downloaded, or downloaded but unreadable (e.g. vision outage)
+            return not r.get("pdf_path") or bool((r.get("extraction") or {}).get("error")) \
+                or not (r.get("extraction") or {}).get("pages")
+        missing = [r for r in recs if no_content(r) and r["state"] != "DONE" and not r.get("intent")
                    and r.get("ui_status_at_discovery") != "Routed"]
         cutoff = min(((r["received"] or ""), r["fax_id"]) for r in missing) if missing else None
         decisions = decide_all(recs, set(failed_originals))
@@ -156,6 +163,14 @@ class Runner:
                           reasons=d.reasons, duplicate_of=d.duplicate_of)
 
     # ---- routing -----------------------------------------------------------
+    @staticmethod
+    def _sessions(seen: list[str], s) -> list[str]:
+        """All Session B prefixes used, including silent re-logins inside ensure_auth()."""
+        out = [x for x in seen if x]
+        if s is not None and s.session_prefix and s.session_prefix not in out:
+            out.append(s.session_prefix)
+        return out
+
     def finish(self, fid: str, action: str, verification: dict, errors: list[str] | None = None,
                sessions_b: list[str] | None = None, selected: dict | None = None) -> None:
         rec = self.store.get(fid)
@@ -204,15 +219,26 @@ class Runner:
                 status, values = read_status(s, fid)
                 if status == "Routed":
                     v = verify(s, fid, route)
-                    if v.matches:
+                    # Did *we* possibly submit (a click happened in this or an earlier run)?
+                    ours = rec["state"] == "SUBMITTED_UNVERIFIED" or self.store.get(fid)["state"] == \
+                        "SUBMITTED_UNVERIFIED" or any(a["stage"] == "submit" and a["outcome"] != "already"
+                                                     for a in self.store.attempts(fid))
+                    if v.matches and not ours:
+                        self.attempt(fid, "route", "routed_by_other", v.detail)
+                        self.finish(fid, ALREADY_ROUTED, {"status": "routed_by_other_matching_intent",
+                                                          "detail": "routed by someone else before this agent "
+                                                                    "submitted; values match the agent's decision",
+                                                          "panel": v.panel, "queue_row": v.queue_row},
+                                    errors, self._sessions(sessions_b, s), None)
+                    elif v.matches:
                         self.attempt(fid, "route", "verified_existing", v.detail)
                         self.finish(fid, intent["action"], {"status": "ui_verified", "detail": v.detail,
                                                             "panel": v.panel, "queue_row": v.queue_row},
-                                    errors, sessions_b, route._asdict())
+                                    errors, self._sessions(sessions_b, s), route._asdict())
                     else:
                         self.attempt(fid, "route", "conflict", v.detail)
                         self.finish(fid, FAILED, {"status": "conflict", "detail": v.detail, "panel": v.panel},
-                                    errors + [v.detail], sessions_b, route._asdict())
+                                    errors + [v.detail], self._sessions(sessions_b, s), route._asdict())
                     return
                 self.crash_point("before_click", fid)
                 fill_and_review(s, fid, route, intent["note"])
@@ -240,27 +266,36 @@ class Runner:
                     continue
                 if out.kind == "invalid":
                     errors.append(f"portal rejected field values: {out.detail}")
-                    self.finish(fid, FAILED, {"status": "rejected_invalid"}, errors, sessions_b, route._asdict())
+                    self.finish(fid, FAILED, {"status": "rejected_invalid"}, errors, self._sessions(sessions_b, s), route._asdict())
                     return
                 # success / already / unknown -> the only truth is persisted UI state
                 if out.kind == "unknown":
                     errors.append(f"uncertain submit outcome (http={out.http_status}); re-reading UI before retry")
                 v = verify(s, fid, route)
+                if v.routed and v.matches and out.kind == "already":
+                    # The portal blocked our submit: the route that exists is someone else's.
+                    self.attempt(fid, "verify", "routed_by_other", v.detail)
+                    self.finish(fid, ALREADY_ROUTED, {"status": "routed_by_other_matching_intent",
+                                                      "detail": "portal reported 'already routed' on submit; "
+                                                                "existing values match the agent's decision",
+                                                      "panel": v.panel, "queue_row": v.queue_row},
+                                errors, self._sessions(sessions_b, s), None)
+                    return
                 if v.routed and v.matches:
                     self.attempt(fid, "verify", "ok", v.detail)
                     self.finish(fid, intent["action"], {"status": "ui_verified", "detail": v.detail,
                                                         "panel": v.panel, "queue_row": v.queue_row,
                                                         "submit_outcome": out.kind},
-                                errors, sessions_b, route._asdict())
+                                errors, self._sessions(sessions_b, s), route._asdict())
                     return
                 if v.routed:
                     self.finish(fid, FAILED, {"status": "conflict", "detail": v.detail}, errors + [v.detail],
-                                sessions_b, route._asdict())
+                                self._sessions(sessions_b, s), route._asdict())
                     return
                 self.attempt(fid, "verify", "not_routed", v.detail)
                 errors.append(f"submit reported {out.kind} but fax is not routed; retrying")
             self.finish(fid, FAILED, {"status": "unverified", "detail": "route attempts exhausted"}, errors,
-                        sessions_b, route._asdict())
+                        self._sessions(sessions_b, s), route._asdict())
         except FAX_ERRORS as e:
             errors.append(f"{type(e).__name__}: {e}")
             if s:
@@ -292,10 +327,20 @@ class Runner:
             browser = p.chromium.launch(headless=not self.cfg.headed, slow_mo=150 if self.cfg.headed else 0)
             try:
                 # Session A: discover + download everything not finished.
-                a = self.session(browser, "A")
-                self.sessions_a.append(a.session_prefix)
+                a = None
+                for d_try in range(1, 4):  # inbox discovery: retry transient page failures in a fresh Session A
+                    a = self.session(browser, "A")
+                    self.sessions_a.append(a.session_prefix)
+                    try:
+                        rows = discover_inbox(a)
+                        break
+                    except FAX_ERRORS as e:
+                        self.log.emit("discover_error", attempt=d_try, error=f"{type(e).__name__}: {e}"[:300])
+                        a.close()
+                        if d_try == 3:
+                            raise
+                        time.sleep(d_try)
                 try:
-                    rows = discover_inbox(a)
                     self.log.emit("discovered", count=len(rows), ids=[r["fax_id"] for r in rows])
                     self.reconcile(rows)
                     todo = [r["fax_id"] for r in rows
@@ -318,8 +363,11 @@ class Runner:
                         if not rec.get("decision") and not rec.get("intent"):
                             why = [a["detail"] for a in self.store.attempts(rec["fax_id"])
                                    if a["outcome"] in ("gave_up",)][-1:] or ["no download"]
-                            if rec.get("pdf_path"):
-                                why = ["decision held: an earlier-received fax has no downloaded content, "
+                            ext_err = (rec.get("extraction") or {}).get("error")
+                            if rec.get("pdf_path") and ext_err:
+                                why = [f"content could not be extracted ({ext_err}); not decided, retried next run"]
+                            elif rec.get("pdf_path"):
+                                why = ["decision held: an earlier-received fax has no readable content, "
                                        "so this fax cannot be ruled out as its resend"]
                             self.finish(rec["fax_id"], FAILED, {"status": "not_processed"}, why)
                             continue
@@ -344,6 +392,9 @@ class Runner:
                             self.store.update(r["fax_id"], state="DECIDED", result=None, reported=0)
                     self.decide(failed)
                 status = "completed"
+            except Exception as e:  # never lose the run's outcomes: record, still write results, exit 1
+                self.log.emit("run_error", error=f"{type(e).__name__}: {e}"[:500])
+                status = "failed"
             finally:
                 browser.close()
         paths = report.write_results(self.store, self.cfg.results_dir, self.run_id)

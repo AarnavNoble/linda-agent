@@ -98,6 +98,9 @@ def write_results(store, out_dir: Path, run_id: str) -> tuple[Path, Path, Path]:
                 "reasons": " | ".join(r.get("reasons") or []), "flags": " | ".join(r.get("flags") or []),
                 "errors": " | ".join(r.get("errors") or []),
             })
+        for fid in pending:  # unfinished faxes must be visible in every artifact, not only results.json
+            w.writerow({"fax_id": fid, "action": "pending",
+                        "errors": "not finished this run (see results.json attempts / events.jsonl)"})
 
     mpath = out_dir / "summary.md"
     lines = ["| Fax | Type | Source ID | Action | Assigned To | Verification | Retries |",
@@ -107,6 +110,13 @@ def write_results(store, out_dir: Path, run_id: str) -> tuple[Path, Path, Path]:
         lines.append(f"| {r['fax_id']} | {r.get('extracted_type') or '-'} | {r.get('source_doc_id') or '-'} | "
                      f"{r['action']}{' of ' + r['duplicate_of'] if r.get('duplicate_of') and r['action'] == 'skipped_duplicate' else ''} | "
                      f"{sel.get('assigned_to') or '-'} | {(r.get('verification') or {}).get('status')} | {r.get('retries')} |")
+    for fid in pending:
+        lines.append(f"| {fid} | - | - | **pending** (not finished this run) | - | - | - |")
+    ran = sum(1 for r in results if ((r.get("extraction") or {}).get("crosscheck") or {}).get("ran"))
+    with_content = sum(1 for r in results if (r.get("extraction") or {}).get("engine") == "vision")
+    lines.append("")
+    lines.append(f"Local OCR cross-check ran on {ran}/{with_content} extracted faxes"
+                 + ("" if ran == with_content else " — **WARNING: Tesseract not available; safety cross-check off**"))
     mpath.write_text("\n".join(lines) + "\n")
 
     # Report-once: mark only after the artifacts are durably written.
