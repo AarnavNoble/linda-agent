@@ -2,7 +2,49 @@
 
 - Results: `results/sample/results.json` (run `20261106T064018Z-192`, 12 faxes)
 - Events: `results/sample/events.jsonl`
-- Labels: `not used (--ops-only)`
+- Labels: `eval/labels.yaml` (labeller: Aarnav Noble)
+
+**Headline:** 0 unsafe auto-routes, exact-route match 12/12 (100%), over-review 0/6 (0%), duplicate P/R 1.00/1.00.
+
+## Accuracy and safety (vs. candidate hand labels)
+
+| Metric | Value | Target |
+|---|---|---|
+| **Unsafe auto-routes** (label: review/duplicate/already routed; agent: auto-routed) | **0**  | 0 |
+| Misroutes (both say routed, different destination) | 0  | 0 |
+| Extra submissions on duplicates / already-routed | 0  | 0 |
+| Exact-route match (action + all 3 fields + duplicate_of) | 12/12 (100%) | 100% |
+| Action accuracy | 12/12 (100%) | 100% |
+| Classification accuracy | 12/12 (100%) | 100% |
+| Over-review rate (label routed, agent sent to review) | 0/6 (0%)  | low |
+| Duplicate precision / recall | 1.00 / 1.00 (TP 1, FP 0, FN 0) | 1.00 / 1.00 |
+| Failed (agent gave up) | 0  | 0 |
+
+### Confusion matrix (rows = label, columns = agent)
+
+| label \ agent | routed | needs_review | skipped_duplicate | already_routed | failed |
+|---|---|---|---|---|---|
+| routed | 6 | · | · | · | · |
+| needs_review | · | 4 | · | · | · |
+| skipped_duplicate | · | · | 1 | · | · |
+| already_routed | · | · | · | 1 | · |
+
+### Per fax
+
+| Fax | Label action | Agent action | Label category | Agent category | Route match | Flags |
+|---|---|---|---|---|---|---|
+| FX-201 | routed | routed | referral | referral | yes | - |
+| FX-202 | needs_review | needs_review | lab_result | lab_result | yes | - |
+| FX-203 | routed | routed | imaging_report | imaging_report | yes | - |
+| FX-204 | routed | routed | prior_authorization | prior_authorization | yes | - |
+| FX-205 | routed | routed | refill_request | refill_request | yes | - |
+| FX-206 | routed | routed | records_request | records_request | yes | - |
+| FX-207 | routed | routed | eob | eob | yes | - |
+| FX-208 | needs_review | needs_review | lab_result | lab_result | yes | - |
+| FX-209 | needs_review | needs_review | unclear | unclear | yes | - |
+| FX-210 | skipped_duplicate | skipped_duplicate | referral | referral | yes | - |
+| FX-211 | already_routed | already_routed | imaging_report | imaging_report | yes | - |
+| FX-212 | needs_review | needs_review | mixed | mixed | yes | - |
 
 ## Latency per stage
 

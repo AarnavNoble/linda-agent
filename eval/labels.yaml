@@ -1,0 +1,115 @@
+# Ground-truth labels for the eval harness. A HUMAN FILLS THESE IN, NOT THE AGENT.
+#
+# How to fill this in (about 15 minutes):
+#   1. cp eval/labels.template.yaml eval/labels.yaml
+#   2. Start the portal on a FRESH database (python reset_sandbox.py; uvicorn ...) and log in as
+#      agent.demo. Open each fax in Fax Management -> Inbound Faxes, read EVERY page of the preview or
+#      downloaded PDF yourself, and decide what a careful human router should do under the SOP.
+#      Do NOT copy from results.json, the agent's logs, the extraction cache, data/faxes or manifest.json.
+#      Labels copied from the system under test measure nothing.
+#   3. Fill every field below. `python -m eval.run_eval` refuses to score while any required field is blank.
+#
+# Fields
+#   expected_action:       routed | needs_review | skipped_duplicate | already_routed
+#                          (already_routed = the portal already showed Routed before any agent run)
+#   expected_category:     referral | lab_result | imaging_report | prior_authorization | refill_request |
+#                          records_request | eob | mixed | unclear
+#                          The document type you see, even when the action is needs_review (an urgent lab
+#                          result is `lab_result`). Use `mixed` for a packet with more than one category
+#                          and `unclear` when the type cannot be established from the pages.
+#   expected_route:        the route that should be SUBMITTED. One of:
+#                            auto  -> derived from the brief's SOP table (ORACLE_SOP in eval/metrics.py, an
+#                                     independent copy, not the agent's agent/sop.py): the category's row for
+#                                     `routed`, the Manual Review row for `needs_review`
+#                            none  -> nothing should be submitted (skipped_duplicate, already_routed)
+#                            or the three exact dropdown labels:
+#                              expected_route: {assigned_to: "...", doc_type: "...", folder: "..."}
+#   expected_duplicate_of: required only when expected_action is skipped_duplicate: the fax ID of the
+#                          earliest-received original. Leave blank otherwise.
+#   notes:                 optional: your evidence / reasoning (helps when a disagreement is reviewed).
+#
+# SOP dropdown values (copy exactly if you write routes out by hand):
+#   Olivia Chen - Referrals            | Referral            | Referrals / New
+#   Noah Patel - Clinical Review       | Lab Result          | Clinical / Labs
+#   Noah Patel - Clinical Review       | Imaging Report      | Clinical / Imaging
+#   Ethan Brooks - Authorizations      | Prior Authorization | Authorizations / Pending
+#   Ava Wilson - Nursing / Medication  | Refill Request      | Nursing / Medication
+#   Mia Gomez - Medical Records        | Records Request     | Records / Requests
+#   Liam Rivera - Billing              | EOB                 | Billing / EOBs
+#   Jordan Ellis - Manual Review       | Needs Review        | Review / Unclassified
+
+labeller:       Aarnav Noble
+labelled_at:    2026-11-06
+faxes:
+  FX-201:
+    expected_action: routed
+    expected_category: referral
+    expected_route: auto
+    expected_duplicate_of:
+    notes: p1 cover sheet, p2 referral RF-3001 (Elena Hart, 04/16/1987), Priority Routine
+  FX-202:
+    expected_action: needs_review
+    expected_category: lab_result
+    expected_route: auto
+    expected_duplicate_of:
+    notes: lab LAB-8302 (Marcus Bell); printed "CRITICAL RESULT - CALLING PROVIDER"
+  FX-203:
+    expected_action: routed
+    expected_category: imaging_report
+    expected_route: auto
+    expected_duplicate_of:
+    notes: imaging IMG-4003 (Naomi Lee), MRI c-spine, FINAL REPORT; no flags
+  FX-204:
+    expected_action: routed
+    expected_category: prior_authorization
+    expected_route: auto
+    expected_duplicate_of:
+    notes: prior auth PA-4004 (Oliver Grant); same sender/time as FX-203 but different doc, ID and patient
+  FX-205:
+    expected_action: routed
+    expected_category: refill_request
+    expected_route: auto
+    expected_duplicate_of:
+    notes: refill RX-4005 (Sydney Patel), Lisinopril renewal; no flags
+  FX-206:
+    expected_action: routed
+    expected_category: records_request
+    expected_route: auto
+    expected_duplicate_of:
+    notes: p1 records request MR-4006 (Cameron Blake); p2 its signed release, referenced on p1, so one document
+  FX-207:
+    expected_action: routed
+    expected_category: eob
+    expected_route: auto
+    expected_duplicate_of:
+    notes: EOB EOB-4007 (Jordan Clark), claim C-10778; no flags
+  FX-208:
+    expected_action: needs_review
+    expected_category: lab_result
+    expected_route: auto
+    expected_duplicate_of:
+    notes: lab LAB-4008 (Talia Nguyen), says "See values on following table" but fax is 1 page with no table; results missing. Negated "No urgent flag" is not a flag.
+  FX-209:
+    expected_action: needs_review
+    expected_category: unclear
+    expected_route: auto
+    expected_duplicate_of:
+    notes: unknown sender, U-4009; "[SCAN CUT OFF]", missing continuation page, no readable category
+  FX-210:
+    expected_action: skipped_duplicate
+    expected_category: referral
+    expected_route: none
+    expected_duplicate_of: FX-201
+    notes: resend of RF-3001, same patient and DOB, received after FX-201
+  FX-211:
+    expected_action: already_routed
+    expected_category: imaging_report
+    expected_route: none
+    expected_duplicate_of:
+    notes: imaging IMG-4111 (Elliot Brooks); status was Routed in the fresh seed state, before any agent run
+  FX-212:
+    expected_action: needs_review
+    expected_category: mixed
+    expected_route: auto
+    expected_duplicate_of:
+    notes: p1 cover "multiple enclosures"; p2 lab LAB-4012A, p3 imaging IMG-4012B (Riley Morgan); mixed packet
