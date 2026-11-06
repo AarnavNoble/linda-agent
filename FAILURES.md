@@ -57,9 +57,8 @@ the old code back and confirmed the case fails. Those runs are quoted below.
   three things: the agent re-authenticated, got a valid PDF of the same fax, and is not left
   on `/login`. With the old `browser.py` restored, this case fails all 3 checks with the error
   quoted above.
-- **Suggested pytest regression** (the tests are owned by another workstream): an integration
-  test that runs the same sequence against a local portal: `goto_fax`,
-  `context.clear_cookies()`, `download_fax`.
+  Also pinned by `tests/test_regressions.py::test_download_reauthenticates_after_session_expiry`
+  (`goto_fax`, `context.clear_cookies()`, `download_fax` against a private portal).
 
 ## 4. `results.json` attributed downloads to the wrong portal session
 
@@ -128,12 +127,11 @@ the old code back and confirmed the case fails. Those runs are quoted below.
   to 3 passes. Its checkpoint stays at `INTENT` / `SUBMITTED_UNVERIFIED`, so the retry
   re-reads the UI before acting. A universal chaos check asserts "no unhandled per-fax
   errors".
-- **Pinned by.** No portal fault produces a Playwright error deterministically, so there is
-  no dedicated case. `reset_mid_run_409` freezes the worker and restarts the portal under it,
-  which is the closest scenario.
-  - **Suggested pytest:** monkeypatch `route.read_status` to raise
-    `playwright.sync_api.TimeoutError` once, then assert the run finishes and that fax is
-    verified on the second pass.
+- **Pinned by.** No portal fault produces a Playwright error deterministically, so the chaos
+  suite's closest scenario is `reset_mid_run_409`.
+  Pinned by `tests/test_regressions.py::test_transient_playwright_error_on_one_fax_does_not_sink_the_run`:
+  it makes `read_status` raise a Playwright `TimeoutError` once for one fax, then asserts the
+  run exits 0 with all 12 results and that fax verified on the next pass.
 
 ## 8. A second worker on the same work dir crashed with a traceback
 

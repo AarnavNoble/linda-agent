@@ -1,6 +1,6 @@
 # Chaos matrix — PASS
 
-Generated 2026-11-06 01:07:27 EST by `uv run python -m agent.chaos` in 158.5s. Each case runs against its own throwaway portal (fresh DB, own port) with the agent as a subprocess; outcomes are judged only through the portal UI (separate read-only session) and the agent's results.json / events.jsonl.
+Generated 2026-11-06 01:07:27 EST by `uv run python -m harness.chaos` in 158.5s. Each case runs against its own throwaway portal (fresh DB, own port) with the agent as a subprocess; outcomes are judged only through the portal UI (separate read-only session) and the agent's results.json / events.jsonl.
 
 | Case | Scenario | Result | Checks | Time |
 |---|---|---|---|---|

@@ -1,4 +1,4 @@
-"""Chaos suite: `uv run python -m agent.chaos`.
+"""Chaos suite: `uv run python -m harness.chaos`.
 
 Spawns throwaway Linda Mini portals (ports 8101-8120, one fresh DB each), runs the agent
 against them as real subprocesses under every injected fault, kill point and restart
@@ -875,7 +875,7 @@ def write_matrix(rows: list[dict], out_dir: Path, total_s: float) -> tuple[Path,
     jp = out_dir / "chaos_matrix.json"
     jp.write_text(json.dumps(doc, indent=2, default=str))
     lines = [f"# Chaos matrix — {'PASS' if ok else 'FAIL'}", "",
-             f"Generated {doc['generated_at']} by `uv run python -m agent.chaos` in {doc['total_seconds']}s. "
+             f"Generated {doc['generated_at']} by `uv run python -m harness.chaos` in {doc['total_seconds']}s. "
              "Each case runs against its own throwaway portal (fresh DB, own port) with the agent as a "
              "subprocess; outcomes are judged only through the portal UI (separate read-only session) and the "
              "agent's results.json / events.jsonl.", "",
@@ -900,7 +900,7 @@ def write_matrix(rows: list[dict], out_dir: Path, total_s: float) -> tuple[Path,
 
 
 def main(argv=None) -> int:
-    ap = argparse.ArgumentParser(prog="agent.chaos", description=__doc__.split("\n")[0])
+    ap = argparse.ArgumentParser(prog="harness.chaos", description=__doc__.split("\n")[0])
     ap.add_argument("--cases", default="", help="comma-separated case names (baseline always runs)")
     ap.add_argument("--jobs", type=int, default=4, help="cases run in parallel after the baseline")
     ap.add_argument("--keep", action="store_true", help="keep temp dirs (portal DBs, work dirs, logs)")
