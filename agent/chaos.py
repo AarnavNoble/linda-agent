@@ -377,6 +377,14 @@ def check_event_invariants(c: Checks, events: list[dict], results: dict | None) 
     errs = [f"{e.get('fax_id')}: {e.get('error')}" for e in events if e["event"] == "fax_error"]
     c.check("no unhandled per-fax errors", not errs, "; ".join(errs)[:600])
     if results:
+        last_dl: dict[str, str] = {}
+        for e in events:
+            if e["event"] == "downloaded" and e.get("fax_id"):
+                last_dl[e["fax_id"]] = e.get("session")
+        wrong = [f"{r['fax_id']}: reported {r['sessions']['download_session_a']} but downloaded in "
+                 f"{last_dl.get(r['fax_id'])}" for r in results["results"]
+                 if r["fax_id"] in last_dl and r["sessions"]["download_session_a"] != [last_dl[r["fax_id"]]]]
+        c.check("results attribute each download to the session it happened in", not wrong, "; ".join(wrong))
         overlap = []
         for r in results["results"]:
             a = set(r["sessions"]["download_session_a"])
@@ -522,6 +530,8 @@ def _extra_commit_503(c: Checks, evs, results):
 
 
 def _kill_case(point: str):
+    base = point.partition("#")[0]
+
     def fn(tmp: Path, golden) -> tuple[Checks, dict, dict]:
         c = Checks()
         portal = Portal("none", tmp).start()
@@ -532,6 +542,10 @@ def _kill_case(point: str):
             crash = events_for(evs, prefix="simulated_crash")
             c.check(f"run 1 hard-exited at {point}", r1.rc == CRASH_EXIT and len(crash) == 1 and r1.results is None,
                     f"rc={r1.rc} crash events={len(crash)}")
+            done1 = {e["fax_id"] for e in events_for(evs, prefix="fax_done")}
+            if "#" in point:
+                c.check("run 1 finished some faxes before dying (they are unreported until resume)", bool(done1),
+                        "no fax finished before the crash")
             if not crash:
                 return c, None, {}
             fid, run1 = crash[0]["fax_id"], crash[0]["run"]
@@ -543,13 +557,13 @@ def _kill_case(point: str):
             runs = run_ids(evs)
             run2 = runs[1] if len(runs) > 1 else None
             subs2 = events_for(evs, fid, run2, "submit_")
-            if point == "after_download":
+            if base == "after_download":
                 c.check("run 1 submitted nothing", not events_for(evs, run=run1, prefix="submit_"))
-            elif point == "before_click":
+            elif base == "before_click":
                 c.check(f"{fid}: no submit before the crash; exactly one after resume",
                         not subs1 and [e["event"] for e in subs2] == ["submit_success"],
                         f"run1={[e['event'] for e in subs1]} run2={[e['event'] for e in subs2]}")
-            elif point == "after_click":
+            elif base == "after_click":
                 c.check(f"{fid}: submitted before the crash, NOT resubmitted on resume",
                         [e["event"] for e in subs1] == ["submit_success"] and not subs2,
                         f"run1={[e['event'] for e in subs1]} run2={[e['event'] for e in subs2]}")
@@ -561,7 +575,7 @@ def _kill_case(point: str):
             check_reported_once(c, [r1, r2, r3], set(ui["faxes"]))
             c.check("third (no-op) run exits 0 and submits nothing", r3.rc == 0 and len(runs) == 3
                     and not events_for(evs, run=runs[-1], prefix="submit_"), f"rc={r3.rc} runs={len(runs)}")
-            return c, None, {"crashed_fax": fid, "seconds": r1.seconds + r2.seconds}
+            return c, None, {"crashed_fax": fid, "done_before_crash": len(done1), "seconds": r1.seconds + r2.seconds}
         finally:
             portal.release()
     return fn
@@ -638,6 +652,10 @@ def case_reset_mid_run_409(tmp: Path, golden) -> tuple[Checks, dict, dict]:
                     bool(a_new) and any(e["event"] == "download_ok" for e in after)
                     and any(e["event"] == "submit_success" for e in after),
                     f"after 409: {[e['event'] for e in after]}")
+        first_route = min([e["ts"] for e in evs if e["event"].startswith("submit_")] or [float("inf")])
+        a_sessions = {e.get("session") for e in evs if e["event"] == "downloaded" and e["ts"] < first_route}
+        c.check("Session A re-authenticated after its login vanished in the reset", len(a_sessions) >= 2,
+                f"download sessions before routing: {a_sessions}")
         ui = ui_snapshot(portal)
         check_final_state(c, ui, r.results, golden)
         check_event_invariants(c, evs, r.results)
@@ -681,8 +699,7 @@ def case_download_reauth(tmp: Path, golden) -> tuple[Checks, dict, dict]:
                     err = None
                 except Exception as e:  # noqa: BLE001 - this is the assertion
                     d, err = None, f"{type(e).__name__}: {e}"
-                c.check("expiry fired before the Download click", bool(fired) and "reauth" in attempts,
-                        f"attempts={attempts}")
+                c.check("expiry fired before the Download click", bool(fired), f"attempts={attempts}")
                 c.check("re-authenticated and downloaded a valid PDF of the same fax",
                         d is not None and d.pages == row["pages"] and s.logins == 2,
                         f"error={err} attempts={attempts} logins={s.logins}")
@@ -745,6 +762,8 @@ CASES = [
     Case("kill@after_download", "hard exit after first download, resume", _kill_case("after_download")),
     Case("kill@before_click", "hard exit after INTENT, before submit, resume", _kill_case("before_click")),
     Case("kill@after_click", "hard exit after submit, before verify, resume", _kill_case("after_click")),
+    Case("kill@after_click#4", "hard exit after the 4th submit (3 faxes done, unreported), resume",
+         _kill_case("after_click#4")),
     Case("portal_reset_stale_checkpoint", "full run, sandbox reset, rerun same work dir", case_portal_reset),
     Case("reset_mid_run_409", "sandbox reset after first download: 409 + dead Session A", case_reset_mid_run_409),
     Case("download_reauth", "login expires right before Download click", case_download_reauth),
