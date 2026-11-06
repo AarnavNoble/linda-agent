@@ -6,6 +6,8 @@ session (tests/test_boundaries.py enforces this). Every other navigation is a cl
 from __future__ import annotations
 
 import re
+import time
+from pathlib import Path
 from dataclasses import dataclass
 
 from playwright.sync_api import Browser, BrowserContext, Page
@@ -36,11 +38,16 @@ class PortalSession:
         self.cfg = cfg
         self.label = label
         self.trace_path = trace_path
-        self.context: BrowserContext = browser.new_context(accept_downloads=True)
+        video = {}
+        if cfg.video_dir:  # demo recording only; never needed for a normal run
+            size = {"width": 1280, "height": 800}
+            video = {"record_video_dir": cfg.video_dir, "record_video_size": size, "viewport": size}
+        self.context: BrowserContext = browser.new_context(accept_downloads=True, **video)
         self.context.set_default_timeout(cfg.nav_timeout_ms)
         if trace_path:
             self.context.tracing.start(screenshots=True, snapshots=True)
         self.page: Page = self.context.new_page()
+        self.opened_at = time.time()
         self.session_prefix: str | None = None
         self.logins = 0
 
@@ -56,7 +63,14 @@ class PortalSession:
                 self.trace_path.parent.mkdir(parents=True, exist_ok=True)
                 self.context.tracing.stop(path=str(self.trace_path))
         finally:
+            video = self.page.video if self.cfg.video_dir else None
             self.context.close()
+            if video:  # name it by start order and session so the demo can be stitched in sequence
+                try:
+                    src = Path(video.path())
+                    src.rename(src.with_name(f"{self.opened_at:.3f}-{self.label}.webm"))
+                except Exception:
+                    pass
 
     def screenshot(self, path) -> None:
         try:

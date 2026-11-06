@@ -324,7 +324,8 @@ class Runner:
                       base_url=self.cfg.base_url)
         status = "failed"
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=not self.cfg.headed, slow_mo=150 if self.cfg.headed else 0)
+            browser = p.chromium.launch(headless=not self.cfg.headed, slow_mo=self.cfg.slow_mo_ms if self.cfg.slow_mo_ms >= 0
+                                         else (150 if self.cfg.headed else 0))
             try:
                 # Session A: discover + download everything not finished.
                 a = None

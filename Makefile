@@ -14,6 +14,7 @@ help:
 	@echo "make run      run the agent live (Claude vision; needs ANTHROPIC_API_KEY in .env)"
 	@echo "make test     pytest (unit + integration)"
 	@echo "make chaos    fault-injection + kill/resume suite"
+	@echo "make record   record a narrated demo video of a full run -> results/demo.mp4 (needs ffmpeg)"
 	@echo "make eval     score RESULTS against eval/labels.yaml (human labels) -> eval/report.md"
 	@echo "make perturb  drop/blank pages of downloaded PDFs and check the agent fails closed"
 	@echo "make report   static HTML report for RESULTS -> $(REPORT_OUT)"
@@ -36,6 +37,9 @@ demo:
 
 test:
 	uv run pytest -q
+
+record:
+	uv run python -m harness.record_demo
 
 chaos:
 	uv run python -m harness.chaos

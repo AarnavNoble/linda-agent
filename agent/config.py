@@ -19,6 +19,9 @@ class Config:
     ocr_mode: str = os.getenv("LINDA_OCR_MODE", "vision")  # vision | replay
     vision_model: str = os.getenv("LINDA_VISION_MODEL", "claude-opus-5-5")
     headed: bool = os.getenv("LINDA_HEADED", "0") == "1"
+    # Demo recording (harness/record_demo.py): one video per browser session, and a click delay so it is watchable.
+    video_dir: str = os.getenv("LINDA_RECORD_VIDEO_DIR", "")
+    slow_mo_ms: int = int(os.getenv("LINDA_SLOW_MO_MS", "-1"))  # -1: 150 ms when headed, else 0
     work_dir: Path = Path(os.getenv("LINDA_WORK_DIR", str(ROOT)))
     cache_dir: Path = Path(os.getenv("LINDA_CACHE_DIR", str(ROOT / "cache")))
     # Test hook for the kill/resume chaos test: hard-exit at a named checkpoint.

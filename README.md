@@ -13,6 +13,7 @@ make portal       # http://127.0.0.1:8000
 make demo         # full browser run, extraction replayed from the committed cache (no API key)
 make run          # same, with live Claude vision on cache misses (ANTHROPIC_API_KEY in .env)
 make report       # results/report.html for the last run
+make record       # results/demo.mp4: narrated video of a full run on a fresh portal (needs ffmpeg)
 ```
 
 Without `uv`: `python3 -m venv .venv && .venv/bin/pip install -r requirements.txt && .venv/bin/playwright install chromium`, then `.venv/bin/python -m agent run --replay` from the repo root (add `pip install pytest` for the tests). For a clean slate, stop the portal, run `python reset_sandbox.py` in `linda-mini/`, restart it, and add `--fresh`. Tesseract is optional (`brew install tesseract`); without it the run says so and the summary warns that the cross-check is off.
@@ -39,6 +40,8 @@ Clean run against the supplied portal on `:8000` ([`results/sample/`](results/sa
 Every routed and needs_review fax is `ui_verified`: its routing panel **and** its Routed Documents row match the intended values.
 
 ## Evidence
+
+[`results/demo.mp4`](results/demo.mp4) (2 min): one full run on a fresh portal, recorded by `make record` from the agent's own browser sessions: Session A downloading, a fresh Session B per fax filling and submitting the form, then the Routed Documents queue.
 
 **Reliability**
 - `make chaos` ([`results/chaos_matrix.md`](results/chaos_matrix.md)): 13 cases, all passing, each against its own throwaway portal and judged only through the UI. Covers every fault mode (download 503, session expiry on submit, commit-then-503), `kill -9` at four checkpoints followed by a resume, a sandbox reset under a stale checkpoint, a genuine 409, an undownloadable fax, a download-time re-login, and a second worker on the same checkpoint.
