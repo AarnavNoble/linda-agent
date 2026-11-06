@@ -1,0 +1,1088 @@
+{
+  "run_id": "20261106T053209Z",
+  "generated_at": 1793943157.939666,
+  "count": 12,
+  "newly_reported_this_run": [
+    "FX-201",
+    "FX-202",
+    "FX-203",
+    "FX-204",
+    "FX-205",
+    "FX-206",
+    "FX-207",
+    "FX-208",
+    "FX-209",
+    "FX-210",
+    "FX-211",
+    "FX-212"
+  ],
+  "pending": [],
+  "results": [
+    {
+      "fax_id": "FX-201",
+      "received": "2026-11-03 08:02",
+      "sender": "Bayview Family Practice",
+      "pages": 2,
+      "extracted_type": "referral",
+      "source_doc_id": "RF-3001",
+      "evidence": [
+        "NEW PATIENT REFERRAL REQUEST",
+        "Referring physician: Dr. Mira Gomez",
+        "Requested service: Neurology consultation",
+        "Priority: Routine"
+      ],
+      "flags": [],
+      "action": "routed",
+      "reasons": [
+        "classified as referral",
+        "note: refers to content not in packet (p1: Confidential patient paperwork follows on the next page.; p2: Please review attached patient details.); page markers show packet complete"
+      ],
+      "duplicate_of": null,
+      "selected_fields": {
+        "assigned_to": "Olivia Chen - Referrals",
+        "doc_type": "Referral",
+        "folder": "Referrals / New"
+      },
+      "note_sent": "Routed by Linda agent: referral | source RF-3001",
+      "note_ui_verifiable": false,
+      "verification": {
+        "status": "ui_verified",
+        "detail": "routing panel and Routed Documents both match intent",
+        "panel": {
+          "assigned_to": "Olivia Chen - Referrals",
+          "doc_type": "Referral",
+          "folder": "Referrals / New"
+        },
+        "queue_row": {
+          "fax_id": "FX-201",
+          "doc_type": "Referral",
+          "assigned_to": "Olivia Chen - Referrals",
+          "folder": "Referrals / New",
+          "status": "Routed"
+        },
+        "submit_outcome": "success"
+      },
+      "sessions": {
+        "download_session_a": [
+          "v2ZMHiyW"
+        ],
+        "route_sessions_b": [
+          "hoEg8GmG"
+        ]
+      },
+      "pdf_sha256": "3e5d967db98e1c52d6dd7a83eaa50620e65ca51fa2bf1c9a622720e019e88a39",
+      "extraction": {
+        "engine": "vision",
+        "error": null,
+        "model": "claude-opus-5-5",
+        "cache_hit": true,
+        "input_tokens": 7768,
+        "output_tokens": 658,
+        "cost_usd": 0.04423,
+        "vision_latency_ms": 8777,
+        "crosscheck": {
+          "ran": true,
+          "contradictions": [],
+          "warnings": [],
+          "mean_conf": 94.4
+        },
+        "text_layer_present": false
+      },
+      "errors": [],
+      "attempts": [
+        {
+          "run_id": "20261106T053209Z",
+          "stage": "download",
+          "outcome": "ok",
+          "detail": "sha256=3e5d967db98e pages=2"
+        },
+        {
+          "run_id": "20261106T053209Z",
+          "stage": "submit",
+          "outcome": "success",
+          "detail": "http=303 url=http://127.0.0.1:8311/faxes/FX-201?notice_type=success "
+        },
+        {
+          "run_id": "20261106T053209Z",
+          "stage": "verify",
+          "outcome": "ok",
+          "detail": "routing panel and Routed Documents both match intent"
+        }
+      ],
+      "retries": 0,
+      "finished_at": 1793943149.2198012
+    },
+    {
+      "fax_id": "FX-202",
+      "received": "2026-11-03 08:06",
+      "sender": "Summit Diagnostic Labs",
+      "pages": 1,
+      "extracted_type": "lab_result",
+      "source_doc_id": "LAB-8302",
+      "evidence": [
+        "LABORATORY RESULTS",
+        "SUMMIT DIAGNOSTIC LABS",
+        "Panel: Basic metabolic panel",
+        "Result: Potassium 6.3 mmol/L"
+      ],
+      "flags": [
+        "p1: CRITICAL RESULT - CALLING PROVIDER"
+      ],
+      "action": "needs_review",
+      "reasons": [
+        "Explicit urgency flag on document: 'p1: CRITICAL RESULT - CALLING PROVIDER'",
+        "No clinical triage performed by the agent"
+      ],
+      "duplicate_of": null,
+      "selected_fields": {
+        "assigned_to": "Jordan Ellis - Manual Review",
+        "doc_type": "Needs Review",
+        "folder": "Review / Unclassified"
+      },
+      "note_sent": "NEEDS REVIEW (Linda agent): Explicit urgency flag on document: 'p1: CRITICAL RESULT - CALLING PROVIDER' | No clinical triage performed by the agent",
+      "note_ui_verifiable": false,
+      "verification": {
+        "status": "ui_verified",
+        "detail": "routing panel and Routed Documents both match intent",
+        "panel": {
+          "assigned_to": "Jordan Ellis - Manual Review",
+          "doc_type": "Needs Review",
+          "folder": "Review / Unclassified"
+        },
+        "queue_row": {
+          "fax_id": "FX-202",
+          "doc_type": "Needs Review",
+          "assigned_to": "Jordan Ellis - Manual Review",
+          "folder": "Review / Unclassified",
+          "status": "Routed"
+        },
+        "submit_outcome": "success"
+      },
+      "sessions": {
+        "download_session_a": [
+          "v2ZMHiyW"
+        ],
+        "route_sessions_b": [
+          "QgVmj27I"
+        ]
+      },
+      "pdf_sha256": "519e074e41a3bc3d89aba0eaa42e512bdad98db090992b48a89d2685edddf8cc",
+      "extraction": {
+        "engine": "vision",
+        "error": null,
+        "model": "claude-opus-5-5",
+        "cache_hit": true,
+        "input_tokens": 5444,
+        "output_tokens": 386,
+        "cost_usd": 0.0295,
+        "vision_latency_ms": 5715,
+        "crosscheck": {
+          "ran": true,
+          "contradictions": [],
+          "warnings": [],
+          "mean_conf": 91.9
+        },
+        "text_layer_present": false
+      },
+      "errors": [],
+      "attempts": [
+        {
+          "run_id": "20261106T053209Z",
+          "stage": "download",
+          "outcome": "ok",
+          "detail": "sha256=519e074e41a3 pages=1"
+        },
+        {
+          "run_id": "20261106T053209Z",
+          "stage": "submit",
+          "outcome": "success",
+          "detail": "http=303 url=http://127.0.0.1:8311/faxes/FX-202?notice_type=success "
+        },
+        {
+          "run_id": "20261106T053209Z",
+          "stage": "verify",
+          "outcome": "ok",
+          "detail": "routing panel and Routed Documents both match intent"
+        }
+      ],
+      "retries": 0,
+      "finished_at": 1793943150.1323268
+    },
+    {
+      "fax_id": "FX-203",
+      "received": "2026-11-03 08:12",
+      "sender": "Blue Ridge Medical",
+      "pages": 1,
+      "extracted_type": "imaging_report",
+      "source_doc_id": "IMG-4003",
+      "evidence": [
+        "DIAGNOSTIC IMAGING REPORT",
+        "Study: MRI cervical spine without contrast",
+        "Interpreting radiologist: Dr. J. Webb",
+        "FINAL RADIOLOGY REPORT"
+      ],
+      "flags": [],
+      "action": "routed",
+      "reasons": [
+        "classified as imaging_report",
+        "note: refers to content not in packet (p1: Impression: See full radiology findings.); page markers show packet complete"
+      ],
+      "duplicate_of": null,
+      "selected_fields": {
+        "assigned_to": "Noah Patel - Clinical Review",
+        "doc_type": "Imaging Report",
+        "folder": "Clinical / Imaging"
+      },
+      "note_sent": "Routed by Linda agent: imaging_report | source IMG-4003",
+      "note_ui_verifiable": false,
+      "verification": {
+        "status": "ui_verified",
+        "detail": "routing panel and Routed Documents both match intent",
+        "panel": {
+          "assigned_to": "Noah Patel - Clinical Review",
+          "doc_type": "Imaging Report",
+          "folder": "Clinical / Imaging"
+        },
+        "queue_row": {
+          "fax_id": "FX-203",
+          "doc_type": "Imaging Report",
+          "assigned_to": "Noah Patel - Clinical Review",
+          "folder": "Clinical / Imaging",
+          "status": "Routed"
+        },
+        "submit_outcome": "success"
+      },
+      "sessions": {
+        "download_session_a": [
+          "v2ZMHiyW"
+        ],
+        "route_sessions_b": [
+          "9czgS83H"
+        ]
+      },
+      "pdf_sha256": "ab215f8f481801f254bc5f983145ee848d42123c728024ce1354f376c3da4ded",
+      "extraction": {
+        "engine": "vision",
+        "error": null,
+        "model": "claude-opus-5-5",
+        "cache_hit": true,
+        "input_tokens": 5444,
+        "output_tokens": 382,
+        "cost_usd": 0.02942,
+        "vision_latency_ms": 5349,
+        "crosscheck": {
+          "ran": true,
+          "contradictions": [],
+          "warnings": [],
+          "mean_conf": 91.7
+        },
+        "text_layer_present": false
+      },
+      "errors": [],
+      "attempts": [
+        {
+          "run_id": "20261106T053209Z",
+          "stage": "download",
+          "outcome": "ok",
+          "detail": "sha256=ab215f8f4818 pages=1"
+        },
+        {
+          "run_id": "20261106T053209Z",
+          "stage": "submit",
+          "outcome": "success",
+          "detail": "http=303 url=http://127.0.0.1:8311/faxes/FX-203?notice_type=success "
+        },
+        {
+          "run_id": "20261106T053209Z",
+          "stage": "verify",
+          "outcome": "ok",
+          "detail": "routing panel and Routed Documents both match intent"
+        }
+      ],
+      "retries": 0,
+      "finished_at": 1793943150.997555
+    },
+    {
+      "fax_id": "FX-204",
+      "received": "2026-11-03 08:12",
+      "sender": "Blue Ridge Medical",
+      "pages": 1,
+      "extracted_type": "prior_authorization",
+      "source_doc_id": "PA-4004",
+      "evidence": [
+        "PRIOR AUTHORIZATION REQUEST",
+        "Status: Documentation requested for prior authorization.",
+        "Please review coverage requirements.",
+        "This document is not an authorization approval."
+      ],
+      "flags": [],
+      "action": "routed",
+      "reasons": [
+        "classified as prior_authorization"
+      ],
+      "duplicate_of": null,
+      "selected_fields": {
+        "assigned_to": "Ethan Brooks - Authorizations",
+        "doc_type": "Prior Authorization",
+        "folder": "Authorizations / Pending"
+      },
+      "note_sent": "Routed by Linda agent: prior_authorization | source PA-4004",
+      "note_ui_verifiable": false,
+      "verification": {
+        "status": "ui_verified",
+        "detail": "routing panel and Routed Documents both match intent",
+        "panel": {
+          "assigned_to": "Ethan Brooks - Authorizations",
+          "doc_type": "Prior Authorization",
+          "folder": "Authorizations / Pending"
+        },
+        "queue_row": {
+          "fax_id": "FX-204",
+          "doc_type": "Prior Authorization",
+          "assigned_to": "Ethan Brooks - Authorizations",
+          "folder": "Authorizations / Pending",
+          "status": "Routed"
+        },
+        "submit_outcome": "success"
+      },
+      "sessions": {
+        "download_session_a": [
+          "v2ZMHiyW"
+        ],
+        "route_sessions_b": [
+          "wrT6-NVm"
+        ]
+      },
+      "pdf_sha256": "201436548e34065cc195238547b3c30bb9b759c47cbc106a9bc1a654268766ba",
+      "extraction": {
+        "engine": "vision",
+        "error": null,
+        "model": "claude-opus-5-5",
+        "cache_hit": true,
+        "input_tokens": 5444,
+        "output_tokens": 368,
+        "cost_usd": 0.02914,
+        "vision_latency_ms": 6315,
+        "crosscheck": {
+          "ran": true,
+          "contradictions": [],
+          "warnings": [],
+          "mean_conf": 93.4
+        },
+        "text_layer_present": false
+      },
+      "errors": [],
+      "attempts": [
+        {
+          "run_id": "20261106T053209Z",
+          "stage": "download",
+          "outcome": "ok",
+          "detail": "sha256=201436548e34 pages=1"
+        },
+        {
+          "run_id": "20261106T053209Z",
+          "stage": "submit",
+          "outcome": "success",
+          "detail": "http=303 url=http://127.0.0.1:8311/faxes/FX-204?notice_type=success "
+        },
+        {
+          "run_id": "20261106T053209Z",
+          "stage": "verify",
+          "outcome": "ok",
+          "detail": "routing panel and Routed Documents both match intent"
+        }
+      ],
+      "retries": 0,
+      "finished_at": 1793943151.817896
+    },
+    {
+      "fax_id": "FX-205",
+      "received": "2026-11-03 08:19",
+      "sender": "Harbor Community Pharmacy",
+      "pages": 1,
+      "extracted_type": "refill_request",
+      "source_doc_id": "RX-4005",
+      "evidence": [
+        "PRESCRIPTION REFILL REQUEST",
+        "Medication: Lisinopril 10 mg tablet",
+        "Request: Renewal authorization requested",
+        "HARBOR COMMUNITY PHARMACY"
+      ],
+      "flags": [],
+      "action": "routed",
+      "reasons": [
+        "classified as refill_request"
+      ],
+      "duplicate_of": null,
+      "selected_fields": {
+        "assigned_to": "Ava Wilson - Nursing / Medication",
+        "doc_type": "Refill Request",
+        "folder": "Nursing / Medication"
+      },
+      "note_sent": "Routed by Linda agent: refill_request | source RX-4005",
+      "note_ui_verifiable": false,
+      "verification": {
+        "status": "ui_verified",
+        "detail": "routing panel and Routed Documents both match intent",
+        "panel": {
+          "assigned_to": "Ava Wilson - Nursing / Medication",
+          "doc_type": "Refill Request",
+          "folder": "Nursing / Medication"
+        },
+        "queue_row": {
+          "fax_id": "FX-205",
+          "doc_type": "Refill Request",
+          "assigned_to": "Ava Wilson - Nursing / Medication",
+          "folder": "Nursing / Medication",
+          "status": "Routed"
+        },
+        "submit_outcome": "success"
+      },
+      "sessions": {
+        "download_session_a": [
+          "v2ZMHiyW"
+        ],
+        "route_sessions_b": [
+          "jeVlHbzL"
+        ]
+      },
+      "pdf_sha256": "91819d99630c246be302e3100140612a53ebae691e137b31761c4804fbfe0cf0",
+      "extraction": {
+        "engine": "vision",
+        "error": null,
+        "model": "claude-opus-5-5",
+        "cache_hit": true,
+        "input_tokens": 5444,
+        "output_tokens": 390,
+        "cost_usd": 0.02958,
+        "vision_latency_ms": 3899,
+        "crosscheck": {
+          "ran": true,
+          "contradictions": [],
+          "warnings": [],
+          "mean_conf": 90.6
+        },
+        "text_layer_present": false
+      },
+      "errors": [],
+      "attempts": [
+        {
+          "run_id": "20261106T053209Z",
+          "stage": "download",
+          "outcome": "ok",
+          "detail": "sha256=91819d99630c pages=1"
+        },
+        {
+          "run_id": "20261106T053209Z",
+          "stage": "submit",
+          "outcome": "success",
+          "detail": "http=303 url=http://127.0.0.1:8311/faxes/FX-205?notice_type=success "
+        },
+        {
+          "run_id": "20261106T053209Z",
+          "stage": "verify",
+          "outcome": "ok",
+          "detail": "routing panel and Routed Documents both match intent"
+        }
+      ],
+      "retries": 0,
+      "finished_at": 1793943152.666931
+    },
+    {
+      "fax_id": "FX-206",
+      "received": "2026-11-03 08:25",
+      "sender": "Hillside Records Office",
+      "pages": 2,
+      "extracted_type": "records_request",
+      "source_doc_id": "MR-4006",
+      "evidence": [
+        "REQUEST FOR MEDICAL RECORDS",
+        "Requested records: Office visits, imaging reports",
+        "Please process according to clinic release policy.",
+        "AUTHORIZATION TO RELEASE INFORMATION",
+        "Related request: MR-4006",
+        "I authorize release of records to Hillside Medical Group."
+      ],
+      "flags": [],
+      "action": "routed",
+      "reasons": [
+        "classified as records_request",
+        "note: refers to content not in packet (p1: Patient authorization: Included on page 2); page markers show packet complete"
+      ],
+      "duplicate_of": null,
+      "selected_fields": {
+        "assigned_to": "Mia Gomez - Medical Records",
+        "doc_type": "Records Request",
+        "folder": "Records / Requests"
+      },
+      "note_sent": "Routed by Linda agent: records_request | source MR-4006",
+      "note_ui_verifiable": false,
+      "verification": {
+        "status": "ui_verified",
+        "detail": "routing panel and Routed Documents both match intent",
+        "panel": {
+          "assigned_to": "Mia Gomez - Medical Records",
+          "doc_type": "Records Request",
+          "folder": "Records / Requests"
+        },
+        "queue_row": {
+          "fax_id": "FX-206",
+          "doc_type": "Records Request",
+          "assigned_to": "Mia Gomez - Medical Records",
+          "folder": "Records / Requests",
+          "status": "Routed"
+        },
+        "submit_outcome": "success"
+      },
+      "sessions": {
+        "download_session_a": [
+          "v2ZMHiyW"
+        ],
+        "route_sessions_b": [
+          "9ia62oT4"
+        ]
+      },
+      "pdf_sha256": "44b68d8fcf367def23745addd79d26d47c17e930f4b5a496feb2d0a4aef0f958",
+      "extraction": {
+        "engine": "vision",
+        "error": null,
+        "model": "claude-opus-5-5",
+        "cache_hit": true,
+        "input_tokens": 7768,
+        "output_tokens": 657,
+        "cost_usd": 0.04421,
+        "vision_latency_ms": 6380,
+        "crosscheck": {
+          "ran": true,
+          "contradictions": [],
+          "warnings": [],
+          "mean_conf": 94.5
+        },
+        "text_layer_present": false
+      },
+      "errors": [],
+      "attempts": [
+        {
+          "run_id": "20261106T053209Z",
+          "stage": "download",
+          "outcome": "ok",
+          "detail": "sha256=44b68d8fcf36 pages=2"
+        },
+        {
+          "run_id": "20261106T053209Z",
+          "stage": "submit",
+          "outcome": "success",
+          "detail": "http=303 url=http://127.0.0.1:8311/faxes/FX-206?notice_type=success "
+        },
+        {
+          "run_id": "20261106T053209Z",
+          "stage": "verify",
+          "outcome": "ok",
+          "detail": "routing panel and Routed Documents both match intent"
+        }
+      ],
+      "retries": 0,
+      "finished_at": 1793943153.512973
+    },
+    {
+      "fax_id": "FX-207",
+      "received": "2026-11-03 08:31",
+      "sender": "Example Health Plan",
+      "pages": 1,
+      "extracted_type": "eob",
+      "source_doc_id": "EOB-4007",
+      "evidence": [
+        "EXPLANATION OF BENEFITS (EOB)",
+        "Remittance ID: EOB-4007",
+        "Plan paid: $195.20",
+        "This is not a bill to the patient."
+      ],
+      "flags": [],
+      "action": "routed",
+      "reasons": [
+        "classified as eob"
+      ],
+      "duplicate_of": null,
+      "selected_fields": {
+        "assigned_to": "Liam Rivera - Billing",
+        "doc_type": "EOB",
+        "folder": "Billing / EOBs"
+      },
+      "note_sent": "Routed by Linda agent: eob | source EOB-4007",
+      "note_ui_verifiable": false,
+      "verification": {
+        "status": "ui_verified",
+        "detail": "routing panel and Routed Documents both match intent",
+        "panel": {
+          "assigned_to": "Liam Rivera - Billing",
+          "doc_type": "EOB",
+          "folder": "Billing / EOBs"
+        },
+        "queue_row": {
+          "fax_id": "FX-207",
+          "doc_type": "EOB",
+          "assigned_to": "Liam Rivera - Billing",
+          "folder": "Billing / EOBs",
+          "status": "Routed"
+        },
+        "submit_outcome": "success"
+      },
+      "sessions": {
+        "download_session_a": [
+          "v2ZMHiyW"
+        ],
+        "route_sessions_b": [
+          "PX2nDUAK"
+        ]
+      },
+      "pdf_sha256": "c8c9944ada8c5582dcfdf79373b5ac773d1812db29f50f518be4265f0ac59b32",
+      "extraction": {
+        "engine": "vision",
+        "error": null,
+        "model": "claude-opus-5-5",
+        "cache_hit": true,
+        "input_tokens": 5444,
+        "output_tokens": 365,
+        "cost_usd": 0.02908,
+        "vision_latency_ms": 4291,
+        "crosscheck": {
+          "ran": true,
+          "contradictions": [],
+          "warnings": [],
+          "mean_conf": 91.3
+        },
+        "text_layer_present": false
+      },
+      "errors": [],
+      "attempts": [
+        {
+          "run_id": "20261106T053209Z",
+          "stage": "download",
+          "outcome": "ok",
+          "detail": "sha256=c8c9944ada8c pages=1"
+        },
+        {
+          "run_id": "20261106T053209Z",
+          "stage": "submit",
+          "outcome": "success",
+          "detail": "http=303 url=http://127.0.0.1:8311/faxes/FX-207?notice_type=success "
+        },
+        {
+          "run_id": "20261106T053209Z",
+          "stage": "verify",
+          "outcome": "ok",
+          "detail": "routing panel and Routed Documents both match intent"
+        }
+      ],
+      "retries": 0,
+      "finished_at": 1793943154.45224
+    },
+    {
+      "fax_id": "FX-208",
+      "received": "2026-11-03 08:37",
+      "sender": "Summit Diagnostic Labs",
+      "pages": 1,
+      "extracted_type": "lab_result",
+      "source_doc_id": "LAB-4008",
+      "evidence": [
+        "LABORATORY REPORT",
+        "SUMMIT DIAGNOSTIC LABS",
+        "Panel: CBC with differential",
+        "Status: Final"
+      ],
+      "flags": [],
+      "action": "routed",
+      "reasons": [
+        "classified as lab_result",
+        "note: refers to content not in packet (p1: Results: See values on following table); page markers show packet complete"
+      ],
+      "duplicate_of": null,
+      "selected_fields": {
+        "assigned_to": "Noah Patel - Clinical Review",
+        "doc_type": "Lab Result",
+        "folder": "Clinical / Labs"
+      },
+      "note_sent": "Routed by Linda agent: lab_result | source LAB-4008",
+      "note_ui_verifiable": false,
+      "verification": {
+        "status": "ui_verified",
+        "detail": "routing panel and Routed Documents both match intent",
+        "panel": {
+          "assigned_to": "Noah Patel - Clinical Review",
+          "doc_type": "Lab Result",
+          "folder": "Clinical / Labs"
+        },
+        "queue_row": {
+          "fax_id": "FX-208",
+          "doc_type": "Lab Result",
+          "assigned_to": "Noah Patel - Clinical Review",
+          "folder": "Clinical / Labs",
+          "status": "Routed"
+        },
+        "submit_outcome": "success"
+      },
+      "sessions": {
+        "download_session_a": [
+          "v2ZMHiyW"
+        ],
+        "route_sessions_b": [
+          "ooayK9h3"
+        ]
+      },
+      "pdf_sha256": "4678dd0bb54f64d50a90220d2602cfca4a4f81b74e58485bda445fa5caa98fc0",
+      "extraction": {
+        "engine": "vision",
+        "error": null,
+        "model": "claude-opus-5-5",
+        "cache_hit": true,
+        "input_tokens": 5444,
+        "output_tokens": 373,
+        "cost_usd": 0.02924,
+        "vision_latency_ms": 3898,
+        "crosscheck": {
+          "ran": true,
+          "contradictions": [],
+          "warnings": [],
+          "mean_conf": 91.8
+        },
+        "text_layer_present": false
+      },
+      "errors": [],
+      "attempts": [
+        {
+          "run_id": "20261106T053209Z",
+          "stage": "download",
+          "outcome": "ok",
+          "detail": "sha256=4678dd0bb54f pages=1"
+        },
+        {
+          "run_id": "20261106T053209Z",
+          "stage": "submit",
+          "outcome": "success",
+          "detail": "http=303 url=http://127.0.0.1:8311/faxes/FX-208?notice_type=success "
+        },
+        {
+          "run_id": "20261106T053209Z",
+          "stage": "verify",
+          "outcome": "ok",
+          "detail": "routing panel and Routed Documents both match intent"
+        }
+      ],
+      "retries": 0,
+      "finished_at": 1793943155.371577
+    },
+    {
+      "fax_id": "FX-209",
+      "received": "2026-11-03 08:42",
+      "sender": "Unidentified Fax Number",
+      "pages": 1,
+      "extracted_type": null,
+      "source_doc_id": null,
+      "evidence": [],
+      "flags": [],
+      "action": "needs_review",
+      "reasons": [
+        "Incomplete or unreadable: p1: Attached page appears incomplete.; p1: Please see missing continuation page.; p1: No readable document category or destination found.; p1: [SCAN CUT OFF]; p1: page is illegible"
+      ],
+      "duplicate_of": null,
+      "selected_fields": {
+        "assigned_to": "Jordan Ellis - Manual Review",
+        "doc_type": "Needs Review",
+        "folder": "Review / Unclassified"
+      },
+      "note_sent": "NEEDS REVIEW (Linda agent): Incomplete or unreadable: p1: Attached page appears incomplete.; p1: Please see missing continuation page.; p1: No readable document category or destination found.; p1: [SCAN CUT OFF]; p1: page is illegible",
+      "note_ui_verifiable": false,
+      "verification": {
+        "status": "ui_verified",
+        "detail": "routing panel and Routed Documents both match intent",
+        "panel": {
+          "assigned_to": "Jordan Ellis - Manual Review",
+          "doc_type": "Needs Review",
+          "folder": "Review / Unclassified"
+        },
+        "queue_row": {
+          "fax_id": "FX-209",
+          "doc_type": "Needs Review",
+          "assigned_to": "Jordan Ellis - Manual Review",
+          "folder": "Review / Unclassified",
+          "status": "Routed"
+        },
+        "submit_outcome": "success"
+      },
+      "sessions": {
+        "download_session_a": [
+          "v2ZMHiyW"
+        ],
+        "route_sessions_b": [
+          "x7D8tG0K"
+        ]
+      },
+      "pdf_sha256": "587f25e225a1fce32d1f02205c969752e3b88f1adc15a4f6b2a1267c411e3d88",
+      "extraction": {
+        "engine": "vision",
+        "error": null,
+        "model": "claude-opus-5-5",
+        "cache_hit": true,
+        "input_tokens": 5444,
+        "output_tokens": 374,
+        "cost_usd": 0.02926,
+        "vision_latency_ms": 4963,
+        "crosscheck": {
+          "ran": true,
+          "contradictions": [],
+          "warnings": [],
+          "mean_conf": 90.3
+        },
+        "text_layer_present": false
+      },
+      "errors": [],
+      "attempts": [
+        {
+          "run_id": "20261106T053209Z",
+          "stage": "download",
+          "outcome": "ok",
+          "detail": "sha256=587f25e225a1 pages=1"
+        },
+        {
+          "run_id": "20261106T053209Z",
+          "stage": "submit",
+          "outcome": "success",
+          "detail": "http=303 url=http://127.0.0.1:8311/faxes/FX-209?notice_type=success "
+        },
+        {
+          "run_id": "20261106T053209Z",
+          "stage": "verify",
+          "outcome": "ok",
+          "detail": "routing panel and Routed Documents both match intent"
+        }
+      ],
+      "retries": 0,
+      "finished_at": 1793943156.228501
+    },
+    {
+      "fax_id": "FX-210",
+      "received": "2026-11-03 08:49",
+      "sender": "Bayview Family Practice",
+      "pages": 1,
+      "extracted_type": "referral",
+      "source_doc_id": null,
+      "evidence": [
+        "FAX RESEND - REFERRAL REQUEST",
+        "Referring physician: Dr. Mira Gomez",
+        "Requested specialty: Neurology",
+        "Reason: Evaluation of recurrent headaches."
+      ],
+      "flags": [],
+      "action": "skipped_duplicate",
+      "reasons": [
+        "resend of FX-201: same source ID RF-3001, same patient name and DOB, same category; FX-201 received earlier (2026-11-03 08:02)"
+      ],
+      "duplicate_of": "FX-201",
+      "selected_fields": null,
+      "note_sent": null,
+      "note_ui_verifiable": false,
+      "verification": {
+        "status": "ui_status_new",
+        "ui_status": "New",
+        "portal_values": {}
+      },
+      "sessions": {
+        "download_session_a": [
+          "v2ZMHiyW"
+        ],
+        "route_sessions_b": []
+      },
+      "pdf_sha256": "4f74c305a578dce2d44fced440e8eda3f95c3405681ed260fe3ad9b65c75ab4e",
+      "extraction": {
+        "engine": "vision",
+        "error": null,
+        "model": "claude-opus-5-5",
+        "cache_hit": true,
+        "input_tokens": 5444,
+        "output_tokens": 409,
+        "cost_usd": 0.02996,
+        "vision_latency_ms": 4277,
+        "crosscheck": {
+          "ran": true,
+          "contradictions": [],
+          "warnings": [],
+          "mean_conf": 92.4
+        },
+        "text_layer_present": false
+      },
+      "errors": [],
+      "attempts": [
+        {
+          "run_id": "20261106T053209Z",
+          "stage": "download",
+          "outcome": "ok",
+          "detail": "sha256=4f74c305a578 pages=1"
+        }
+      ],
+      "retries": 0,
+      "finished_at": 1793943156.639522
+    },
+    {
+      "fax_id": "FX-211",
+      "received": "2026-11-03 08:54",
+      "sender": "Northbridge Imaging",
+      "pages": 1,
+      "extracted_type": "imaging_report",
+      "source_doc_id": "IMG-4111",
+      "evidence": [
+        "FINAL IMAGING REPORT",
+        "Exam: CT sinus without contrast",
+        "Report status: Final",
+        "NORTHBRIDGE IMAGING"
+      ],
+      "flags": [],
+      "action": "already_routed",
+      "reasons": [
+        "portal shows Routed before this agent acted"
+      ],
+      "duplicate_of": null,
+      "selected_fields": null,
+      "note_sent": null,
+      "note_ui_verifiable": false,
+      "verification": {
+        "status": "preexisting_route_observed",
+        "ui_status": "Routed",
+        "portal_values": {
+          "assigned_to": "Noah Patel - Clinical Review",
+          "doc_type": "Imaging Report",
+          "folder": "Clinical / Imaging"
+        }
+      },
+      "sessions": {
+        "download_session_a": [
+          "v2ZMHiyW"
+        ],
+        "route_sessions_b": []
+      },
+      "pdf_sha256": "83838a6b6580e6d70d9abe889f2dfe97e7ca77fe3414b3721530c53460e90cdc",
+      "extraction": {
+        "engine": "vision",
+        "error": null,
+        "model": "claude-opus-5-5",
+        "cache_hit": true,
+        "input_tokens": 5444,
+        "output_tokens": 368,
+        "cost_usd": 0.02914,
+        "vision_latency_ms": 4153,
+        "crosscheck": {
+          "ran": true,
+          "contradictions": [],
+          "warnings": [],
+          "mean_conf": 90.6
+        },
+        "text_layer_present": false
+      },
+      "errors": [],
+      "attempts": [
+        {
+          "run_id": "20261106T053209Z",
+          "stage": "download",
+          "outcome": "ok",
+          "detail": "sha256=83838a6b6580 pages=1"
+        }
+      ],
+      "retries": 0,
+      "finished_at": 1793943157.038167
+    },
+    {
+      "fax_id": "FX-212",
+      "received": "2026-11-03 09:03",
+      "sender": "Central Care Associates",
+      "pages": 3,
+      "extracted_type": "lab_result",
+      "source_doc_id": "LAB-4012A",
+      "evidence": [
+        "LABORATORY REPORT",
+        "Panel: Thyroid function",
+        "Final report, routine",
+        "This page is a laboratory result.",
+        "RADIOLOGY REPORT",
+        "Exam: Ultrasound thyroid"
+      ],
+      "flags": [],
+      "action": "needs_review",
+      "reasons": [
+        "Mixed packet: contains imaging_report, lab_result"
+      ],
+      "duplicate_of": null,
+      "selected_fields": {
+        "assigned_to": "Jordan Ellis - Manual Review",
+        "doc_type": "Needs Review",
+        "folder": "Review / Unclassified"
+      },
+      "note_sent": "NEEDS REVIEW (Linda agent): Mixed packet: contains imaging_report, lab_result",
+      "note_ui_verifiable": false,
+      "verification": {
+        "status": "ui_verified",
+        "detail": "routing panel and Routed Documents both match intent",
+        "panel": {
+          "assigned_to": "Jordan Ellis - Manual Review",
+          "doc_type": "Needs Review",
+          "folder": "Review / Unclassified"
+        },
+        "queue_row": {
+          "fax_id": "FX-212",
+          "doc_type": "Needs Review",
+          "assigned_to": "Jordan Ellis - Manual Review",
+          "folder": "Review / Unclassified",
+          "status": "Routed"
+        },
+        "submit_outcome": "success"
+      },
+      "sessions": {
+        "download_session_a": [
+          "v2ZMHiyW"
+        ],
+        "route_sessions_b": [
+          "BUHyZPht"
+        ]
+      },
+      "pdf_sha256": "38773f9acc30d67ab6aac62f42b3799534c45cfeb76fd426fff77575c5e4bbcb",
+      "extraction": {
+        "engine": "vision",
+        "error": null,
+        "model": "claude-opus-5-5",
+        "cache_hit": true,
+        "input_tokens": 10092,
+        "output_tokens": 958,
+        "cost_usd": 0.05953,
+        "vision_latency_ms": 10663,
+        "crosscheck": {
+          "ran": true,
+          "contradictions": [],
+          "warnings": [],
+          "mean_conf": 94.6
+        },
+        "text_layer_present": false
+      },
+      "errors": [],
+      "attempts": [
+        {
+          "run_id": "20261106T053209Z",
+          "stage": "download",
+          "outcome": "ok",
+          "detail": "sha256=38773f9acc30 pages=3"
+        },
+        {
+          "run_id": "20261106T053209Z",
+          "stage": "submit",
+          "outcome": "success",
+          "detail": "http=303 url=http://127.0.0.1:8311/faxes/FX-212?notice_type=success "
+        },
+        {
+          "run_id": "20261106T053209Z",
+          "stage": "verify",
+          "outcome": "ok",
+          "detail": "routing panel and Routed Documents both match intent"
+        }
+      ],
+      "retries": 0,
+      "finished_at": 1793943157.857017
+    }
+  ]
+}

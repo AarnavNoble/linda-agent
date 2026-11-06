@@ -1,0 +1,106 @@
+{"ts": 1793943129.913, "run": "20261106T053209Z", "event": "run_started", "mode": "replay", "model": "claude-opus-5-5", "base_url": "http://127.0.0.1:8311"}
+{"ts": 1793943132.364, "run": "20261106T053209Z", "event": "session_started", "label": "A", "session": "v2ZMHiyW"}
+{"ts": 1793943132.645, "run": "20261106T053209Z", "event": "discovered", "count": 12, "ids": ["FX-212", "FX-211", "FX-210", "FX-209", "FX-208", "FX-207", "FX-206", "FX-205", "FX-204", "FX-203", "FX-202", "FX-201"]}
+{"ts": 1793943133.01, "run": "20261106T053209Z", "event": "download_ok", "fax_id": "FX-212", "detail": "sha256=38773f9acc30 pages=3"}
+{"ts": 1793943133.01, "run": "20261106T053209Z", "event": "downloaded", "fax_id": "FX-212", "session": "v2ZMHiyW", "sha": "38773f9acc30", "pages": 3, "attempts": 1, "ms": 363}
+{"ts": 1793943133.22, "run": "20261106T053209Z", "event": "download_ok", "fax_id": "FX-211", "detail": "sha256=83838a6b6580 pages=1"}
+{"ts": 1793943133.22, "run": "20261106T053209Z", "event": "downloaded", "fax_id": "FX-211", "session": "v2ZMHiyW", "sha": "83838a6b6580", "pages": 1, "attempts": 1, "ms": 209}
+{"ts": 1793943133.546, "run": "20261106T053209Z", "event": "download_ok", "fax_id": "FX-210", "detail": "sha256=4f74c305a578 pages=1"}
+{"ts": 1793943133.546, "run": "20261106T053209Z", "event": "downloaded", "fax_id": "FX-210", "session": "v2ZMHiyW", "sha": "4f74c305a578", "pages": 1, "attempts": 1, "ms": 326}
+{"ts": 1793943133.753, "run": "20261106T053209Z", "event": "download_ok", "fax_id": "FX-209", "detail": "sha256=587f25e225a1 pages=1"}
+{"ts": 1793943133.753, "run": "20261106T053209Z", "event": "downloaded", "fax_id": "FX-209", "session": "v2ZMHiyW", "sha": "587f25e225a1", "pages": 1, "attempts": 1, "ms": 207}
+{"ts": 1793943134.076, "run": "20261106T053209Z", "event": "download_ok", "fax_id": "FX-208", "detail": "sha256=4678dd0bb54f pages=1"}
+{"ts": 1793943134.077, "run": "20261106T053209Z", "event": "downloaded", "fax_id": "FX-208", "session": "v2ZMHiyW", "sha": "4678dd0bb54f", "pages": 1, "attempts": 1, "ms": 323}
+{"ts": 1793943134.317, "run": "20261106T053209Z", "event": "download_ok", "fax_id": "FX-207", "detail": "sha256=c8c9944ada8c pages=1"}
+{"ts": 1793943134.317, "run": "20261106T053209Z", "event": "downloaded", "fax_id": "FX-207", "session": "v2ZMHiyW", "sha": "c8c9944ada8c", "pages": 1, "attempts": 1, "ms": 240}
+{"ts": 1793943134.54, "run": "20261106T053209Z", "event": "download_ok", "fax_id": "FX-206", "detail": "sha256=44b68d8fcf36 pages=2"}
+{"ts": 1793943134.541, "run": "20261106T053209Z", "event": "downloaded", "fax_id": "FX-206", "session": "v2ZMHiyW", "sha": "44b68d8fcf36", "pages": 2, "attempts": 1, "ms": 222}
+{"ts": 1793943134.761, "run": "20261106T053209Z", "event": "download_ok", "fax_id": "FX-205", "detail": "sha256=91819d99630c pages=1"}
+{"ts": 1793943134.761, "run": "20261106T053209Z", "event": "downloaded", "fax_id": "FX-205", "session": "v2ZMHiyW", "sha": "91819d99630c", "pages": 1, "attempts": 1, "ms": 220}
+{"ts": 1793943134.968, "run": "20261106T053209Z", "event": "download_ok", "fax_id": "FX-204", "detail": "sha256=201436548e34 pages=1"}
+{"ts": 1793943134.968, "run": "20261106T053209Z", "event": "downloaded", "fax_id": "FX-204", "session": "v2ZMHiyW", "sha": "201436548e34", "pages": 1, "attempts": 1, "ms": 206}
+{"ts": 1793943135.18, "run": "20261106T053209Z", "event": "download_ok", "fax_id": "FX-203", "detail": "sha256=ab215f8f4818 pages=1"}
+{"ts": 1793943135.18, "run": "20261106T053209Z", "event": "downloaded", "fax_id": "FX-203", "session": "v2ZMHiyW", "sha": "ab215f8f4818", "pages": 1, "attempts": 1, "ms": 212}
+{"ts": 1793943135.403, "run": "20261106T053209Z", "event": "download_ok", "fax_id": "FX-202", "detail": "sha256=519e074e41a3 pages=1"}
+{"ts": 1793943135.403, "run": "20261106T053209Z", "event": "downloaded", "fax_id": "FX-202", "session": "v2ZMHiyW", "sha": "519e074e41a3", "pages": 1, "attempts": 1, "ms": 222}
+{"ts": 1793943135.711, "run": "20261106T053209Z", "event": "download_ok", "fax_id": "FX-201", "detail": "sha256=3e5d967db98e pages=2"}
+{"ts": 1793943135.711, "run": "20261106T053209Z", "event": "downloaded", "fax_id": "FX-201", "session": "v2ZMHiyW", "sha": "3e5d967db98e", "pages": 2, "attempts": 1, "ms": 308}
+{"ts": 1793943137.524, "run": "20261106T053209Z", "event": "extracted", "fax_id": "FX-201", "engine": "vision", "error": null, "cache_hit": true, "contradictions": 0, "ms": 1727}
+{"ts": 1793943138.412, "run": "20261106T053209Z", "event": "extracted", "fax_id": "FX-202", "engine": "vision", "error": null, "cache_hit": true, "contradictions": 0, "ms": 886}
+{"ts": 1793943139.221, "run": "20261106T053209Z", "event": "extracted", "fax_id": "FX-203", "engine": "vision", "error": null, "cache_hit": true, "contradictions": 0, "ms": 808}
+{"ts": 1793943140.079, "run": "20261106T053209Z", "event": "extracted", "fax_id": "FX-204", "engine": "vision", "error": null, "cache_hit": true, "contradictions": 0, "ms": 857}
+{"ts": 1793943140.954, "run": "20261106T053209Z", "event": "extracted", "fax_id": "FX-205", "engine": "vision", "error": null, "cache_hit": true, "contradictions": 0, "ms": 873}
+{"ts": 1793943142.498, "run": "20261106T053209Z", "event": "extracted", "fax_id": "FX-206", "engine": "vision", "error": null, "cache_hit": true, "contradictions": 0, "ms": 1542}
+{"ts": 1793943143.239, "run": "20261106T053209Z", "event": "extracted", "fax_id": "FX-207", "engine": "vision", "error": null, "cache_hit": true, "contradictions": 0, "ms": 740}
+{"ts": 1793943143.972, "run": "20261106T053209Z", "event": "extracted", "fax_id": "FX-208", "engine": "vision", "error": null, "cache_hit": true, "contradictions": 0, "ms": 732}
+{"ts": 1793943144.659, "run": "20261106T053209Z", "event": "extracted", "fax_id": "FX-209", "engine": "vision", "error": null, "cache_hit": true, "contradictions": 0, "ms": 685}
+{"ts": 1793943145.481, "run": "20261106T053209Z", "event": "extracted", "fax_id": "FX-210", "engine": "vision", "error": null, "cache_hit": true, "contradictions": 0, "ms": 821}
+{"ts": 1793943146.197, "run": "20261106T053209Z", "event": "extracted", "fax_id": "FX-211", "engine": "vision", "error": null, "cache_hit": true, "contradictions": 0, "ms": 715}
+{"ts": 1793943148.356, "run": "20261106T053209Z", "event": "extracted", "fax_id": "FX-212", "engine": "vision", "error": null, "cache_hit": true, "contradictions": 0, "ms": 2157}
+{"ts": 1793943148.358, "run": "20261106T053209Z", "event": "decided", "fax_id": "FX-201", "action": "routed", "category": "referral", "reasons": ["classified as referral", "note: refers to content not in packet (p1: Confidential patient paperwork follows on the next page.; p2: Please review attached patient details.); page markers show packet complete"], "duplicate_of": null}
+{"ts": 1793943148.358, "run": "20261106T053209Z", "event": "decided", "fax_id": "FX-202", "action": "needs_review", "category": "lab_result", "reasons": ["Explicit urgency flag on document: 'p1: CRITICAL RESULT - CALLING PROVIDER'", "No clinical triage performed by the agent"], "duplicate_of": null}
+{"ts": 1793943148.358, "run": "20261106T053209Z", "event": "decided", "fax_id": "FX-203", "action": "routed", "category": "imaging_report", "reasons": ["classified as imaging_report", "note: refers to content not in packet (p1: Impression: See full radiology findings.); page markers show packet complete"], "duplicate_of": null}
+{"ts": 1793943148.358, "run": "20261106T053209Z", "event": "decided", "fax_id": "FX-204", "action": "routed", "category": "prior_authorization", "reasons": ["classified as prior_authorization"], "duplicate_of": null}
+{"ts": 1793943148.358, "run": "20261106T053209Z", "event": "decided", "fax_id": "FX-205", "action": "routed", "category": "refill_request", "reasons": ["classified as refill_request"], "duplicate_of": null}
+{"ts": 1793943148.359, "run": "20261106T053209Z", "event": "decided", "fax_id": "FX-206", "action": "routed", "category": "records_request", "reasons": ["classified as records_request", "note: refers to content not in packet (p1: Patient authorization: Included on page 2); page markers show packet complete"], "duplicate_of": null}
+{"ts": 1793943148.359, "run": "20261106T053209Z", "event": "decided", "fax_id": "FX-207", "action": "routed", "category": "eob", "reasons": ["classified as eob"], "duplicate_of": null}
+{"ts": 1793943148.36, "run": "20261106T053209Z", "event": "decided", "fax_id": "FX-208", "action": "routed", "category": "lab_result", "reasons": ["classified as lab_result", "note: refers to content not in packet (p1: Results: See values on following table); page markers show packet complete"], "duplicate_of": null}
+{"ts": 1793943148.36, "run": "20261106T053209Z", "event": "decided", "fax_id": "FX-209", "action": "needs_review", "category": null, "reasons": ["Incomplete or unreadable: p1: Attached page appears incomplete.; p1: Please see missing continuation page.; p1: No readable document category or destination found.; p1: [SCAN CUT OFF]; p1: page is illegible"], "duplicate_of": null}
+{"ts": 1793943148.36, "run": "20261106T053209Z", "event": "decided", "fax_id": "FX-210", "action": "skipped_duplicate", "category": "referral", "reasons": ["resend of FX-201: same source ID RF-3001, same patient name and DOB, same category; FX-201 received earlier (2026-11-03 08:02)"], "duplicate_of": "FX-201"}
+{"ts": 1793943148.36, "run": "20261106T053209Z", "event": "decided", "fax_id": "FX-211", "action": "already_routed", "category": "imaging_report", "reasons": ["portal shows Routed before this agent acted"], "duplicate_of": null}
+{"ts": 1793943148.36, "run": "20261106T053209Z", "event": "decided", "fax_id": "FX-212", "action": "needs_review", "category": "lab_result", "reasons": ["Mixed packet: contains imaging_report, lab_result"], "duplicate_of": null}
+{"ts": 1793943148.361, "run": "20261106T053209Z", "event": "intent_written", "fax_id": "FX-201", "route": {"assigned_to": "Olivia Chen - Referrals", "doc_type": "Referral", "folder": "Referrals / New"}}
+{"ts": 1793943148.525, "run": "20261106T053209Z", "event": "session_started", "fax_id": "FX-201", "label": "B", "session": "hoEg8GmG"}
+{"ts": 1793943148.926, "run": "20261106T053209Z", "event": "submit_success", "fax_id": "FX-201", "detail": "http=303 url=http://127.0.0.1:8311/faxes/FX-201?notice_type=success "}
+{"ts": 1793943149.219, "run": "20261106T053209Z", "event": "verify_ok", "fax_id": "FX-201", "detail": "routing panel and Routed Documents both match intent"}
+{"ts": 1793943149.22, "run": "20261106T053209Z", "event": "fax_done", "fax_id": "FX-201", "action": "routed", "verified": "ui_verified"}
+{"ts": 1793943149.251, "run": "20261106T053209Z", "event": "intent_written", "fax_id": "FX-202", "route": {"assigned_to": "Jordan Ellis - Manual Review", "doc_type": "Needs Review", "folder": "Review / Unclassified"}}
+{"ts": 1793943149.408, "run": "20261106T053209Z", "event": "session_started", "fax_id": "FX-202", "label": "B", "session": "QgVmj27I"}
+{"ts": 1793943149.835, "run": "20261106T053209Z", "event": "submit_success", "fax_id": "FX-202", "detail": "http=303 url=http://127.0.0.1:8311/faxes/FX-202?notice_type=success "}
+{"ts": 1793943150.132, "run": "20261106T053209Z", "event": "verify_ok", "fax_id": "FX-202", "detail": "routing panel and Routed Documents both match intent"}
+{"ts": 1793943150.132, "run": "20261106T053209Z", "event": "fax_done", "fax_id": "FX-202", "action": "needs_review", "verified": "ui_verified"}
+{"ts": 1793943150.168, "run": "20261106T053209Z", "event": "intent_written", "fax_id": "FX-203", "route": {"assigned_to": "Noah Patel - Clinical Review", "doc_type": "Imaging Report", "folder": "Clinical / Imaging"}}
+{"ts": 1793943150.333, "run": "20261106T053209Z", "event": "session_started", "fax_id": "FX-203", "label": "B", "session": "9czgS83H"}
+{"ts": 1793943150.708, "run": "20261106T053209Z", "event": "submit_success", "fax_id": "FX-203", "detail": "http=303 url=http://127.0.0.1:8311/faxes/FX-203?notice_type=success "}
+{"ts": 1793943150.997, "run": "20261106T053209Z", "event": "verify_ok", "fax_id": "FX-203", "detail": "routing panel and Routed Documents both match intent"}
+{"ts": 1793943150.998, "run": "20261106T053209Z", "event": "fax_done", "fax_id": "FX-203", "action": "routed", "verified": "ui_verified"}
+{"ts": 1793943151.029, "run": "20261106T053209Z", "event": "intent_written", "fax_id": "FX-204", "route": {"assigned_to": "Ethan Brooks - Authorizations", "doc_type": "Prior Authorization", "folder": "Authorizations / Pending"}}
+{"ts": 1793943151.184, "run": "20261106T053209Z", "event": "session_started", "fax_id": "FX-204", "label": "B", "session": "wrT6-NVm"}
+{"ts": 1793943151.547, "run": "20261106T053209Z", "event": "submit_success", "fax_id": "FX-204", "detail": "http=303 url=http://127.0.0.1:8311/faxes/FX-204?notice_type=success "}
+{"ts": 1793943151.818, "run": "20261106T053209Z", "event": "verify_ok", "fax_id": "FX-204", "detail": "routing panel and Routed Documents both match intent"}
+{"ts": 1793943151.818, "run": "20261106T053209Z", "event": "fax_done", "fax_id": "FX-204", "action": "routed", "verified": "ui_verified"}
+{"ts": 1793943151.848, "run": "20261106T053209Z", "event": "intent_written", "fax_id": "FX-205", "route": {"assigned_to": "Ava Wilson - Nursing / Medication", "doc_type": "Refill Request", "folder": "Nursing / Medication"}}
+{"ts": 1793943152.002, "run": "20261106T053209Z", "event": "session_started", "fax_id": "FX-205", "label": "B", "session": "jeVlHbzL"}
+{"ts": 1793943152.381, "run": "20261106T053209Z", "event": "submit_success", "fax_id": "FX-205", "detail": "http=303 url=http://127.0.0.1:8311/faxes/FX-205?notice_type=success "}
+{"ts": 1793943152.667, "run": "20261106T053209Z", "event": "verify_ok", "fax_id": "FX-205", "detail": "routing panel and Routed Documents both match intent"}
+{"ts": 1793943152.667, "run": "20261106T053209Z", "event": "fax_done", "fax_id": "FX-205", "action": "routed", "verified": "ui_verified"}
+{"ts": 1793943152.694, "run": "20261106T053209Z", "event": "intent_written", "fax_id": "FX-206", "route": {"assigned_to": "Mia Gomez - Medical Records", "doc_type": "Records Request", "folder": "Records / Requests"}}
+{"ts": 1793943152.847, "run": "20261106T053209Z", "event": "session_started", "fax_id": "FX-206", "label": "B", "session": "9ia62oT4"}
+{"ts": 1793943153.224, "run": "20261106T053209Z", "event": "submit_success", "fax_id": "FX-206", "detail": "http=303 url=http://127.0.0.1:8311/faxes/FX-206?notice_type=success "}
+{"ts": 1793943153.513, "run": "20261106T053209Z", "event": "verify_ok", "fax_id": "FX-206", "detail": "routing panel and Routed Documents both match intent"}
+{"ts": 1793943153.513, "run": "20261106T053209Z", "event": "fax_done", "fax_id": "FX-206", "action": "routed", "verified": "ui_verified"}
+{"ts": 1793943153.543, "run": "20261106T053209Z", "event": "intent_written", "fax_id": "FX-207", "route": {"assigned_to": "Liam Rivera - Billing", "doc_type": "EOB", "folder": "Billing / EOBs"}}
+{"ts": 1793943153.699, "run": "20261106T053209Z", "event": "session_started", "fax_id": "FX-207", "label": "B", "session": "PX2nDUAK"}
+{"ts": 1793943154.081, "run": "20261106T053209Z", "event": "submit_success", "fax_id": "FX-207", "detail": "http=303 url=http://127.0.0.1:8311/faxes/FX-207?notice_type=success "}
+{"ts": 1793943154.452, "run": "20261106T053209Z", "event": "verify_ok", "fax_id": "FX-207", "detail": "routing panel and Routed Documents both match intent"}
+{"ts": 1793943154.452, "run": "20261106T053209Z", "event": "fax_done", "fax_id": "FX-207", "action": "routed", "verified": "ui_verified"}
+{"ts": 1793943154.485, "run": "20261106T053209Z", "event": "intent_written", "fax_id": "FX-208", "route": {"assigned_to": "Noah Patel - Clinical Review", "doc_type": "Lab Result", "folder": "Clinical / Labs"}}
+{"ts": 1793943154.659, "run": "20261106T053209Z", "event": "session_started", "fax_id": "FX-208", "label": "B", "session": "ooayK9h3"}
+{"ts": 1793943155.033, "run": "20261106T053209Z", "event": "submit_success", "fax_id": "FX-208", "detail": "http=303 url=http://127.0.0.1:8311/faxes/FX-208?notice_type=success "}
+{"ts": 1793943155.371, "run": "20261106T053209Z", "event": "verify_ok", "fax_id": "FX-208", "detail": "routing panel and Routed Documents both match intent"}
+{"ts": 1793943155.372, "run": "20261106T053209Z", "event": "fax_done", "fax_id": "FX-208", "action": "routed", "verified": "ui_verified"}
+{"ts": 1793943155.406, "run": "20261106T053209Z", "event": "intent_written", "fax_id": "FX-209", "route": {"assigned_to": "Jordan Ellis - Manual Review", "doc_type": "Needs Review", "folder": "Review / Unclassified"}}
+{"ts": 1793943155.56, "run": "20261106T053209Z", "event": "session_started", "fax_id": "FX-209", "label": "B", "session": "x7D8tG0K"}
+{"ts": 1793943155.941, "run": "20261106T053209Z", "event": "submit_success", "fax_id": "FX-209", "detail": "http=303 url=http://127.0.0.1:8311/faxes/FX-209?notice_type=success "}
+{"ts": 1793943156.228, "run": "20261106T053209Z", "event": "verify_ok", "fax_id": "FX-209", "detail": "routing panel and Routed Documents both match intent"}
+{"ts": 1793943156.229, "run": "20261106T053209Z", "event": "fax_done", "fax_id": "FX-209", "action": "needs_review", "verified": "ui_verified"}
+{"ts": 1793943156.41, "run": "20261106T053209Z", "event": "session_started", "fax_id": "FX-210", "label": "V", "session": "JApODhX_"}
+{"ts": 1793943156.64, "run": "20261106T053209Z", "event": "fax_done", "fax_id": "FX-210", "action": "skipped_duplicate", "verified": "ui_status_new"}
+{"ts": 1793943156.79, "run": "20261106T053209Z", "event": "session_started", "fax_id": "FX-211", "label": "V", "session": "CFi6veid"}
+{"ts": 1793943157.038, "run": "20261106T053209Z", "event": "fax_done", "fax_id": "FX-211", "action": "already_routed", "verified": "preexisting_route_observed"}
+{"ts": 1793943157.038, "run": "20261106T053209Z", "event": "intent_written", "fax_id": "FX-212", "route": {"assigned_to": "Jordan Ellis - Manual Review", "doc_type": "Needs Review", "folder": "Review / Unclassified"}}
+{"ts": 1793943157.19, "run": "20261106T053209Z", "event": "session_started", "fax_id": "FX-212", "label": "B", "session": "BUHyZPht"}
+{"ts": 1793943157.569, "run": "20261106T053209Z", "event": "submit_success", "fax_id": "FX-212", "detail": "http=303 url=http://127.0.0.1:8311/faxes/FX-212?notice_type=success "}
+{"ts": 1793943157.857, "run": "20261106T053209Z", "event": "verify_ok", "fax_id": "FX-212", "detail": "routing panel and Routed Documents both match intent"}
+{"ts": 1793943157.857, "run": "20261106T053209Z", "event": "fax_done", "fax_id": "FX-212", "action": "needs_review", "verified": "ui_verified"}
+{"ts": 1793943157.942, "run": "20261106T053209Z", "event": "run_finished", "status": "completed", "results": "./results/results.json"}
