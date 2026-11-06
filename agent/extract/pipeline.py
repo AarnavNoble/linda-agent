@@ -56,7 +56,11 @@ def extract(pdf_path: Path, sha: str, fax_id: str, expected_pages: int, *, mode:
         ocr = tesseract.ocr_pages(render_pages(pdf_path, scale=3.0))
         cc = tesseract.cross_check(ocr, out["pages"], fax_id)
         out["crosscheck"] = {"ran": True, "contradictions": cc.contradictions, "warnings": cc.warnings,
-                             "mean_conf": cc.mean_conf}
+                             "mean_conf": cc.mean_conf,
+                             # Proof that local OCR read every page of *this* download (no PHI: stats only).
+                             "pages": [{"page": i, "mean_conf": round(o.mean_conf, 1), "chars": len(o.text),
+                                        "footer_ids": tesseract.FOOTER_RE.findall(o.text)}
+                                       for i, o in enumerate(ocr, 1)]}
     else:
         out["crosscheck"] = {"ran": False, "contradictions": [], "warnings": [], "mean_conf": None}
     out["latency_ms"] = int((time.monotonic() - t0) * 1000)

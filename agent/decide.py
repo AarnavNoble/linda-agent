@@ -41,6 +41,8 @@ class Decision:
     flags: list[str] = field(default_factory=list)
     evidence: list[str] = field(default_factory=list)
     duplicate_of: str | None = None
+    categories: list[str] = field(default_factory=list)      # every content category seen in the packet
+    identifiers: list[str] = field(default_factory=list)     # document IDs used for duplicate matching
     note: str = ""
 
     def to_dict(self) -> dict:
@@ -251,7 +253,9 @@ def decide_all(faxes: list[dict], failed_originals: set[str] = frozenset()) -> d
 
     for f in faxes:
         p = packets[f["fax_id"]]
-        d = Decision(p.fax_id, "", None, p.primary_category, p.source_doc_id, flags=p.flags, evidence=p.evidence)
+        d = Decision(p.fax_id, "", None, "mixed" if len(p.categories) > 1 else p.primary_category,
+                     p.source_doc_id, flags=p.flags, evidence=p.evidence,
+                     categories=sorted(p.categories), identifiers=sorted(p.identity_ids))
 
         def review(*reasons: str) -> Decision:
             d.action, d.route = NEEDS_REVIEW_ACTION, NEEDS_REVIEW

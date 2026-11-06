@@ -1,5 +1,6 @@
 # Linda Mini fax-routing agent. Run `make help` for targets.
 PORTAL_DIR ?= ../linda-mini
+export LINDA_PORTAL_DIR := $(abspath $(PORTAL_DIR))
 PORT       ?= 8000
 RESULTS    ?= results/sample/results.json
 REPORT_OUT ?= $(dir $(RESULTS))report.html
@@ -20,11 +21,11 @@ help:
 setup:
 	uv sync
 	uv run playwright install chromium
-	@echo ""
-	@echo "Portal (once): cd $(PORTAL_DIR) && python -m venv .venv && .venv/bin/pip install -r requirements.txt"
+	@test -x $(PORTAL_DIR)/.venv/bin/uvicorn || (cd $(PORTAL_DIR) && python3 -m venv .venv && .venv/bin/pip install -q -r requirements.txt)
 	@echo "Optional Tesseract cross-check: brew install tesseract  (or apt-get install tesseract-ocr)"
 
 portal:
+	@test -x $(PORTAL_DIR)/.venv/bin/uvicorn || (cd $(PORTAL_DIR) && python3 -m venv .venv && .venv/bin/pip install -q -r requirements.txt)
 	cd $(PORTAL_DIR) && .venv/bin/uvicorn app:app --host 127.0.0.1 --port $(PORT)
 
 run:

@@ -21,6 +21,8 @@ def build_result(rec: dict, action: str, verification: dict, errors: list[str], 
         "pages": rec.get("pages"),
         "extracted_type": dec.get("category"),
         "source_doc_id": dec.get("source_doc_id"),
+        "categories": dec.get("categories") or [],
+        "identifiers": dec.get("identifiers") or [],
         "evidence": dec.get("evidence") or [],
         "flags": dec.get("flags") or [],
         "action": action,
@@ -42,6 +44,9 @@ def build_result(rec: dict, action: str, verification: dict, errors: list[str], 
         },
         "errors": errors,
         "attempts": [{k: a[k] for k in ("run_id", "stage", "outcome", "detail")} for a in attempts],
+        # submits = route POSTs actually sent; recoveries = attempts that were not a clean success
+        # (an uncertain 503 that the UI then confirmed is a recovery, not a resubmission).
+        "submits": sum(1 for a in attempts if a["stage"] == "submit"),
         "retries": sum(1 for a in attempts if a["outcome"] not in ("ok", "verified_existing", "success")),
         "finished_at": time.time(),
     }
@@ -57,8 +62,9 @@ def _atomic_write(path: Path, text: str) -> None:
     os.replace(tmp, path)
 
 
-CSV_COLS = ["fax_id", "received", "sender", "pages", "extracted_type", "source_doc_id", "action", "duplicate_of",
-            "assigned_to", "doc_type", "folder", "verification", "retries", "reasons", "flags", "errors"]
+CSV_COLS = ["fax_id", "received", "sender", "pages", "extracted_type", "source_doc_id", "identifiers", "action",
+            "duplicate_of", "assigned_to", "doc_type", "folder", "verification", "submits", "retries", "reasons",
+            "flags", "errors"]
 
 
 def write_results(store, out_dir: Path, run_id: str) -> tuple[Path, Path, Path]:
@@ -80,7 +86,8 @@ def write_results(store, out_dir: Path, run_id: str) -> tuple[Path, Path, Path]:
             sel = r.get("selected_fields") or {}
             w.writerow({
                 **{k: r.get(k) for k in ("fax_id", "received", "sender", "pages", "extracted_type",
-                                         "source_doc_id", "action", "duplicate_of", "retries")},
+                                         "source_doc_id", "action", "duplicate_of", "submits", "retries")},
+                "identifiers": " ".join(r.get("identifiers") or []),
                 "assigned_to": sel.get("assigned_to"), "doc_type": sel.get("doc_type"), "folder": sel.get("folder"),
                 "verification": (r.get("verification") or {}).get("status"),
                 "reasons": " | ".join(r.get("reasons") or []), "flags": " | ".join(r.get("flags") or []),

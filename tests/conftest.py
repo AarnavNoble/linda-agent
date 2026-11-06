@@ -22,7 +22,19 @@ from pathlib import Path
 import pytest
 
 REPO = Path(__file__).resolve().parent.parent
-PORTAL_DIR = Path(os.getenv("LINDA_PORTAL_DIR", "/Users/aarnavnoble/trifetch_th/linda-mini"))
+
+
+def _find_portal_dir() -> Path:
+    """LINDA_PORTAL_DIR, else the nearest ancestor-sibling `linda-mini/` (the sandbox's default layout)."""
+    if os.getenv("LINDA_PORTAL_DIR"):
+        return Path(os.environ["LINDA_PORTAL_DIR"])
+    for parent in [REPO, *REPO.parents]:
+        if (parent / "linda-mini" / "app.py").exists():
+            return parent / "linda-mini"
+    return REPO.parent / "linda-mini"
+
+
+PORTAL_DIR = _find_portal_dir()
 PORTAL_UVICORN = PORTAL_DIR / ".venv" / "bin" / "uvicorn"
 PORT_RANGE = range(8201, 8241)  # never 8000: that is the user's interactive portal
 
@@ -84,7 +96,7 @@ class Portal:
 
 def _start_portal(tmp: Path, fault_mode: str) -> Portal:
     if not PORTAL_UVICORN.exists():
-        pytest.skip(f"portal not available at {PORTAL_DIR}")
+        pytest.skip(f"portal not available at {PORTAL_DIR} (set LINDA_PORTAL_DIR; run `make setup` to create its venv)")
     tmp.mkdir(parents=True, exist_ok=True)
     db = tmp / "portal.sqlite3"
     env = {**os.environ, "LINDA_DB_PATH": str(db), "LINDA_FAULT_MODE": fault_mode}
