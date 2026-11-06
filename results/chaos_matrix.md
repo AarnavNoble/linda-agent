@@ -1,22 +1,22 @@
-# Chaos matrix — PASS
+# Chaos matrix — FAIL
 
-Generated 2026-11-06 01:07:27 EST by `uv run python -m harness.chaos` in 158.5s. Each case runs against its own throwaway portal (fresh DB, own port) with the agent as a subprocess; outcomes are judged only through the portal UI (separate read-only session) and the agent's results.json / events.jsonl.
+Generated 2026-11-06 01:34:59 EST by `uv run python -m harness.chaos` in 158.3s. Each case runs against its own throwaway portal (fresh DB, own port) with the agent as a subprocess; outcomes are judged only through the portal UI (separate read-only session) and the agent's results.json / events.jsonl.
 
 | Case | Scenario | Result | Checks | Time |
 |---|---|---|---|---|
-| `baseline+lock` | clean run; 2nd worker on same work dir; idempotent rerun | PASS | 17/17 | 35.1s |
+| `baseline+lock` | clean run; 2nd worker on same work dir; idempotent rerun | PASS | 17/17 | 36.2s |
 | `download_503_once` | download returns HTML 503 once | PASS | 17/17 | 36.7s |
-| `session_expire_on_route_once` | session deleted during submit | PASS | 16/16 | 36.5s |
-| `route_commit_then_503_once` | route saved, response 503 | PASS | 16/16 | 36.0s |
-| `kill@after_download` | hard exit after first download, resume | PASS | 16/16 | 42.8s |
-| `kill@before_click` | hard exit after INTENT, before submit, resume | PASS | 16/16 | 44.8s |
-| `kill@after_click` | hard exit after submit, before verify, resume | PASS | 17/17 | 44.4s |
-| `kill@after_click#4` | hard exit after the 4th submit (3 faxes done, unreported), resume | PASS | 18/18 | 44.0s |
-| `portal_reset_stale_checkpoint` | full run, sandbox reset, rerun same work dir | PASS | 17/17 | 53.6s |
-| `reset_mid_run_409` | sandbox reset after first download: 409 + dead Session A | PASS | 17/17 | 35.1s |
-| `download_gives_up` | one fax undownloadable in run 1, healthy run 2 | PASS | 19/19 | 42.5s |
-| `download_reauth` | login expires right before Download click | PASS | 3/3 | 2.4s |
-| `two_session_409` | same-session submit is refused and classified | PASS | 3/3 | 6.1s |
+| `session_expire_on_route_once` | session deleted during submit | PASS | 16/16 | 36.4s |
+| `route_commit_then_503_once` | route saved, response 503 | PASS | 16/16 | 36.1s |
+| `kill@after_download` | hard exit after first download, resume | PASS | 16/16 | 41.4s |
+| `kill@before_click` | hard exit after INTENT, before submit, resume | PASS | 16/16 | 44.4s |
+| `kill@after_click` | hard exit after submit, before verify, resume | PASS | 17/17 | 44.0s |
+| `kill@after_click#4` | hard exit after the 4th submit (3 faxes done, unreported), resume | PASS | 18/18 | 43.8s |
+| `portal_reset_stale_checkpoint` | full run, sandbox reset, rerun same work dir | **FAIL** | 16/17 | 53.3s |
+| `reset_mid_run_409` | sandbox reset after first download: 409 + dead Session A | PASS | 17/17 | 34.9s |
+| `download_gives_up` | one fax undownloadable in run 1, healthy run 2 | PASS | 19/19 | 41.5s |
+| `download_reauth` | login expires right before Download click | PASS | 3/3 | 2.9s |
+| `two_session_409` | same-session submit is refused and classified | PASS | 3/3 | 5.6s |
 
 ## Checks per case
 
@@ -184,7 +184,7 @@ _crashed_fax: FX-204, done_before_crash: 3_
 - PASS every fax reported exactly once across runs
 - PASS third (no-op) run exits 0 and submits nothing
 
-### `portal_reset_stale_checkpoint` — PASS
+### `portal_reset_stale_checkpoint` — FAIL
 
 - PASS first run exits 0
 - PASS portal really was reset (only the pre-routed fax is Routed)
@@ -202,7 +202,7 @@ _crashed_fax: FX-204, done_before_crash: 3_
 - PASS no unhandled per-fax errors
 - PASS results attribute each download to the session it happened in
 - PASS route session never equals the download session
-- PASS reset outcomes re-reported (new portal world), nothing else
+- **FAIL** reset outcomes re-reported (new portal world), nothing else — `[]`
 
 ### `reset_mid_run_409` — PASS
 _fault_fax: FX-212_

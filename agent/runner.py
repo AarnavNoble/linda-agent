@@ -76,15 +76,15 @@ class Runner:
             if r["status"] == "New" and (ours and rec["state"] == "DONE" and result.get("action") in ROUTING_ACTIONS):
                 self.log.emit("reconcile_portal_reset", r["fax_id"], was=result.get("action"))
                 self.store.update(r["fax_id"], state="DISCOVERED", intent=None, result=None, decision=None,
-                                  reported=0, ui_status_at_discovery="New")
+                                  reported=0, reported_sig=None, ui_status_at_discovery="New")
             elif r["status"] == "New" and rec["ui_status_at_discovery"] == "Routed" and not ours:
                 self.log.emit("reconcile_unrouted", r["fax_id"])
                 self.store.update(r["fax_id"], state="DISCOVERED", result=None, decision=None, reported=0,
-                                  ui_status_at_discovery="New")
+                                  reported_sig=None, ui_status_at_discovery="New")
             elif r["status"] == "Routed" and rec["ui_status_at_discovery"] == "New" and not ours:
                 self.log.emit("reconcile_routed_elsewhere", r["fax_id"])
                 self.store.update(r["fax_id"], state="DISCOVERED", result=None, decision=None, reported=0,
-                                  ui_status_at_discovery="Routed")
+                                  reported_sig=None, ui_status_at_discovery="Routed")
             elif (result.get("action") == FAILED
                   and (result.get("verification") or {}).get("status") in RETRYABLE_FAILURES):
                 # A previous run gave up without acting (download/route never confirmed). Retry it;
