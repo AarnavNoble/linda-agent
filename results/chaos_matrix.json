@@ -1,0 +1,1122 @@
+{
+  "generated_at": "2026-11-06 01:02:33 EST",
+  "pass": true,
+  "total_seconds": 150.7,
+  "cases": [
+    {
+      "case": "baseline+lock",
+      "scenario": "clean run; 2nd worker on same work dir; idempotent rerun",
+      "pass": true,
+      "seconds": 33.5,
+      "checks": [
+        {
+          "check": "first worker started",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "second worker on same work dir fails fast on the lock",
+          "ok": true,
+          "detail": "rc=75 after 0.9s; first still running=True"
+        },
+        {
+          "check": "second worker left no run behind",
+          "ok": true,
+          "detail": "runs=['20261106T060003Z-82018']"
+        },
+        {
+          "check": "first worker exits 0",
+          "ok": true,
+          "detail": "rc=0\n[intent_written] FX-207 \n[session_started] FX-207 label=B session=T7z89xJ2\n[submit_success] FX-207 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-207?notice_type=success \n[verify_ok] FX-207 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-207 action=routed verified=ui_verified\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=HW1qBSLB\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=Q5C_yzST\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[session_started] FX-210 label=V session=HketZqxP\n[fax_done] FX-210 action=skipped_duplicate verified=ui_status_new\n[session_started] FX-211 label=V session=Q5dv80fl\n[fax_done] FX-211 action=already_routed verified=preexisting_route_observed\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=UChagGQh\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-rfzu9zl7/baseline_lock/work/results/results.json"
+        },
+        {
+          "check": "results.json written",
+          "ok": true,
+          "detail": "no results.json from the final run"
+        },
+        {
+          "check": "every inbox fax has a result",
+          "ok": true,
+          "detail": "ui=['FX-201', 'FX-202', 'FX-203', 'FX-204', 'FX-205', 'FX-206', 'FX-207', 'FX-208', 'FX-209', 'FX-210', 'FX-211', 'FX-212'] results=['FX-201', 'FX-202', 'FX-203', 'FX-204', 'FX-205', 'FX-206', 'FX-207', 'FX-208', 'FX-209', 'FX-210', 'FX-211', 'FX-212'] pending=[]"
+        },
+        {
+          "check": "no failed outcomes",
+          "ok": true,
+          "detail": "failed: []"
+        },
+        {
+          "check": "at most one Routed Documents row per fax",
+          "ok": true,
+          "detail": "{}"
+        },
+        {
+          "check": "UI matches every result (panel + Routed Documents)",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "no Routed Documents row the agent cannot account for",
+          "ok": true,
+          "detail": "[]"
+        },
+        {
+          "check": "no submit after a possibly-committed submit (any run)",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "no unhandled per-fax errors",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "results attribute each download to the session it happened in",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "route session never equals the download session",
+          "ok": true,
+          "detail": "[]"
+        },
+        {
+          "check": "every fax reported exactly once across runs",
+          "ok": true,
+          "detail": "duplicated=[] missing=[]"
+        },
+        {
+          "check": "idempotent rerun: exits 0, reports nothing new, submits nothing",
+          "ok": true,
+          "detail": "rc=0 newly=[]"
+        },
+        {
+          "check": "idempotent rerun leaves UI unchanged",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "info": {
+        "seconds": 25.9
+      }
+    },
+    {
+      "case": "download_503_once",
+      "scenario": "download returns HTML 503 once",
+      "pass": true,
+      "seconds": 34.4,
+      "checks": [
+        {
+          "check": "agent exits 0",
+          "ok": true,
+          "detail": "rc=0\n[intent_written] FX-207 \n[session_started] FX-207 label=B session=JpGeyPaM\n[submit_success] FX-207 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-207?notice_type=success \n[verify_ok] FX-207 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-207 action=routed verified=ui_verified\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=ejiIy1uT\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=14daQC_R\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[session_started] FX-210 label=V session=zso5mzlx\n[fax_done] FX-210 action=skipped_duplicate verified=ui_status_new\n[session_started] FX-211 label=V session=J8zb0hqM\n[fax_done] FX-211 action=already_routed verified=preexisting_route_observed\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=JyirbHYN\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-rfzu9zl7/download_503_once/work/results/results.json"
+        },
+        {
+          "check": "results.json written",
+          "ok": true,
+          "detail": "no results.json from the final run"
+        },
+        {
+          "check": "every inbox fax has a result",
+          "ok": true,
+          "detail": "ui=['FX-201', 'FX-202', 'FX-203', 'FX-204', 'FX-205', 'FX-206', 'FX-207', 'FX-208', 'FX-209', 'FX-210', 'FX-211', 'FX-212'] results=['FX-201', 'FX-202', 'FX-203', 'FX-204', 'FX-205', 'FX-206', 'FX-207', 'FX-208', 'FX-209', 'FX-210', 'FX-211', 'FX-212'] pending=[]"
+        },
+        {
+          "check": "no failed outcomes",
+          "ok": true,
+          "detail": "failed: []"
+        },
+        {
+          "check": "at most one Routed Documents row per fax",
+          "ok": true,
+          "detail": "{}"
+        },
+        {
+          "check": "UI matches every result (panel + Routed Documents)",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "no Routed Documents row the agent cannot account for",
+          "ok": true,
+          "detail": "[]"
+        },
+        {
+          "check": "outcome identical to clean baseline (actions, fields, UI)",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "no submit after a possibly-committed submit (any run)",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "no unhandled per-fax errors",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "results attribute each download to the session it happened in",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "route session never equals the download session",
+          "ok": true,
+          "detail": "[]"
+        },
+        {
+          "check": "every fax reported exactly once across runs",
+          "ok": true,
+          "detail": "duplicated=[] missing=[]"
+        },
+        {
+          "check": "fault fired: a download returned an HTML error page",
+          "ok": true,
+          "detail": "1 error pages"
+        },
+        {
+          "check": "error page detected without waiting out a timeout",
+          "ok": true,
+          "detail": "a download timed out instead"
+        },
+        {
+          "check": "FX-212: re-navigated and retried to a valid PDF (pages + sha validated)",
+          "ok": true,
+          "detail": "after-error events: ['download_ok', 'downloaded', 'extracted', 'decided', 'intent_written', 'session_started']"
+        },
+        {
+          "check": "FX-212: no invalid PDF was ever accepted",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "info": {
+        "seconds": 30.7,
+        "fault_fax": "FX-212"
+      }
+    },
+    {
+      "case": "session_expire_on_route_once",
+      "scenario": "session deleted during submit",
+      "pass": true,
+      "seconds": 34.1,
+      "checks": [
+        {
+          "check": "agent exits 0",
+          "ok": true,
+          "detail": "rc=0\n[intent_written] FX-207 \n[session_started] FX-207 label=B session=FpomoEAO\n[submit_success] FX-207 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-207?notice_type=success \n[verify_ok] FX-207 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-207 action=routed verified=ui_verified\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=uqG3Wwgw\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=cFSiXO4W\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[session_started] FX-210 label=V session=gIM7FfnL\n[fax_done] FX-210 action=skipped_duplicate verified=ui_status_new\n[session_started] FX-211 label=V session=GbUxC_0m\n[fax_done] FX-211 action=already_routed verified=preexisting_route_observed\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=-DPGRdGl\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-rfzu9zl7/session_expire_on_route_once/work/results/results.json"
+        },
+        {
+          "check": "results.json written",
+          "ok": true,
+          "detail": "no results.json from the final run"
+        },
+        {
+          "check": "every inbox fax has a result",
+          "ok": true,
+          "detail": "ui=['FX-201', 'FX-202', 'FX-203', 'FX-204', 'FX-205', 'FX-206', 'FX-207', 'FX-208', 'FX-209', 'FX-210', 'FX-211', 'FX-212'] results=['FX-201', 'FX-202', 'FX-203', 'FX-204', 'FX-205', 'FX-206', 'FX-207', 'FX-208', 'FX-209', 'FX-210', 'FX-211', 'FX-212'] pending=[]"
+        },
+        {
+          "check": "no failed outcomes",
+          "ok": true,
+          "detail": "failed: []"
+        },
+        {
+          "check": "at most one Routed Documents row per fax",
+          "ok": true,
+          "detail": "{}"
+        },
+        {
+          "check": "UI matches every result (panel + Routed Documents)",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "no Routed Documents row the agent cannot account for",
+          "ok": true,
+          "detail": "[]"
+        },
+        {
+          "check": "outcome identical to clean baseline (actions, fields, UI)",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "no submit after a possibly-committed submit (any run)",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "no unhandled per-fax errors",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "results attribute each download to the session it happened in",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "route session never equals the download session",
+          "ok": true,
+          "detail": "[]"
+        },
+        {
+          "check": "every fax reported exactly once across runs",
+          "ok": true,
+          "detail": "duplicated=[] missing=[]"
+        },
+        {
+          "check": "fault fired: session expired on submit",
+          "ok": true,
+          "detail": "1 expiries"
+        },
+        {
+          "check": "FX-201: re-login happened in the SAME Session B browser context",
+          "ok": true,
+          "detail": "B contexts opened=1 portal sessions used=['BT64qasl', '8LQeRay1']"
+        },
+        {
+          "check": "FX-201: refilled, resubmitted once and verified",
+          "ok": true,
+          "detail": "after expiry: ['submit_success', 'verify_ok', 'fax_done']"
+        }
+      ],
+      "info": {
+        "seconds": 30.1,
+        "fault_fax": "FX-201"
+      }
+    },
+    {
+      "case": "route_commit_then_503_once",
+      "scenario": "route saved, response 503",
+      "pass": true,
+      "seconds": 33.6,
+      "checks": [
+        {
+          "check": "agent exits 0",
+          "ok": true,
+          "detail": "rc=0\n[intent_written] FX-207 \n[session_started] FX-207 label=B session=9y3FRCoI\n[submit_success] FX-207 detail=http=303 url=http://127.0.0.1:8103/faxes/FX-207?notice_type=success \n[verify_ok] FX-207 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-207 action=routed verified=ui_verified\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=jt8WBn3f\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8103/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=er7wGkh8\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8103/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[session_started] FX-210 label=V session=9FB0Ww1m\n[fax_done] FX-210 action=skipped_duplicate verified=ui_status_new\n[session_started] FX-211 label=V session=28rJPZ04\n[fax_done] FX-211 action=already_routed verified=preexisting_route_observed\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=X0u8CdMS\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8103/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-rfzu9zl7/route_commit_then_503_once/work/results/results.json"
+        },
+        {
+          "check": "results.json written",
+          "ok": true,
+          "detail": "no results.json from the final run"
+        },
+        {
+          "check": "every inbox fax has a result",
+          "ok": true,
+          "detail": "ui=['FX-201', 'FX-202', 'FX-203', 'FX-204', 'FX-205', 'FX-206', 'FX-207', 'FX-208', 'FX-209', 'FX-210', 'FX-211', 'FX-212'] results=['FX-201', 'FX-202', 'FX-203', 'FX-204', 'FX-205', 'FX-206', 'FX-207', 'FX-208', 'FX-209', 'FX-210', 'FX-211', 'FX-212'] pending=[]"
+        },
+        {
+          "check": "no failed outcomes",
+          "ok": true,
+          "detail": "failed: []"
+        },
+        {
+          "check": "at most one Routed Documents row per fax",
+          "ok": true,
+          "detail": "{}"
+        },
+        {
+          "check": "UI matches every result (panel + Routed Documents)",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "no Routed Documents row the agent cannot account for",
+          "ok": true,
+          "detail": "[]"
+        },
+        {
+          "check": "outcome identical to clean baseline (actions, fields, UI)",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "no submit after a possibly-committed submit (any run)",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "no unhandled per-fax errors",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "results attribute each download to the session it happened in",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "route session never equals the download session",
+          "ok": true,
+          "detail": "[]"
+        },
+        {
+          "check": "every fax reported exactly once across runs",
+          "ok": true,
+          "detail": "duplicated=[] missing=[]"
+        },
+        {
+          "check": "fault fired: route committed but response was 503",
+          "ok": true,
+          "detail": "[\"http=503 url=http://127.0.0.1:8103/faxes/FX-201/route Gateway error (503). The outcome of this submit is unknown; check the fax's current status before retrying.\"]"
+        },
+        {
+          "check": "FX-201: exactly one submit (no second submit after the 503)",
+          "ok": true,
+          "detail": "['submit_unknown']"
+        },
+        {
+          "check": "FX-201: re-read UI, found it routed and verified",
+          "ok": true,
+          "detail": "after 503: ['verify_ok', 'fax_done']"
+        }
+      ],
+      "info": {
+        "seconds": 29.7,
+        "fault_fax": "FX-201"
+      }
+    },
+    {
+      "case": "kill@after_download",
+      "scenario": "hard exit after first download, resume",
+      "pass": true,
+      "seconds": 39.6,
+      "checks": [
+        {
+          "check": "run 1 hard-exited at after_download",
+          "ok": true,
+          "detail": "rc=137 crash events=1"
+        },
+        {
+          "check": "resume run exits 0",
+          "ok": true,
+          "detail": "rc=0\n[intent_written] FX-207 \n[session_started] FX-207 label=B session=BIq9bAlN\n[submit_success] FX-207 detail=http=303 url=http://127.0.0.1:8104/faxes/FX-207?notice_type=success \n[verify_ok] FX-207 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-207 action=routed verified=ui_verified\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=Kj7Uxm_v\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8104/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=_fRazG_Q\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8104/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[session_started] FX-210 label=V session=aWkBv2XE\n[fax_done] FX-210 action=skipped_duplicate verified=ui_status_new\n[session_started] FX-211 label=V session=bYE-xyd7\n[fax_done] FX-211 action=already_routed verified=preexisting_route_observed\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=GIrt9yfn\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8104/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-rfzu9zl7/kill_after_download/work/results/results.json"
+        },
+        {
+          "check": "run 1 submitted nothing",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "results.json written",
+          "ok": true,
+          "detail": "no results.json from the final run"
+        },
+        {
+          "check": "every inbox fax has a result",
+          "ok": true,
+          "detail": "ui=['FX-201', 'FX-202', 'FX-203', 'FX-204', 'FX-205', 'FX-206', 'FX-207', 'FX-208', 'FX-209', 'FX-210', 'FX-211', 'FX-212'] results=['FX-201', 'FX-202', 'FX-203', 'FX-204', 'FX-205', 'FX-206', 'FX-207', 'FX-208', 'FX-209', 'FX-210', 'FX-211', 'FX-212'] pending=[]"
+        },
+        {
+          "check": "no failed outcomes",
+          "ok": true,
+          "detail": "failed: []"
+        },
+        {
+          "check": "at most one Routed Documents row per fax",
+          "ok": true,
+          "detail": "{}"
+        },
+        {
+          "check": "UI matches every result (panel + Routed Documents)",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "no Routed Documents row the agent cannot account for",
+          "ok": true,
+          "detail": "[]"
+        },
+        {
+          "check": "outcome identical to clean baseline (actions, fields, UI)",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "no submit after a possibly-committed submit (any run)",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "no unhandled per-fax errors",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "results attribute each download to the session it happened in",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "route session never equals the download session",
+          "ok": true,
+          "detail": "[]"
+        },
+        {
+          "check": "every fax reported exactly once across runs",
+          "ok": true,
+          "detail": "duplicated=[] missing=[]"
+        },
+        {
+          "check": "third (no-op) run exits 0 and submits nothing",
+          "ok": true,
+          "detail": "rc=0 runs=3"
+        }
+      ],
+      "info": {
+        "crashed_fax": "FX-212",
+        "done_before_crash": 0,
+        "seconds": 31.599999999999998
+      }
+    },
+    {
+      "case": "kill@before_click",
+      "scenario": "hard exit after INTENT, before submit, resume",
+      "pass": true,
+      "seconds": 43.0,
+      "checks": [
+        {
+          "check": "run 1 hard-exited at before_click",
+          "ok": true,
+          "detail": "rc=137 crash events=1"
+        },
+        {
+          "check": "resume run exits 0",
+          "ok": true,
+          "detail": "rc=0\n[intent_written] FX-207 \n[session_started] FX-207 label=B session=R64xohk4\n[submit_success] FX-207 detail=http=303 url=http://127.0.0.1:8103/faxes/FX-207?notice_type=success \n[verify_ok] FX-207 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-207 action=routed verified=ui_verified\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=FfgTKwBH\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8103/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=vasD_OeJ\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8103/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[session_started] FX-210 label=V session=Ml6NWWT7\n[fax_done] FX-210 action=skipped_duplicate verified=ui_status_new\n[session_started] FX-211 label=V session=fKp04E7C\n[fax_done] FX-211 action=already_routed verified=preexisting_route_observed\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=BCWNx_G2\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8103/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-rfzu9zl7/kill_before_click/work/results/results.json"
+        },
+        {
+          "check": "FX-201: no submit before the crash; exactly one after resume",
+          "ok": true,
+          "detail": "run1=[] run2=['submit_success']"
+        },
+        {
+          "check": "results.json written",
+          "ok": true,
+          "detail": "no results.json from the final run"
+        },
+        {
+          "check": "every inbox fax has a result",
+          "ok": true,
+          "detail": "ui=['FX-201', 'FX-202', 'FX-203', 'FX-204', 'FX-205', 'FX-206', 'FX-207', 'FX-208', 'FX-209', 'FX-210', 'FX-211', 'FX-212'] results=['FX-201', 'FX-202', 'FX-203', 'FX-204', 'FX-205', 'FX-206', 'FX-207', 'FX-208', 'FX-209', 'FX-210', 'FX-211', 'FX-212'] pending=[]"
+        },
+        {
+          "check": "no failed outcomes",
+          "ok": true,
+          "detail": "failed: []"
+        },
+        {
+          "check": "at most one Routed Documents row per fax",
+          "ok": true,
+          "detail": "{}"
+        },
+        {
+          "check": "UI matches every result (panel + Routed Documents)",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "no Routed Documents row the agent cannot account for",
+          "ok": true,
+          "detail": "[]"
+        },
+        {
+          "check": "outcome identical to clean baseline (actions, fields, UI)",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "no submit after a possibly-committed submit (any run)",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "no unhandled per-fax errors",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "results attribute each download to the session it happened in",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "route session never equals the download session",
+          "ok": true,
+          "detail": "[]"
+        },
+        {
+          "check": "every fax reported exactly once across runs",
+          "ok": true,
+          "detail": "duplicated=[] missing=[]"
+        },
+        {
+          "check": "third (no-op) run exits 0 and submits nothing",
+          "ok": true,
+          "detail": "rc=0 runs=3"
+        }
+      ],
+      "info": {
+        "crashed_fax": "FX-201",
+        "done_before_crash": 0,
+        "seconds": 35.7
+      }
+    },
+    {
+      "case": "kill@after_click",
+      "scenario": "hard exit after submit, before verify, resume",
+      "pass": true,
+      "seconds": 42.0,
+      "checks": [
+        {
+          "check": "run 1 hard-exited at after_click",
+          "ok": true,
+          "detail": "rc=137 crash events=1"
+        },
+        {
+          "check": "resume run exits 0",
+          "ok": true,
+          "detail": "rc=0\n[intent_written] FX-207 \n[session_started] FX-207 label=B session=V6B70MWh\n[submit_success] FX-207 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-207?notice_type=success \n[verify_ok] FX-207 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-207 action=routed verified=ui_verified\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=_O2AKDzX\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=0rg9V9RO\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[session_started] FX-210 label=V session=mWv0i-mb\n[fax_done] FX-210 action=skipped_duplicate verified=ui_status_new\n[session_started] FX-211 label=V session=DKe-cqiy\n[fax_done] FX-211 action=already_routed verified=preexisting_route_observed\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=QOlL44Hj\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-rfzu9zl7/kill_after_click/work/results/results.json"
+        },
+        {
+          "check": "FX-201: submitted before the crash, NOT resubmitted on resume",
+          "ok": true,
+          "detail": "run1=['submit_success'] run2=[]"
+        },
+        {
+          "check": "FX-201: resume re-read the UI and verified the existing route",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "results.json written",
+          "ok": true,
+          "detail": "no results.json from the final run"
+        },
+        {
+          "check": "every inbox fax has a result",
+          "ok": true,
+          "detail": "ui=['FX-201', 'FX-202', 'FX-203', 'FX-204', 'FX-205', 'FX-206', 'FX-207', 'FX-208', 'FX-209', 'FX-210', 'FX-211', 'FX-212'] results=['FX-201', 'FX-202', 'FX-203', 'FX-204', 'FX-205', 'FX-206', 'FX-207', 'FX-208', 'FX-209', 'FX-210', 'FX-211', 'FX-212'] pending=[]"
+        },
+        {
+          "check": "no failed outcomes",
+          "ok": true,
+          "detail": "failed: []"
+        },
+        {
+          "check": "at most one Routed Documents row per fax",
+          "ok": true,
+          "detail": "{}"
+        },
+        {
+          "check": "UI matches every result (panel + Routed Documents)",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "no Routed Documents row the agent cannot account for",
+          "ok": true,
+          "detail": "[]"
+        },
+        {
+          "check": "outcome identical to clean baseline (actions, fields, UI)",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "no submit after a possibly-committed submit (any run)",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "no unhandled per-fax errors",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "results attribute each download to the session it happened in",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "route session never equals the download session",
+          "ok": true,
+          "detail": "[]"
+        },
+        {
+          "check": "every fax reported exactly once across runs",
+          "ok": true,
+          "detail": "duplicated=[] missing=[]"
+        },
+        {
+          "check": "third (no-op) run exits 0 and submits nothing",
+          "ok": true,
+          "detail": "rc=0 runs=3"
+        }
+      ],
+      "info": {
+        "crashed_fax": "FX-201",
+        "done_before_crash": 0,
+        "seconds": 35.2
+      }
+    },
+    {
+      "case": "kill@after_click#4",
+      "scenario": "hard exit after the 4th submit (3 faxes done, unreported), resume",
+      "pass": true,
+      "seconds": 40.9,
+      "checks": [
+        {
+          "check": "run 1 hard-exited at after_click#4",
+          "ok": true,
+          "detail": "rc=137 crash events=1"
+        },
+        {
+          "check": "run 1 finished some faxes before dying (they are unreported until resume)",
+          "ok": true,
+          "detail": "no fax finished before the crash"
+        },
+        {
+          "check": "resume run exits 0",
+          "ok": true,
+          "detail": "rc=0\n[intent_written] FX-207 \n[session_started] FX-207 label=B session=3rxmTDmB\n[submit_success] FX-207 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-207?notice_type=success \n[verify_ok] FX-207 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-207 action=routed verified=ui_verified\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=pyyOwPDw\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=GVAbc_Ek\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[session_started] FX-210 label=V session=dpPt8cWV\n[fax_done] FX-210 action=skipped_duplicate verified=ui_status_new\n[session_started] FX-211 label=V session=1v9M1WEZ\n[fax_done] FX-211 action=already_routed verified=preexisting_route_observed\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=60f5x2Ml\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-rfzu9zl7/kill_after_click#4/work/results/results.json"
+        },
+        {
+          "check": "FX-204: submitted before the crash, NOT resubmitted on resume",
+          "ok": true,
+          "detail": "run1=['submit_success'] run2=[]"
+        },
+        {
+          "check": "FX-204: resume re-read the UI and verified the existing route",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "results.json written",
+          "ok": true,
+          "detail": "no results.json from the final run"
+        },
+        {
+          "check": "every inbox fax has a result",
+          "ok": true,
+          "detail": "ui=['FX-201', 'FX-202', 'FX-203', 'FX-204', 'FX-205', 'FX-206', 'FX-207', 'FX-208', 'FX-209', 'FX-210', 'FX-211', 'FX-212'] results=['FX-201', 'FX-202', 'FX-203', 'FX-204', 'FX-205', 'FX-206', 'FX-207', 'FX-208', 'FX-209', 'FX-210', 'FX-211', 'FX-212'] pending=[]"
+        },
+        {
+          "check": "no failed outcomes",
+          "ok": true,
+          "detail": "failed: []"
+        },
+        {
+          "check": "at most one Routed Documents row per fax",
+          "ok": true,
+          "detail": "{}"
+        },
+        {
+          "check": "UI matches every result (panel + Routed Documents)",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "no Routed Documents row the agent cannot account for",
+          "ok": true,
+          "detail": "[]"
+        },
+        {
+          "check": "outcome identical to clean baseline (actions, fields, UI)",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "no submit after a possibly-committed submit (any run)",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "no unhandled per-fax errors",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "results attribute each download to the session it happened in",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "route session never equals the download session",
+          "ok": true,
+          "detail": "[]"
+        },
+        {
+          "check": "every fax reported exactly once across runs",
+          "ok": true,
+          "detail": "duplicated=[] missing=[]"
+        },
+        {
+          "check": "third (no-op) run exits 0 and submits nothing",
+          "ok": true,
+          "detail": "rc=0 runs=3"
+        }
+      ],
+      "info": {
+        "crashed_fax": "FX-204",
+        "done_before_crash": 3,
+        "seconds": 34.3
+      }
+    },
+    {
+      "case": "portal_reset_stale_checkpoint",
+      "scenario": "full run, sandbox reset, rerun same work dir",
+      "pass": true,
+      "seconds": 51.1,
+      "checks": [
+        {
+          "check": "first run exits 0",
+          "ok": true,
+          "detail": "rc=0"
+        },
+        {
+          "check": "portal really was reset (only the pre-routed fax is Routed)",
+          "ok": true,
+          "detail": "queue=[{'fax_id': 'FX-211', 'doc_type': 'Imaging Report', 'assigned_to': 'Noah Patel - Clinical Review', 'folder': 'Clinical / Imaging'}]"
+        },
+        {
+          "check": "rerun after reset exits 0",
+          "ok": true,
+          "detail": "rc=0\n[session_started] FX-206 label=B session=APvsQQuX\n[submit_success] FX-206 detail=http=303 url=http://127.0.0.1:8104/faxes/FX-206?notice_type=success \n[verify_ok] FX-206 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-206 action=routed verified=ui_verified\n[intent_written] FX-207 \n[session_started] FX-207 label=B session=SnpCmHep\n[submit_success] FX-207 detail=http=303 url=http://127.0.0.1:8104/faxes/FX-207?notice_type=success \n[verify_ok] FX-207 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-207 action=routed verified=ui_verified\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=Y_oPr5AT\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8104/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=MjvrIDJb\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8104/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=tGlfHAkp\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8104/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-rfzu9zl7/portal_reset_stale_checkpoint/work/results/results.json"
+        },
+        {
+          "check": "reconcile noticed every fax we had routed is New again",
+          "ok": true,
+          "detail": "reconciled=['FX-201', 'FX-202', 'FX-203', 'FX-204', 'FX-205', 'FX-206', 'FX-207', 'FX-208', 'FX-209', 'FX-212'] routed before=['FX-201', 'FX-202', 'FX-203', 'FX-204', 'FX-205', 'FX-206', 'FX-207', 'FX-208', 'FX-209', 'FX-212']"
+        },
+        {
+          "check": "every such fax was routed again (one submit each)",
+          "ok": true,
+          "detail": "resubmitted=['FX-201', 'FX-202', 'FX-203', 'FX-204', 'FX-205', 'FX-206', 'FX-207', 'FX-208', 'FX-209', 'FX-212']"
+        },
+        {
+          "check": "results.json written",
+          "ok": true,
+          "detail": "no results.json from the final run"
+        },
+        {
+          "check": "every inbox fax has a result",
+          "ok": true,
+          "detail": "ui=['FX-201', 'FX-202', 'FX-203', 'FX-204', 'FX-205', 'FX-206', 'FX-207', 'FX-208', 'FX-209', 'FX-210', 'FX-211', 'FX-212'] results=['FX-201', 'FX-202', 'FX-203', 'FX-204', 'FX-205', 'FX-206', 'FX-207', 'FX-208', 'FX-209', 'FX-210', 'FX-211', 'FX-212'] pending=[]"
+        },
+        {
+          "check": "no failed outcomes",
+          "ok": true,
+          "detail": "failed: []"
+        },
+        {
+          "check": "at most one Routed Documents row per fax",
+          "ok": true,
+          "detail": "{}"
+        },
+        {
+          "check": "UI matches every result (panel + Routed Documents)",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "no Routed Documents row the agent cannot account for",
+          "ok": true,
+          "detail": "[]"
+        },
+        {
+          "check": "outcome identical to clean baseline (actions, fields, UI)",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "no submit after a possibly-committed submit (any run)",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "no unhandled per-fax errors",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "results attribute each download to the session it happened in",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "route session never equals the download session",
+          "ok": true,
+          "detail": "[]"
+        },
+        {
+          "check": "reset outcomes re-reported (new portal world), nothing else",
+          "ok": true,
+          "detail": "['FX-201', 'FX-202', 'FX-203', 'FX-204', 'FX-205', 'FX-206', 'FX-207', 'FX-208', 'FX-209', 'FX-212']"
+        }
+      ],
+      "info": {
+        "seconds": 43.5
+      }
+    },
+    {
+      "case": "reset_mid_run_409",
+      "scenario": "sandbox reset after first download: 409 + dead Session A",
+      "pass": true,
+      "seconds": 34.0,
+      "checks": [
+        {
+          "check": "agent downloaded a first fax",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "agent exits 0",
+          "ok": true,
+          "detail": "rc=0\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=DaMB4K0g\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=MtAppLUy\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[session_started] FX-210 label=V session=bIvNHy2N\n[fax_done] FX-210 action=skipped_duplicate verified=ui_status_new\n[session_started] FX-211 label=V session=Upauj4rH\n[fax_done] FX-211 action=already_routed verified=preexisting_route_observed\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=MMYZzVy0\n[submit_two_session] FX-212 detail=http=409 url=http://127.0.0.1:8101/faxes/FX-212/route Routing requires a prior download in an earlier, separate login session. Start a new browser sessio\n[session_started] FX-212 label=A session=7GeiyUHk\n[download_ok] FX-212 detail=sha256=38773f9acc30 pages=3\n[downloaded] FX-212 session=7GeiyUHk sha=38773f9acc30 pages=3 attempts=1 ms=227\n[session_started] FX-212 label=B session=usl9X6ea\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-rfzu9zl7/reset_mid_run_409/work/results/results.json"
+        },
+        {
+          "check": "FX-212: portal rejected the route with 409 (download lost in reset)",
+          "ok": true,
+          "detail": "['submit_two_session', 'submit_success']"
+        },
+        {
+          "check": "FX-212: re-downloaded in a new Session A, then routed from a new Session B",
+          "ok": true,
+          "detail": "after 409: ['session_started', 'download_ok', 'downloaded', 'session_started', 'submit_success', 'verify_ok', 'fax_done']"
+        },
+        {
+          "check": "Session A re-authenticated after its login vanished in the reset",
+          "ok": true,
+          "detail": "download sessions before routing: {'HIH9Lkdf', 'M4rYLQYc'}"
+        },
+        {
+          "check": "results.json written",
+          "ok": true,
+          "detail": "no results.json from the final run"
+        },
+        {
+          "check": "every inbox fax has a result",
+          "ok": true,
+          "detail": "ui=['FX-201', 'FX-202', 'FX-203', 'FX-204', 'FX-205', 'FX-206', 'FX-207', 'FX-208', 'FX-209', 'FX-210', 'FX-211', 'FX-212'] results=['FX-201', 'FX-202', 'FX-203', 'FX-204', 'FX-205', 'FX-206', 'FX-207', 'FX-208', 'FX-209', 'FX-210', 'FX-211', 'FX-212'] pending=[]"
+        },
+        {
+          "check": "no failed outcomes",
+          "ok": true,
+          "detail": "failed: []"
+        },
+        {
+          "check": "at most one Routed Documents row per fax",
+          "ok": true,
+          "detail": "{}"
+        },
+        {
+          "check": "UI matches every result (panel + Routed Documents)",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "no Routed Documents row the agent cannot account for",
+          "ok": true,
+          "detail": "[]"
+        },
+        {
+          "check": "outcome identical to clean baseline (actions, fields, UI)",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "no submit after a possibly-committed submit (any run)",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "no unhandled per-fax errors",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "results attribute each download to the session it happened in",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "route session never equals the download session",
+          "ok": true,
+          "detail": "[]"
+        },
+        {
+          "check": "every fax reported exactly once across runs",
+          "ok": true,
+          "detail": "duplicated=[] missing=[]"
+        }
+      ],
+      "info": {
+        "seconds": 30.3,
+        "fault_fax": "FX-212"
+      }
+    },
+    {
+      "case": "download_gives_up",
+      "scenario": "one fax undownloadable in run 1, healthy run 2",
+      "pass": true,
+      "seconds": 40.9,
+      "checks": [
+        {
+          "check": "run 1 exits 1 (completed with failures), not a crash",
+          "ok": true,
+          "detail": "rc=1\n[decision_held] FX-202 blocked_by=FX-201\n[decision_held] FX-203 blocked_by=FX-201\n[decision_held] FX-204 blocked_by=FX-201\n[decision_held] FX-205 blocked_by=FX-201\n[decision_held] FX-206 blocked_by=FX-201\n[decision_held] FX-207 blocked_by=FX-201\n[decision_held] FX-208 blocked_by=FX-201\n[decision_held] FX-209 blocked_by=FX-201\n[decision_held] FX-210 blocked_by=FX-201\n[decided] FX-211 action=already_routed category=imaging_report duplicate_of=None\n[decision_held] FX-212 blocked_by=FX-201\n[fax_done] FX-201 action=failed verified=not_processed\n[fax_done] FX-202 action=failed verified=not_processed\n[fax_done] FX-203 action=failed verified=not_processed\n[fax_done] FX-204 action=failed verified=not_processed\n[fax_done] FX-205 action=failed verified=not_processed\n[fax_done] FX-206 action=failed verified=not_processed\n[fax_done] FX-207 action=failed verified=not_processed\n[fax_done] FX-208 action=failed verified=not_processed\n[fax_done] FX-209 action=failed verified=not_processed\n[fax_done] FX-210 action=failed verified=not_processed\n[session_started] FX-211 label=V session=mITFr4Vx\n[fax_done] FX-211 action=already_routed verified=preexisting_route_observed\n[fax_done] FX-212 action=failed verified=not_processed\n[run_finished]  status=completed_with_failures results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-rfzu9zl7/download_gives_up/work/results/results.json"
+        },
+        {
+          "check": "FX-201: undownloadable fax reported failed/not_processed, never decided or submitted",
+          "ok": true,
+          "detail": "result=failed/not_processed"
+        },
+        {
+          "check": "faxes received after it (possible resends) were held, not submitted",
+          "ok": true,
+          "detail": "submitted=[] held=['FX-202', 'FX-203', 'FX-204', 'FX-205', 'FX-206', 'FX-207', 'FX-208', 'FX-209', 'FX-210', 'FX-212'] later=['FX-202', 'FX-203', 'FX-204', 'FX-205', 'FX-206', 'FX-207', 'FX-208', 'FX-209', 'FX-210', 'FX-212']"
+        },
+        {
+          "check": "faxes received before it were unaffected",
+          "ok": true,
+          "detail": "[]"
+        },
+        {
+          "check": "portal untouched for the failed and held faxes",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "run 2 (download healthy) exits 0",
+          "ok": true,
+          "detail": "rc=0\n[verify_ok] FX-206 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-206 action=routed verified=ui_verified\n[intent_written] FX-207 \n[session_started] FX-207 label=B session=NZw77T54\n[submit_success] FX-207 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-207?notice_type=success \n[verify_ok] FX-207 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-207 action=routed verified=ui_verified\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=4w-dYw0O\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=LsLVWqYJ\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[session_started] FX-210 label=V session=oQPAPdWu\n[fax_done] FX-210 action=skipped_duplicate verified=ui_status_new\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=2mIBOaWK\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-rfzu9zl7/download_gives_up/work/results/results.json"
+        },
+        {
+          "check": "run 2 retried every failed fax",
+          "ok": true,
+          "detail": "retried=['FX-201', 'FX-202', 'FX-203', 'FX-204', 'FX-205', 'FX-206', 'FX-207', 'FX-208', 'FX-209', 'FX-210', 'FX-212']"
+        },
+        {
+          "check": "results.json written",
+          "ok": true,
+          "detail": "no results.json from the final run"
+        },
+        {
+          "check": "every inbox fax has a result",
+          "ok": true,
+          "detail": "ui=['FX-201', 'FX-202', 'FX-203', 'FX-204', 'FX-205', 'FX-206', 'FX-207', 'FX-208', 'FX-209', 'FX-210', 'FX-211', 'FX-212'] results=['FX-201', 'FX-202', 'FX-203', 'FX-204', 'FX-205', 'FX-206', 'FX-207', 'FX-208', 'FX-209', 'FX-210', 'FX-211', 'FX-212'] pending=[]"
+        },
+        {
+          "check": "no failed outcomes",
+          "ok": true,
+          "detail": "failed: []"
+        },
+        {
+          "check": "at most one Routed Documents row per fax",
+          "ok": true,
+          "detail": "{}"
+        },
+        {
+          "check": "UI matches every result (panel + Routed Documents)",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "no Routed Documents row the agent cannot account for",
+          "ok": true,
+          "detail": "[]"
+        },
+        {
+          "check": "outcome identical to clean baseline (actions, fields, UI)",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "no submit after a possibly-committed submit (any run)",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "no unhandled per-fax errors",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "results attribute each download to the session it happened in",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "route session never equals the download session",
+          "ok": true,
+          "detail": "[]"
+        },
+        {
+          "check": "run 2 re-reported exactly the faxes whose outcome changed",
+          "ok": true,
+          "detail": "['FX-201', 'FX-202', 'FX-203', 'FX-204', 'FX-205', 'FX-206', 'FX-207', 'FX-208', 'FX-209', 'FX-210', 'FX-212']"
+        }
+      ],
+      "info": {
+        "failed_fax": "FX-201",
+        "held": 10,
+        "seconds": 32.1
+      }
+    },
+    {
+      "case": "download_reauth",
+      "scenario": "login expires right before Download click",
+      "pass": true,
+      "seconds": 2.7,
+      "checks": [
+        {
+          "check": "expiry fired before the Download click",
+          "ok": true,
+          "detail": "attempts=['reauth', 'ok']"
+        },
+        {
+          "check": "re-authenticated and downloaded a valid PDF of the same fax",
+          "ok": true,
+          "detail": "error=None attempts=['reauth', 'ok'] logins=2"
+        },
+        {
+          "check": "tab returned to the fax page (not stranded on /login)",
+          "ok": true,
+          "detail": "http://127.0.0.1:8103/faxes/FX-212"
+        }
+      ],
+      "info": {}
+    },
+    {
+      "case": "two_session_409",
+      "scenario": "same-session submit is refused and classified",
+      "pass": true,
+      "seconds": 5.5,
+      "checks": [
+        {
+          "check": "same-session submit classified as two_session (HTTP 409)",
+          "ok": true,
+          "detail": "SubmitOutcome(kind='two_session', http_status=409, final_url='http://127.0.0.1:8103/faxes/FX-212/route', detail='Routing requires a prior download in an earlier, separate login session. Start a new browser session, log in, and find this fax again.')"
+        },
+        {
+          "check": "refused submit created no route",
+          "ok": true,
+          "detail": "status=New"
+        },
+        {
+          "check": "Routed Documents unchanged (pre-routed fax only)",
+          "ok": true,
+          "detail": "[{'fax_id': 'FX-211', 'doc_type': 'Imaging Report', 'assigned_to': 'Noah Patel - Clinical Review', 'folder': 'Clinical / Imaging'}]"
+        }
+      ],
+      "info": {
+        "fax": "FX-212"
+      }
+    }
+  ]
+}
