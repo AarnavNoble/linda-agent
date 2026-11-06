@@ -80,6 +80,7 @@ class Packet:
     low_confidence: list[str]
     crosscheck: list[str]
     evidence: list[str]
+    absent_refs: list[str]     # informational: refers to content not in the packet (not incompleteness)
 
 
 def analyse(fax: dict) -> Packet:
@@ -142,9 +143,10 @@ def analyse(fax: dict) -> Packet:
     resend = [r for p in pages for r in (p.get("resend_indicators") or [])]
     evidence = [q for p in content for q in (p.get("evidence_quotes") or [])][:6]
     cc = (ext.get("crosscheck") or {}).get("contradictions") or []
+    absent = [f"p{p.get('page_number')}: {r}" for p in pages for r in (p.get("references_to_absent_content") or [])]
 
     return Packet(fid, fax.get("received") or "", fax["pages"], ok, ext.get("error"), pages, cats, primary_cat,
-                  src, ids, patient, dob, flags, resend, issues, low, list(cc), evidence)
+                  src, ids, patient, dob, flags, resend, issues, low, list(cc), evidence, absent)
 
 
 # ---------------------------------------------------------------------------
@@ -280,7 +282,9 @@ def decide_all(faxes: list[dict], failed_originals: set[str] = frozenset()) -> d
 
         # 9. route per SOP
         d.action, d.route = ROUTED, SOP[p.primary_category]
-        d.reasons = [f"classified as {p.primary_category}"]
+        d.reasons = [f"classified as {p.primary_category}"] + (
+            [f"note: refers to content not in packet ({'; '.join(p.absent_refs)}); page markers show packet complete"]
+            if p.absent_refs else [])
         d.note = _note("Routed by Linda agent:", [p.primary_category, f"source {p.source_doc_id or 'n/a'}"])
         out[p.fax_id] = d
     return out

@@ -1,0 +1,46 @@
+{
+  "fax_id": "FX-208",
+  "sha256": "4678dd0bb54f64d50a90220d2602cfca4a4f81b74e58485bda445fa5caa98fc0",
+  "pages": [
+    {
+      "page_number": 1,
+      "footer_transmission_id": "FX-208",
+      "footer_page_marker": "Page 1 of 1",
+      "title": "LABORATORY REPORT",
+      "page_role": "primary_document",
+      "category": "lab_result",
+      "category_confidence": "high",
+      "source_doc_id": "LAB-4008",
+      "source_doc_id_label": "Report ID",
+      "related_doc_ids": [],
+      "patient_name": "Talia Nguyen",
+      "dob": "01/27/1993",
+      "explicit_flags": [],
+      "negated_flag_statements": [
+        "No urgent flag provided on this report."
+      ],
+      "resend_indicators": [],
+      "completeness_issues": [],
+      "references_to_absent_content": [
+        "Results: See values on following table"
+      ],
+      "enclosure_list": [],
+      "legibility": "high",
+      "evidence_quotes": [
+        "LABORATORY REPORT",
+        "SUMMIT DIAGNOSTIC LABS",
+        "Panel: CBC with differential",
+        "Status: Final"
+      ]
+    }
+  ],
+  "packet_summary": "A single-page final laboratory report (CBC with differential, Report ID LAB-4008) from Summit Diagnostic Labs for patient Talia Nguyen.",
+  "meta": {
+    "model": "claude-opus-5-5",
+    "input_tokens": 5444,
+    "output_tokens": 373,
+    "cost_usd": 0.02924,
+    "latency_ms": 3898,
+    "request_id": "req_011Cgm81u88jrBnRoVvKRNAs"
+  }
+}

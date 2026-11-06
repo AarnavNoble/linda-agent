@@ -1,0 +1,72 @@
+{
+  "fax_id": "FX-201",
+  "sha256": "3e5d967db98e1c52d6dd7a83eaa50620e65ca51fa2bf1c9a622720e019e88a39",
+  "pages": [
+    {
+      "page_number": 1,
+      "footer_transmission_id": "FX-201",
+      "footer_page_marker": "Page 1 of 2",
+      "title": "FAX COVER SHEET",
+      "page_role": "cover_sheet",
+      "category": "none",
+      "category_confidence": "high",
+      "source_doc_id": null,
+      "source_doc_id_label": null,
+      "related_doc_ids": [],
+      "patient_name": null,
+      "dob": null,
+      "explicit_flags": [],
+      "negated_flag_statements": [],
+      "resend_indicators": [],
+      "completeness_issues": [],
+      "references_to_absent_content": [
+        "Confidential patient paperwork follows on the next page."
+      ],
+      "enclosure_list": [],
+      "legibility": "high",
+      "evidence_quotes": [
+        "FAX COVER SHEET",
+        "RE: Documents enclosed for new consultation",
+        "Number of pages (including cover): 2"
+      ]
+    },
+    {
+      "page_number": 2,
+      "footer_transmission_id": "FX-201",
+      "footer_page_marker": "Page 2 of 2",
+      "title": "NEW PATIENT REFERRAL REQUEST",
+      "page_role": "primary_document",
+      "category": "referral",
+      "category_confidence": "high",
+      "source_doc_id": "RF-3001",
+      "source_doc_id_label": "Document ID",
+      "related_doc_ids": [],
+      "patient_name": "Elena Hart",
+      "dob": "04/16/1987",
+      "explicit_flags": [],
+      "negated_flag_statements": [],
+      "resend_indicators": [],
+      "completeness_issues": [],
+      "references_to_absent_content": [
+        "Please review attached patient details."
+      ],
+      "enclosure_list": [],
+      "legibility": "high",
+      "evidence_quotes": [
+        "NEW PATIENT REFERRAL REQUEST",
+        "Referring physician: Dr. Mira Gomez",
+        "Requested service: Neurology consultation",
+        "Priority: Routine"
+      ]
+    }
+  ],
+  "packet_summary": "A two-page fax from Bayview Family Practice to Harbor Specialty Clinic containing a cover sheet and a new patient referral request (RF-3001) for a neurology consultation for Elena Hart.",
+  "meta": {
+    "model": "claude-opus-5-5",
+    "input_tokens": 7768,
+    "output_tokens": 658,
+    "cost_usd": 0.04423,
+    "latency_ms": 8777,
+    "request_id": "req_011Cgm7xHvjEzqJQnnof69Mv"
+  }
+}

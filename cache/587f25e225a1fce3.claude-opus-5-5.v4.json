@@ -1,0 +1,46 @@
+{
+  "fax_id": "FX-209",
+  "sha256": "587f25e225a1fce32d1f02205c969752e3b88f1adc15a4f6b2a1267c411e3d88",
+  "pages": [
+    {
+      "page_number": 1,
+      "footer_transmission_id": "FX-209",
+      "footer_page_marker": "Page 1 of 1",
+      "title": "FAX DOCUMENT",
+      "page_role": "unreadable",
+      "category": "unknown",
+      "category_confidence": "low",
+      "source_doc_id": "U-4009",
+      "source_doc_id_label": "Transmission ID",
+      "related_doc_ids": [],
+      "patient_name": null,
+      "dob": null,
+      "explicit_flags": [],
+      "negated_flag_statements": [],
+      "resend_indicators": [],
+      "completeness_issues": [
+        "Attached page appears incomplete.",
+        "Please see missing continuation page.",
+        "No readable document category or destination found.",
+        "[SCAN CUT OFF]"
+      ],
+      "references_to_absent_content": [],
+      "enclosure_list": [],
+      "legibility": "high",
+      "evidence_quotes": [
+        "UNKNOWN SENDER",
+        "Subject: Patient paperwork",
+        "No readable document category or destination found."
+      ]
+    }
+  ],
+  "packet_summary": "A single-page fax from an unknown sender with subject 'Patient paperwork' that states the scan is cut off, a continuation page is missing, and no document category or destination can be read.",
+  "meta": {
+    "model": "claude-opus-5-5",
+    "input_tokens": 5444,
+    "output_tokens": 374,
+    "cost_usd": 0.02926,
+    "latency_ms": 4963,
+    "request_id": "req_011Cgm82EzyMnA4vyAnXiHLo"
+  }
+}

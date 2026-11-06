@@ -169,3 +169,11 @@ def test_every_review_has_a_reason_note():
     fs = [fax("FX-1", [page(cat="unknown")]), fax("FX-2", [page(fax="FX-2", flags=["STAT"])])]
     for d in decide_all(fs).values():
         assert d.action == "needs_review" and d.note.startswith("NEEDS REVIEW") and len(d.note) > 20
+
+
+def test_reference_to_absent_content_alone_is_not_incomplete():
+    p = page(cat="lab_result")
+    p["references_to_absent_content"] = ["Results: See values on following table"]
+    d = one(fax("FX-1", [p]))
+    assert d.action == "routed" and d.route == SOP["lab_result"]
+    assert any("not in packet" in r for r in d.reasons)

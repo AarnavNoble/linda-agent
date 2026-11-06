@@ -1,0 +1,99 @@
+{
+  "fax_id": "FX-212",
+  "sha256": "38773f9acc30d67ab6aac62f42b3799534c45cfeb76fd426fff77575c5e4bbcb",
+  "pages": [
+    {
+      "page_number": 1,
+      "footer_transmission_id": "FX-212",
+      "footer_page_marker": "Page 1 of 3",
+      "title": "FAX COVER - MULTIPLE ENCLOSURES",
+      "page_role": "cover_sheet",
+      "category": "none",
+      "category_confidence": "high",
+      "source_doc_id": "PKT-4012",
+      "source_doc_id_label": "Transmission reference",
+      "related_doc_ids": [],
+      "patient_name": "Riley Morgan",
+      "dob": null,
+      "explicit_flags": [],
+      "negated_flag_statements": [],
+      "resend_indicators": [],
+      "completeness_issues": [],
+      "references_to_absent_content": [],
+      "enclosure_list": [
+        "Page 2: Laboratory result",
+        "Page 3: Imaging interpretation"
+      ],
+      "legibility": "high",
+      "evidence_quotes": [
+        "FAX COVER - MULTIPLE ENCLOSURES",
+        "Contains multiple documents with different purposes.",
+        "Please review entire packet before filing."
+      ]
+    },
+    {
+      "page_number": 2,
+      "footer_transmission_id": "FX-212",
+      "footer_page_marker": "Page 2 of 3",
+      "title": "LABORATORY REPORT",
+      "page_role": "primary_document",
+      "category": "lab_result",
+      "category_confidence": "high",
+      "source_doc_id": "LAB-4012A",
+      "source_doc_id_label": "Document number",
+      "related_doc_ids": [],
+      "patient_name": "Riley Morgan",
+      "dob": "03/18/1979",
+      "explicit_flags": [],
+      "negated_flag_statements": [],
+      "resend_indicators": [],
+      "completeness_issues": [],
+      "references_to_absent_content": [],
+      "enclosure_list": [],
+      "legibility": "high",
+      "evidence_quotes": [
+        "LABORATORY REPORT",
+        "Panel: Thyroid function",
+        "Final report, routine",
+        "This page is a laboratory result."
+      ]
+    },
+    {
+      "page_number": 3,
+      "footer_transmission_id": "FX-212",
+      "footer_page_marker": "Page 3 of 3",
+      "title": "RADIOLOGY REPORT",
+      "page_role": "primary_document",
+      "category": "imaging_report",
+      "category_confidence": "high",
+      "source_doc_id": "IMG-4012B",
+      "source_doc_id_label": "Document number",
+      "related_doc_ids": [],
+      "patient_name": "Riley Morgan",
+      "dob": "03/18/1979",
+      "explicit_flags": [],
+      "negated_flag_statements": [],
+      "resend_indicators": [],
+      "completeness_issues": [],
+      "references_to_absent_content": [
+        "Impression: Please see radiologist narrative."
+      ],
+      "enclosure_list": [],
+      "legibility": "high",
+      "evidence_quotes": [
+        "RADIOLOGY REPORT",
+        "Exam: Ultrasound thyroid",
+        "This page is an imaging report."
+      ]
+    }
+  ],
+  "packet_summary": "A three-page fax for patient Riley Morgan containing a cover sheet, a thyroid function laboratory report (LAB-4012A), and a thyroid ultrasound radiology report (IMG-4012B).",
+  "meta": {
+    "model": "claude-opus-5-5",
+    "input_tokens": 10092,
+    "output_tokens": 958,
+    "cost_usd": 0.05953,
+    "latency_ms": 10663,
+    "request_id": "req_011Cgm83Sxq5Dp63B3TLctEG"
+  }
+}

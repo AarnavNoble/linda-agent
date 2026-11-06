@@ -45,7 +45,12 @@ class PageExtraction(BaseModel):
     resend_indicators: list[str] = Field(
         description="Verbatim text saying this is a resend/retransmission/duplicate of an earlier fax")
     completeness_issues: list[str] = Field(
-        description="Verbatim text indicating missing pages, cut-off scans, illegibility or incompleteness")
+        description="Verbatim text that EXPLICITLY says this transmission/scan is incomplete: cut-off scan, "
+                    "missing or continuation pages not received, unreadable content, or that the document type "
+                    "or destination cannot be determined")
+    references_to_absent_content: list[str] = Field(
+        description="Verbatim text that merely refers to content not shown on this page "
+                    "(e.g. 'see full report', 'see values on following table'). These are NOT completeness issues")
     enclosure_list: list[str] = Field(
         description="If a cover sheet lists enclosed documents, each listed item verbatim")
     legibility: Confidence = Field(description="How legible the page image is")

@@ -1,0 +1,71 @@
+{
+  "fax_id": "FX-206",
+  "sha256": "44b68d8fcf367def23745addd79d26d47c17e930f4b5a496feb2d0a4aef0f958",
+  "pages": [
+    {
+      "page_number": 1,
+      "footer_transmission_id": "FX-206",
+      "footer_page_marker": "Page 1 of 2",
+      "title": "REQUEST FOR MEDICAL RECORDS",
+      "page_role": "primary_document",
+      "category": "records_request",
+      "category_confidence": "high",
+      "source_doc_id": "MR-4006",
+      "source_doc_id_label": "Records request ID",
+      "related_doc_ids": [],
+      "patient_name": "Cameron Blake",
+      "dob": "02/09/1980",
+      "explicit_flags": [],
+      "negated_flag_statements": [],
+      "resend_indicators": [],
+      "completeness_issues": [],
+      "references_to_absent_content": [
+        "Patient authorization: Included on page 2"
+      ],
+      "enclosure_list": [],
+      "legibility": "high",
+      "evidence_quotes": [
+        "REQUEST FOR MEDICAL RECORDS",
+        "Requested records: Office visits, imaging reports",
+        "Please process according to clinic release policy."
+      ]
+    },
+    {
+      "page_number": 2,
+      "footer_transmission_id": "FX-206",
+      "footer_page_marker": "Page 2 of 2",
+      "title": "AUTHORIZATION TO RELEASE INFORMATION",
+      "page_role": "supporting_attachment",
+      "category": "records_request",
+      "category_confidence": "high",
+      "source_doc_id": null,
+      "source_doc_id_label": null,
+      "related_doc_ids": [
+        "Related request: MR-4006"
+      ],
+      "patient_name": "Cameron Blake",
+      "dob": null,
+      "explicit_flags": [],
+      "negated_flag_statements": [],
+      "resend_indicators": [],
+      "completeness_issues": [],
+      "references_to_absent_content": [],
+      "enclosure_list": [],
+      "legibility": "high",
+      "evidence_quotes": [
+        "AUTHORIZATION TO RELEASE INFORMATION",
+        "Related request: MR-4006",
+        "I authorize release of records to Hillside Medical Group."
+      ]
+    }
+  ],
+  "packet_summary": "A two-page fax containing a medical records request (MR-4006) for patient Cameron Blake and the accompanying signed authorization to release information.",
+  "meta": {
+    "model": "claude-opus-5-5",
+    "input_tokens": 7768,
+    "output_tokens": 657,
+    "cost_usd": 0.04421,
+    "latency_ms": 6380,
+    "request_id": "req_011Cgm7zvPkgjvXRcepChrYC"
+  }
+}
