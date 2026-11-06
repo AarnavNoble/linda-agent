@@ -5,7 +5,7 @@ import os
 import time
 from datetime import datetime, timezone
 
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import Error as PWError, sync_playwright
 
 from . import report
 from .acquire import DownloadFailed, download_fax
@@ -17,15 +17,24 @@ from .events import EventLog
 from .extract.pipeline import extract
 from .route import click_submit, fill_and_review, read_status, verify
 from .sop import (ALREADY_ROUTED, FAILED, NEEDS_REVIEW_ACTION, ROUTED, SKIPPED_DUPLICATE, Route)
-from .state import RANK, Store, run_lock
+from .state import RANK, LockHeld, Store, run_lock
 
 ROUTING_ACTIONS = (ROUTED, NEEDS_REVIEW_ACTION)
+# A FAILED outcome with one of these verification statuses means "we never got to act",
+# so the next run retries it. Conflicts / rejected values stay terminal (a human must look).
+RETRYABLE_FAILURES = ("not_processed", "unverified")
+# Per-fax errors that must not abort the whole inbox: our own PortalError plus any
+# Playwright error (navigation failure, locator timeout) while the portal misbehaves.
+FAX_ERRORS = (PortalError, PWError)
+EXIT_LOCKED = 75  # EX_TEMPFAIL: another run owns this work dir
 
 
 class Runner:
     def __init__(self, cfg: Config):
         self.cfg = cfg
-        self.run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+        # pid suffix: a crashed run and its immediate restart can start in the same second,
+        # and run_id is the primary key of the runs table and the artifacts directory name.
+        self.run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ") + f"-{os.getpid()}"
         self.run_dir = cfg.artifacts_dir / self.run_id
         self.store = Store(cfg.state_dir / "checkpoint.sqlite3")
         self.log = EventLog(self.run_dir / "events.jsonl", self.run_id)
@@ -70,6 +79,13 @@ class Runner:
                 self.log.emit("reconcile_routed_elsewhere", r["fax_id"])
                 self.store.update(r["fax_id"], state="DISCOVERED", result=None, decision=None, reported=0,
                                   ui_status_at_discovery="Routed")
+            elif (result.get("action") == FAILED
+                  and (result.get("verification") or {}).get("status") in RETRYABLE_FAILURES):
+                # A previous run gave up without acting (download/route never confirmed). Retry it;
+                # an existing intent is kept so routing still re-reads the UI before any submit.
+                self.log.emit("reconcile_retry_failed", r["fax_id"], was=result["verification"]["status"])
+                self.store.update(r["fax_id"], state="INTENT" if ours else "DISCOVERED", result=None,
+                                  decision=rec.get("decision") if ours else None, reported=0)
 
     def acquire(self, s: PortalSession, fax_ids: list[str]) -> None:
         for fid in fax_ids:
@@ -79,8 +95,8 @@ class Runner:
                 d = download_fax(s, fid, rec["pages"], self.cfg.download_dir, self.cfg.max_download_attempts,
                                  self.cfg.download_wait_ms,
                                  on_attempt=lambda st, oc, det, fid=fid: self.attempt(fid, st, oc, det))
-            except (DownloadFailed, PortalError) as e:
-                self.attempt(fid, "download", "gave_up", str(e))
+            except (DownloadFailed, *FAX_ERRORS) as e:
+                self.attempt(fid, "download", "gave_up", f"{type(e).__name__}: {e}"[:500])
                 continue
             fields = {"pdf_path": str(d.path), "sha256": d.sha256}
             if rec.get("sha256") and rec["sha256"] != d.sha256:
@@ -108,10 +124,22 @@ class Runner:
 
     def decide(self, failed_originals: set[str] = frozenset()) -> None:
         recs = self.store.all()
+        # A fax we could not download has no content: deciding it would route a document nobody
+        # read. And while its content is unknown we cannot rule out that a later fax is a resend
+        # of it, so later-received faxes are held too (reported as not_processed; retried next run).
+        missing = [r for r in recs if not r.get("pdf_path") and r["state"] != "DONE" and not r.get("intent")
+                   and r.get("ui_status_at_discovery") != "Routed"]
+        cutoff = min(((r["received"] or ""), r["fax_id"]) for r in missing) if missing else None
         decisions = decide_all(recs, set(failed_originals))
         for rec in recs:
             if rec.get("intent") or rec["state"] == "DONE":
                 continue  # decisions freeze once an intent exists or the fax is finished
+            held = cutoff is not None and ((rec["received"] or ""), rec["fax_id"]) >= cutoff
+            if held and decisions[rec["fax_id"]].action != ALREADY_ROUTED:
+                if rec.get("decision"):
+                    self.store.update(rec["fax_id"], decision=None)
+                self.log.emit("decision_held", rec["fax_id"], blocked_by=cutoff[1])
+                continue
             d = decisions[rec["fax_id"]]
             self.store.advance(rec["fax_id"], "DECIDED", decision=d.to_dict())
             self.log.emit("decided", rec["fax_id"], action=d.action, category=d.category,
@@ -223,79 +251,97 @@ class Runner:
                 errors.append(f"submit reported {out.kind} but fax is not routed; retrying")
             self.finish(fid, FAILED, {"status": "unverified", "detail": "route attempts exhausted"}, errors,
                         sessions_b, route._asdict())
-        except PortalError as e:
+        except FAX_ERRORS as e:
             errors.append(f"{type(e).__name__}: {e}")
             if s:
                 s.screenshot(self.run_dir / "screens" / f"{fid}-error.png")
-            self.attempt(fid, "route", "error", str(e))
+            self.attempt(fid, "route", "error", f"{type(e).__name__}: {e}"[:500])
             self.store.update(fid, result=None)
-            # leave state at INTENT/SUBMITTED_UNVERIFIED: the next run will re-read UI before acting
-            raise
+            # leave state at INTENT/SUBMITTED_UNVERIFIED: the next attempt re-reads UI before acting
+            raise PortalError(f"{type(e).__name__}: {e}") from e
         finally:
             if s:
                 s.close()
 
     # ---- main --------------------------------------------------------------
     def run(self) -> int:
-        with run_lock(self.cfg.state_dir):
-            self.store.start_run(self.run_id)
-            self.log.emit("run_started", mode=self.cfg.ocr_mode, model=self.cfg.vision_model,
-                          base_url=self.cfg.base_url)
-            status = "failed"
-            with sync_playwright() as p:
-                browser = p.chromium.launch(headless=not self.cfg.headed, slow_mo=150 if self.cfg.headed else 0)
+        try:
+            with run_lock(self.cfg.state_dir):
+                return self._run_locked()
+        except LockHeld as e:
+            import sys
+            print(f"agent: {e}; refusing to start a second worker on {self.cfg.work_dir}", file=sys.stderr)
+            return EXIT_LOCKED
+
+    def _run_locked(self) -> int:
+        self.store.start_run(self.run_id)
+        self.log.emit("run_started", mode=self.cfg.ocr_mode, model=self.cfg.vision_model,
+                      base_url=self.cfg.base_url)
+        status = "failed"
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=not self.cfg.headed, slow_mo=150 if self.cfg.headed else 0)
+            try:
+                # Session A: discover + download everything not finished.
+                a = self.session(browser, "A")
+                self.sessions_a.append(a.session_prefix)
                 try:
-                    # Session A: discover + download everything not finished.
-                    a = self.session(browser, "A")
-                    self.sessions_a.append(a.session_prefix)
-                    try:
-                        rows = discover_inbox(a)
-                        self.log.emit("discovered", count=len(rows), ids=[r["fax_id"] for r in rows])
-                        self.reconcile(rows)
-                        todo = [r["fax_id"] for r in rows
-                                if self.store.get(r["fax_id"])["state"] != "DONE"
-                                or not self.store.get(r["fax_id"]).get("extraction")]
-                        self.acquire(a, todo)
-                    finally:
-                        a.close()
-
-                    self.extract_all()
-                    self.decide()
-
-                    failed: set[str] = set()
-                    for _pass in range(2):  # second pass re-decides resends whose original failed
-                        recs = sorted(self.store.all(), key=lambda r: (r["received"] or "", r["fax_id"]))
-                        for rec in recs:
-                            if rec["state"] == "DONE":
-                                continue
-                            if not rec.get("decision") and not rec.get("intent"):
-                                self.finish(rec["fax_id"], FAILED, {"status": "not_processed"},
-                                            [a["detail"] for a in self.store.attempts(rec["fax_id"])
-                                             if a["outcome"] in ("gave_up",)][-1:] or ["no download"])
-                                continue
-                            action = (rec.get("intent") or rec["decision"])["action"]
-                            try:
-                                if action in ROUTING_ACTIONS:
-                                    self.route_fax(browser, rec)
-                                else:
-                                    self.handle_non_routing(browser, rec)
-                            except PortalError as e:
-                                self.log.emit("fax_error", rec["fax_id"], error=str(e))
-                        newly_failed = {r["fax_id"] for r in self.store.all()
-                                        if (r.get("result") or {}).get("action") == FAILED}
-                        if newly_failed <= failed:
-                            break
-                        failed = newly_failed
-                        # Re-open dependants of failed originals that were not yet submitted.
-                        for r in self.store.all():
-                            dec = r.get("decision") or {}
-                            if dec.get("duplicate_of") in failed and dec.get("action") == SKIPPED_DUPLICATE:
-                                self.store.update(r["fax_id"], state="DECIDED", result=None, reported=0)
-                        self.decide(failed)
-                    status = "completed"
+                    rows = discover_inbox(a)
+                    self.log.emit("discovered", count=len(rows), ids=[r["fax_id"] for r in rows])
+                    self.reconcile(rows)
+                    todo = [r["fax_id"] for r in rows
+                            if self.store.get(r["fax_id"])["state"] != "DONE"
+                            or not self.store.get(r["fax_id"]).get("extraction")]
+                    self.acquire(a, todo)
                 finally:
-                    browser.close()
-            paths = report.write_results(self.store, self.cfg.results_dir, self.run_id)
-            self.store.finish_run(self.run_id, status)
-            self.log.emit("run_finished", status=status, results=str(paths[0]))
-            return 0 if status == "completed" else 1
+                    a.close()
+
+                self.extract_all()
+                self.decide()
+
+                failed: set[str] = set()
+                for _pass in range(3):  # later passes: transient per-fax errors, resends of failed originals
+                    errored: set[str] = set()
+                    recs = sorted(self.store.all(), key=lambda r: (r["received"] or "", r["fax_id"]))
+                    for rec in recs:
+                        if rec["state"] == "DONE":
+                            continue
+                        if not rec.get("decision") and not rec.get("intent"):
+                            why = [a["detail"] for a in self.store.attempts(rec["fax_id"])
+                                   if a["outcome"] in ("gave_up",)][-1:] or ["no download"]
+                            if rec.get("pdf_path"):
+                                why = ["decision held: an earlier-received fax has no downloaded content, "
+                                       "so this fax cannot be ruled out as its resend"]
+                            self.finish(rec["fax_id"], FAILED, {"status": "not_processed"}, why)
+                            continue
+                        action = (rec.get("intent") or rec["decision"])["action"]
+                        try:
+                            if action in ROUTING_ACTIONS:
+                                self.route_fax(browser, rec)
+                            else:
+                                self.handle_non_routing(browser, rec)
+                        except FAX_ERRORS as e:
+                            errored.add(rec["fax_id"])
+                            self.log.emit("fax_error", rec["fax_id"], error=f"{type(e).__name__}: {e}"[:500])
+                    newly_failed = {r["fax_id"] for r in self.store.all()
+                                    if (r.get("result") or {}).get("action") == FAILED}
+                    if newly_failed <= failed and not errored:
+                        break
+                    failed = newly_failed
+                    # Re-open dependants of failed originals that were not yet submitted.
+                    for r in self.store.all():
+                        dec = r.get("decision") or {}
+                        if dec.get("duplicate_of") in failed and dec.get("action") == SKIPPED_DUPLICATE:
+                            self.store.update(r["fax_id"], state="DECIDED", result=None, reported=0)
+                    self.decide(failed)
+                status = "completed"
+            finally:
+                browser.close()
+        paths = report.write_results(self.store, self.cfg.results_dir, self.run_id)
+        recs = self.store.all()
+        pending = [r["fax_id"] for r in recs if not r.get("result")]
+        failed_ids = [r["fax_id"] for r in recs if (r.get("result") or {}).get("action") == FAILED]
+        if status == "completed" and (pending or failed_ids):
+            status = "completed_with_failures"
+        self.store.finish_run(self.run_id, status)
+        self.log.emit("run_finished", status=status, results=str(paths[0]), pending=pending, failed=failed_ids)
+        return 0 if status == "completed" else 1
