@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS faxes (
   received TEXT, sender TEXT, pages INTEGER,
   ui_status_at_discovery TEXT,
   state TEXT NOT NULL,
-  pdf_path TEXT, sha256 TEXT,
+  pdf_path TEXT, sha256 TEXT, download_session TEXT,
   extraction TEXT, decision TEXT, intent TEXT, result TEXT,
   reported INTEGER NOT NULL DEFAULT 0,
   updated_at REAL NOT NULL
@@ -69,6 +69,10 @@ class Store:
         self.db.execute("PRAGMA journal_mode=WAL")
         self.db.execute("PRAGMA synchronous=FULL")  # checkpoint must survive kill -9
         self.db.executescript(_SCHEMA)
+        # Additive migrations for checkpoints written by older versions (resume must not break).
+        cols = {r[1] for r in self.db.execute("PRAGMA table_info(faxes)")}
+        if "download_session" not in cols:
+            self.db.execute("ALTER TABLE faxes ADD COLUMN download_session TEXT")
 
     # ---- faxes -------------------------------------------------------------
     def get(self, fax_id: str) -> dict | None:

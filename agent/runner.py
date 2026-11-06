@@ -39,10 +39,16 @@ class Runner:
         self.store = Store(cfg.state_dir / "checkpoint.sqlite3")
         self.log = EventLog(self.run_dir / "events.jsonl", self.run_id)
         self.sessions_a: list[str] = []
+        self._crash_hits: dict[str, int] = {}
 
     # ---- helpers -----------------------------------------------------------
     def crash_point(self, name: str, fax_id: str) -> None:
-        if self.cfg.crash_at == name:
+        # LINDA_AGENT_CRASH_AT=<point> crashes at the first occurrence, <point>#N at the N-th.
+        point, _, nth = self.cfg.crash_at.partition("#")
+        if point != name:
+            return
+        self._crash_hits[name] = self._crash_hits.get(name, 0) + 1
+        if self._crash_hits[name] == int(nth or 1):
             self.log.emit("simulated_crash", fax_id, at=name)
             os._exit(137)  # kill -9 equivalent: no cleanup, no flush beyond what is already durable
 
@@ -98,7 +104,8 @@ class Runner:
             except (DownloadFailed, *FAX_ERRORS) as e:
                 self.attempt(fid, "download", "gave_up", f"{type(e).__name__}: {e}"[:500])
                 continue
-            fields = {"pdf_path": str(d.path), "sha256": d.sha256}
+            # The portal session the download actually landed in (a mid-acquire re-login changes it).
+            fields = {"pdf_path": str(d.path), "sha256": d.sha256, "download_session": s.session_prefix}
             if rec.get("sha256") and rec["sha256"] != d.sha256:
                 fields["extraction"] = None  # content changed: re-extract
                 self.log.emit("pdf_changed", fid, old=rec["sha256"][:12], new=d.sha256[:12])

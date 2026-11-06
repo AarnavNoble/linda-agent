@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import csv
 import json
+import os
 import time
 from pathlib import Path
 
@@ -29,7 +30,8 @@ def build_result(rec: dict, action: str, verification: dict, errors: list[str], 
         "note_sent": intent.get("note") if selected else None,
         "note_ui_verifiable": False,  # the portal never renders notes; recorded, not verified
         "verification": verification,
-        "sessions": {"download_session_a": sessions_a[-1:] or [], "route_sessions_b": sessions_b},
+        "sessions": {"download_session_a": [rec["download_session"]] if rec.get("download_session")
+                     else sessions_a[-1:] or [], "route_sessions_b": sessions_b},
         "pdf_sha256": rec.get("sha256"),
         "extraction": {
             "engine": ext.get("engine"), "error": ext.get("error"),
@@ -45,6 +47,16 @@ def build_result(rec: dict, action: str, verification: dict, errors: list[str], 
     }
 
 
+def _atomic_write(path: Path, text: str) -> None:
+    """A crash mid-write must leave the previous artifact intact, never a truncated one."""
+    tmp = path.with_name(f".{path.name}.{os.getpid()}.tmp")
+    with tmp.open("w") as fh:
+        fh.write(text)
+        fh.flush()
+        os.fsync(fh.fileno())
+    os.replace(tmp, path)
+
+
 CSV_COLS = ["fax_id", "received", "sender", "pages", "extracted_type", "source_doc_id", "action", "duplicate_of",
             "assigned_to", "doc_type", "folder", "verification", "retries", "reasons", "flags", "errors"]
 
@@ -58,7 +70,7 @@ def write_results(store, out_dir: Path, run_id: str) -> tuple[Path, Path, Path]:
     doc = {"run_id": run_id, "generated_at": time.time(), "count": len(results),
            "newly_reported_this_run": newly, "pending": pending, "results": results}
     jpath = out_dir / "results.json"
-    jpath.write_text(json.dumps(doc, indent=2, default=str))
+    _atomic_write(jpath, json.dumps(doc, indent=2, default=str))
 
     cpath = out_dir / "results.csv"
     with cpath.open("w", newline="") as fh:
