@@ -161,6 +161,6 @@ def test_extraction_reads_only_downloaded_files_not_previews():
     assert not hits, hits
 
 
-def test_agent_never_imports_test_oracles():
-    hits = [_rel(p) for p in _files() if re.search(r"^\s*(from|import)\s+tests\b", p.read_text(), re.M)]
+def test_agent_never_imports_test_oracles_or_harness():
+    hits = [_rel(p) for p in _files() if re.search(r"^\s*(from|import)\s+(tests|harness)\b", p.read_text(), re.M)]
     assert not hits, hits

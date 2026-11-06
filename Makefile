@@ -2,14 +2,15 @@
 PORTAL_DIR ?= ../linda-mini
 export LINDA_PORTAL_DIR := $(abspath $(PORTAL_DIR))
 PORT       ?= 8000
+FAULT      ?= none
 RESULTS    ?= results/results.json
 REPORT_OUT ?= $(dir $(RESULTS))report.html
 
-.PHONY: help setup portal run demo test chaos eval perturb report
+.PHONY: help setup portal run demo test chaos eval perturb report record
 
 help:
 	@echo "make setup    install deps (uv sync) + Chromium for Playwright"
-	@echo "make portal   start the supplied portal on 127.0.0.1:$(PORT) (PORTAL_DIR=$(PORTAL_DIR))"
+	@echo "make portal   start the supplied portal on 127.0.0.1:$(PORT) (PORTAL_DIR=$(PORTAL_DIR), FAULT=<mode>)"
 	@echo "make demo     run the agent in replay mode: real browser, committed vision cache, no API key"
 	@echo "make run      run the agent live (Claude vision; needs ANTHROPIC_API_KEY in .env)"
 	@echo "make test     pytest (unit + integration)"
@@ -27,7 +28,7 @@ setup:
 
 portal:
 	@test -x $(PORTAL_DIR)/.venv/bin/uvicorn || (cd $(PORTAL_DIR) && python3 -m venv .venv && .venv/bin/pip install -q -r requirements.txt)
-	cd $(PORTAL_DIR) && .venv/bin/uvicorn app:app --host 127.0.0.1 --port $(PORT)
+	cd $(PORTAL_DIR) && LINDA_FAULT_MODE=$(FAULT) .venv/bin/uvicorn app:app --host 127.0.0.1 --port $(PORT)
 
 run:
 	uv run python -m agent run
