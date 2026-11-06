@@ -43,4 +43,4 @@ How to read this:
 
 - `pipeline/replay`: the damaged PDF hashes differently, so replay has no extraction and the agent routes to Manual Review with the reason. This is the real fail-closed path (no evidence, no auto-route).
 - `simulated/*`: the original cached extraction edited as a correct vision pass would report the damage. `blank_as_cover` is adversarial (model calls the white page a clean cover sheet); the decider still catches it through page-marker gaps or the absence of any content page.
-- Not shown without an API key: whether the live model reports the damage at all. Run `ANTHROPIC_API_KEY=... uv run python -m eval.perturb --mode vision` to measure that (~$0.03/variant).
+- `pipeline/vision`: the damaged PDF re-read by live Claude vision in this run (about $0.03 per variant).

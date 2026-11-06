@@ -1,10 +1,10 @@
 # Linda Mini fax-routing agent
 
-A Playwright worker that does a clinic's fax-routing job the way a person would, through the browser. It logs into the Linda Mini portal, downloads every inbound fax (Session A), and reads every page of the image-only PDFs with Claude vision plus an independent Tesseract cross-check. A pure, tested rule engine applies the routing SOP. Each fax is routed from its own fresh login (Session B), and **every outcome is confirmed by reading the portal UI back**, never from a click or an HTTP response.
+A Playwright worker that does a clinic's fax-routing job the way a person would, through the browser. It logs into the Linda Mini portal, downloads every inbound fax (Session A), and reads every page of the image-only PDFs with Claude vision plus an independent Tesseract cross-check. A pure, tested rule engine applies the routing SOP. Each fax is routed from its own fresh login (Session B), and **every outcome is confirmed by reading the portal UI back**, never from a click or an HTTP response (the one exception is routing notes, which the portal never displays).
 
 It is crash-safe: a durable write-ahead checkpoint means a restart, timeout or 503 never causes a second submit. Anything uncertain goes to Manual Review with a reason.
 
-**Watch it:** [`results/demo.mp4`](results/demo.mp4) is 45 s, captioned, and recorded from the agent's own browser sessions by `make record`.
+**Watch it:** [`results/demo.mp4`](results/demo.mp4) is about 45 s, captioned, and recorded from the agent's own browser sessions by `make record`.
 
 ## Result on the supplied inbox
 
@@ -12,7 +12,7 @@ It is crash-safe: a durable write-ahead checkpoint means a restart, timeout or 5
 |---|---|---|---|
 | FX-201 | referral RF-3001 | routed → Olivia Chen - Referrals | cover sheet + referral |
 | FX-202 | lab result LAB-8302 | needs_review | printed flag "CRITICAL RESULT - CALLING PROVIDER" (quoted in the note) |
-| FX-203 | imaging report IMG-4003 | routed → Noah Patel / Imaging | |
+| FX-203 | imaging report IMG-4003 | routed → Noah Patel - Clinical Review | |
 | FX-204 | prior auth PA-4004 | routed → Ethan Brooks | same sender and timestamp as FX-203, different document |
 | FX-205 | refill request RX-4005 | routed → Ava Wilson | |
 | FX-206 | records request MR-4006 | routed → Mia Gomez | page 2 is its signed release, not a second document |
@@ -20,7 +20,7 @@ It is crash-safe: a durable write-ahead checkpoint means a restart, timeout or 5
 | FX-208 | lab result LAB-4008 | needs_review | 1-page report says values are "on following table"; no table follows (see [NOTES](NOTES.md#the-fx-208-call-and-why-it-is-not-fitted-to-one-fax)) |
 | FX-209 | unreadable | needs_review | "[SCAN CUT OFF]", continuation page missing |
 | FX-210 | referral, resend of RF-3001 | skipped_duplicate of FX-201 | same ID, patient, DOB and category; received later |
-| FX-211 | imaging report | already_routed | Routed before the agent ran; never touched |
+| FX-211 | imaging report | already_routed | Routed before the agent ran; read, but never re-routed |
 | FX-212 | lab + imaging | needs_review | mixed packet |
 
 Every routed and needs_review fax is `ui_verified`: its routing panel **and** its Routed Documents row match the intended values. The full output is in [`results/sample/`](results/sample/): `results.json`, `results.csv`, `report.html`, `events.jsonl` and one Session B Playwright trace.
@@ -102,7 +102,7 @@ discover ─▶ download (Session A) ─▶ read every page ─▶ decide (pure 
 | **The UI is the source of truth** | The brief's commit-then-503 fault exists to catch agents that trust responses | About 0.3 s of extra reading per fax |
 | **Write-ahead intent + status check before every attempt** | A crash right after OK resumes, finds the fax Routed with the intended values, and records success with no second submit | More states to manage; standard write-ahead-log pattern |
 | **When uncertain → Manual Review, always with a reason** | A wrong auto-route is silent; a review is one human glance | Over-review costs staff time, so the eval reports it next to unsafe auto-routes |
-| **Fresh login per routed fax** | The portal requires routing from a newer session than the download; per-fax contexts also stop an expired session or stale CSRF token leaking to the next fax | 12 logins (~0.5 s each) instead of one. A single Session B would also satisfy the portal |
+| **Fresh login per routed fax** | The portal requires routing from a newer session than the download; per-fax contexts also stop an expired session or stale CSRF token leaking to the next fax | 10 Session B logins in the sample run (one per routed or review fax, ~0.5 s each) instead of one. A single Session B would also satisfy the portal |
 | **Browser only: one base-URL `goto`, then clicks** | It is the assignment, and real portals often have no API. `tests/test_boundaries.py` enforces no other `goto`, no `__admin`, no portal DB or seed files, no hard-coded fax IDs | Slower and more selector-dependent than an HTTP client |
 | **Duplicates are checked before urgency** | A resend of an urgent fax must be skipped, not turned into a second review task without the first one's context | A resend that *adds* a flag, or whose identity is uncertain, goes to review |
 | **Two OCR engines, asymmetric** | Requiring agreement would send every noisy scan to review; Tesseract only flags positive contradictions (negation-aware) | Tesseract is optional; the summary warns when it is off |
@@ -140,12 +140,12 @@ From [`eval/model_compare.md`](eval/model_compare.md). This measures agreement a
 - **Speed and cost:**
   - **Replay:** about 25 s for the 12 faxes.
   - **Live:** about 5 s of vision per fax, plus browser time.
-  - **Opus cost:** $0.41 for the whole inbox ($0.034 per fax).
+  - **Opus cost:** $0.41 for the whole inbox, a mean of $0.034 per fax ($0.029 for one page up to $0.060 for three). A replay run spends $0: the cost and vision-latency fields in its results are those recorded when the cache entry was made live.
 
 ## Tools and why
 
 - **Playwright (Python, sync API).** It provides real browser contexts for isolated sessions, native download events (a 503 page is told apart from a file by racing the download event against navigation), and traces for debugging.
-- **Claude vision (`claude-opus-5-5`, configurable).** The PDFs have no text layer, and every run checks this. It returns structured output validated by a Pydantic schema. Opus is the default for accuracy; the measured comparison above shows Haiku would cut cost about 38× on this inbox.
+- **Claude vision (`claude-opus-5-5`, configurable).** The PDFs have no text layer, and every run checks this. It returns structured output validated by a Pydantic schema. Opus is the default for accuracy; the measured comparison above shows Haiku would cut cost about 40× on this inbox.
 - **Tesseract via pytesseract, with pypdfium2 for rendering.** It is a free, local, independent second read, and pypdfium2 means no poppler dependency.
 - **SQLite (WAL, `synchronous=FULL`) and `fcntl.flock`.** They give a durable checkpoint with no extra service, and a single-worker guarantee.
 - **pypdf.** It validates each download and counts its pages.
@@ -156,7 +156,7 @@ From [`eval/model_compare.md`](eval/model_compare.md). This measures agreement a
 - **Extraction input** is always the PDF downloaded through the portal, identified by its sha256. Preview screenshots are never used.
 - **No clinical inference:** only *printed* flags count, and they are quoted verbatim in the note. Negated statements such as "No urgent flag provided" are not flags.
 - **The chaos and demo harnesses** (`harness/`) launch their own throwaway portals with their own `LINDA_DB_PATH`. That is evaluator tooling and never an input to the worker. `tests/test_boundaries.py` asserts that `agent/` imports neither `harness/` nor `tests/`.
-- **PHI hygiene:** patient name and DOB are hashed in `events.jsonl` and the console output, even though the data is synthetic.
+- **PHI hygiene:** patient name and DOB are hashed in `events.jsonl` and the console output, even though the data is synthetic. The replay cache and `results.json` keep them in plain text by design, since they are the evidence for each decision.
 
 ## Known limitations
 

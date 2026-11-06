@@ -25,7 +25,7 @@ the old code back and confirmed the case fails. Those runs are quoted below.
 
 ## 2. FX-208 sent to review because of a vague phrase the model filed as "incomplete"
 
-- **Symptom.** In the first live run, FX-208 (a complete lab result) went to Needs Review.
+- **Symptom.** In the first live run, FX-208 went to Needs Review.
   FX-203 and FX-211 have the same kind of wording ("see full report") and were not flagged.
 - **Root cause.** The vision schema had only one field, `completeness_issues`. The model
   put "See values on following table" there for FX-208 but left out similar phrases on the
@@ -36,7 +36,13 @@ the old code back and confirmed the case fails. Those runs are quoted below.
   `decide.py` reports it but does not send the fax to review because of it. Only explicit
   incompleteness or a gap in the page markers triggers review. The v4 extraction cache is
   committed so that replay reproduces this.
-- **Pinned by.** `tests/test_decide.py::test_reference_to_absent_content_alone_is_not_incomplete`.
+- **Revised.** The real bug was the *inconsistency*, and v4 fixed that, but auto-routing FX-208 was the wrong outcome.
+  Review pushed back: a lab result whose values are missing is the SOP's "important pages are missing" case.
+  `decide.py` now treats *positional* references (following table/page, "page N", "continued") that the
+  packet does not satisfy as incomplete, so FX-208 goes to Needs Review; references to other documents
+  ("see full report") still do not, so FX-203 and FX-211 route.
+- **Pinned by.** `tests/test_decide.py::test_positional_reference_on_last_page_is_incomplete` and
+  `tests/test_decide.py::test_satisfied_positional_references_route_normally`.
 
 ## 3. Re-login stranded the tab on `/login` when the expired request was a download
 

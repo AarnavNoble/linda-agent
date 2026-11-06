@@ -60,12 +60,12 @@ FX-208 is a one-page lab report ("Page 1 of 1") that says *"Results: See values 
 
 - **Notes cannot be verified in the UI.** The portal never renders them. They are recorded as `note_sent` with `note_ui_verifiable: false`.
 - **Dedup depends on printed IDs plus name and DOB.** A resend with a re-keyed ID and no "original ID" reference would be routed twice, so this needs a content-similarity check.
-- **Single worker, sequential.** About 28 s for 12 faxes in replay, plus about 5 s of vision per fax live.
+- **Single worker, sequential.** About 25 s for 12 faxes in replay, plus about 5 s of vision per fax live.
 - **Vision is nondeterministic.** Mitigated by schema-constrained output, a deterministic decider and the sha-keyed cache. Measured on this inbox: two fresh live Opus runs gave identical decisions with 0 field diffs ([`eval/model_compare.md`](eval/model_compare.md)); two runs on 12 faxes is evidence of stability, not a guarantee.
 - **Replay ≠ live accuracy.** Replay proves the browser and decision layers are deterministic (0 diffs across two fresh-portal runs). Only `make run` re-measures perception.
 - **Labels are mine, and small.** I read every fax and wrote blind notes; 5 of the 12 labels, where my note was unsure or misread a definition, were settled by applying the SOP with AI assistance and are marked `resolved:` in [`eval/labels.yaml`](eval/labels.yaml). n=12 is a smoke test, not an accuracy estimate.
 - **Holding is conservative.** One fax that cannot be downloaded or read holds every later-received fax for that run (they could be its resend). Nothing irreversible happens, and the next run converges, but one broken fax delays the rest of the inbox.
-- The probe shows the decider fails closed on *reported* damage. Whether the live model reports a blank or dropped page needs `eval.perturb --mode vision` with a key.
+- The live damage probe ([`eval/perturbation_live.md`](eval/perturbation_live.md)) shows the model reported every blanked or dropped page and none of the 12 variants auto-routed. That is 12 variants of 6 faxes, not a guarantee.
 
 ## Production at Linda
 
