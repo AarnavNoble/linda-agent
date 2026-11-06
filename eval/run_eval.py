@@ -27,11 +27,20 @@ def load_results(path: Path) -> tuple[dict, list[dict]]:
 
 
 def default_events(results_path: Path, run_id: str | None) -> Path | None:
-    """results.json lives in <work_dir>/results/, events in <work_dir>/runs/<run_id>/events.jsonl."""
-    if not run_id:
-        return None
-    p = results_path.resolve().parent.parent / "runs" / run_id / "events.jsonl"
-    return p if p.exists() else None
+    """events.jsonl next to results.json (committed sample), else <work_dir>/runs/<run_id>/events.jsonl."""
+    cands = [results_path.parent / "events.jsonl"]
+    if run_id:
+        cands.append(results_path.resolve().parent.parent / "runs" / run_id / "events.jsonl")
+    return next((p for p in cands if p.exists()), None)
+
+
+def rel(p: Path | None) -> str:
+    if p is None:
+        return "none"
+    try:
+        return str(p.resolve().relative_to(ROOT))
+    except ValueError:
+        return str(p)
 
 
 def load_events(path: Path | None) -> list[dict]:
@@ -126,7 +135,7 @@ def ops_section(events: list[dict], results: list[dict]) -> list[str]:
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="eval.run_eval", description=__doc__.splitlines()[0])
-    ap.add_argument("--results", type=Path, default=ROOT / "results" / "results.json")
+    ap.add_argument("--results", type=Path, default=ROOT / "results" / "sample" / "results.json")
     ap.add_argument("--labels", type=Path, default=EVAL_DIR / "labels.yaml")
     ap.add_argument("--events", type=Path, default=None, help="default: runs/<run_id>/events.jsonl next to results")
     ap.add_argument("--ops-only", action="store_true", help="latency/cost only; does not need labels")
@@ -160,9 +169,9 @@ def main(argv=None) -> int:
         scores = M.score(results, labels)
 
     L = ["# Eval report", "",
-         f"- Results: `{args.results}` (run `{doc.get('run_id')}`, {len(results)} faxes)",
-         f"- Events: `{events_path or 'none'}`",
-         f"- Labels: `{args.labels if scores else 'not used (--ops-only)'}`"
+         f"- Results: `{rel(args.results)}` (run `{doc.get('run_id')}`, {len(results)} faxes)",
+         f"- Events: `{rel(events_path)}`",
+         f"- Labels: `{rel(args.labels) if scores else 'not used (--ops-only)'}`"
          + (f" (labeller: {labels.get('labeller') or 'unspecified'})" if scores else ""), ""]
     if scores:
         L.append(f"**Headline:** {len(scores.unsafe_auto_routes)} unsafe auto-routes, exact-route match "

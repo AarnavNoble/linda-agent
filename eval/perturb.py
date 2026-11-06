@@ -28,6 +28,7 @@ from __future__ import annotations
 
 import argparse
 import copy
+import os
 import hashlib
 import json
 import sys
@@ -118,8 +119,8 @@ def decide_with(inbox: dict[str, dict], fid: str, extraction: dict):
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="eval.perturb", description=__doc__.splitlines()[0])
-    ap.add_argument("--results", type=Path, default=ROOT / "results" / "results.json")
-    ap.add_argument("--downloads", type=Path, default=None, help="default: <work_dir>/downloads next to results/")
+    ap.add_argument("--results", type=Path, default=ROOT / "results" / "sample" / "results.json")
+    ap.add_argument("--downloads", type=Path, default=None, help="default: ./downloads (written by make demo / make run)")
     ap.add_argument("--cache-dir", type=Path, default=ROOT / "cache")
     ap.add_argument("--mode", choices=("replay", "vision"), default="replay")
     ap.add_argument("--model", default="claude-opus-5-5")
@@ -128,7 +129,14 @@ def main(argv=None) -> int:
     args = ap.parse_args(argv)
 
     results = json.loads(args.results.read_text())["results"]
-    downloads = args.downloads or args.results.resolve().parent.parent / "downloads"
+    # PDFs are content-addressed (<fax>-<sha12>.pdf), so any run's downloads/ dir with matching hashes works.
+    cands = [args.downloads] if args.downloads else [ROOT / "downloads",
+                                                     args.results.resolve().parent.parent / "downloads"]
+    downloads = next((d for d in cands if d.is_dir() and any(d.glob("*.pdf"))), cands[0])
+    if not any(downloads.glob("*.pdf")):
+        print(f"error: no downloaded PDFs in {downloads}. Run `make demo` first (it downloads every fax through "
+              f"the portal UI), or pass --downloads.", file=sys.stderr)
+        return 2
     inbox = inbox_records(results, args.cache_dir)
     args.work.mkdir(parents=True, exist_ok=True)
     pert_cache = EVAL_DIR / "perturb_cache"
@@ -165,7 +173,7 @@ def main(argv=None) -> int:
             unsafe.append(row)
 
     L = ["# Perturbation probe (fail-closed check)", "",
-         f"Source run: `{args.results}`; extraction mode: `{args.mode}`. Only faxes the agent auto-routed are "
+         f"Source run: `{os.path.relpath(args.results, ROOT)}`; extraction mode: `{args.mode}`. Only faxes the agent auto-routed are "
          "perturbed (a damaged copy of an already-reviewed fax is trivially safe).", "",
          f"**{len(rows)} damaged variants, {len(unsafe)} auto-routed** (target 0).", "",
          "| Fax | Damage | Path | Engine | Decision | First reason |", "|---|---|---|---|---|---|"]

@@ -1,6 +1,6 @@
 # Perturbation probe (fail-closed check)
 
-Source run: `/private/tmp/claude-501/-Users-aarnavnoble-trifetch-th/cacfdaac-23cd-4c0d-a021-63bed9453e02/scratchpad/run1/results/results.json`; extraction mode: `replay`. Only faxes the agent auto-routed are perturbed (a damaged copy of an already-reviewed fax is trivially safe).
+Source run: `results/sample/results.json`; extraction mode: `replay`. Only faxes the agent auto-routed are perturbed (a damaged copy of an already-reviewed fax is trivially safe).
 
 **35 damaged variants, 0 auto-routed** (target 0).
 
