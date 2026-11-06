@@ -1,22 +1,22 @@
 # Chaos matrix — PASS
 
-Generated 2026-11-06 01:02:33 EST by `uv run python -m agent.chaos` in 150.7s. Each case runs against its own throwaway portal (fresh DB, own port) with the agent as a subprocess; outcomes are judged only through the portal UI (separate read-only session) and the agent's results.json / events.jsonl.
+Generated 2026-11-06 01:07:27 EST by `uv run python -m agent.chaos` in 158.5s. Each case runs against its own throwaway portal (fresh DB, own port) with the agent as a subprocess; outcomes are judged only through the portal UI (separate read-only session) and the agent's results.json / events.jsonl.
 
 | Case | Scenario | Result | Checks | Time |
 |---|---|---|---|---|
-| `baseline+lock` | clean run; 2nd worker on same work dir; idempotent rerun | PASS | 17/17 | 33.5s |
-| `download_503_once` | download returns HTML 503 once | PASS | 17/17 | 34.4s |
-| `session_expire_on_route_once` | session deleted during submit | PASS | 16/16 | 34.1s |
-| `route_commit_then_503_once` | route saved, response 503 | PASS | 16/16 | 33.6s |
-| `kill@after_download` | hard exit after first download, resume | PASS | 16/16 | 39.6s |
-| `kill@before_click` | hard exit after INTENT, before submit, resume | PASS | 16/16 | 43.0s |
-| `kill@after_click` | hard exit after submit, before verify, resume | PASS | 17/17 | 42.0s |
-| `kill@after_click#4` | hard exit after the 4th submit (3 faxes done, unreported), resume | PASS | 18/18 | 40.9s |
-| `portal_reset_stale_checkpoint` | full run, sandbox reset, rerun same work dir | PASS | 17/17 | 51.1s |
-| `reset_mid_run_409` | sandbox reset after first download: 409 + dead Session A | PASS | 17/17 | 34.0s |
-| `download_gives_up` | one fax undownloadable in run 1, healthy run 2 | PASS | 19/19 | 40.9s |
-| `download_reauth` | login expires right before Download click | PASS | 3/3 | 2.7s |
-| `two_session_409` | same-session submit is refused and classified | PASS | 3/3 | 5.5s |
+| `baseline+lock` | clean run; 2nd worker on same work dir; idempotent rerun | PASS | 17/17 | 35.1s |
+| `download_503_once` | download returns HTML 503 once | PASS | 17/17 | 36.7s |
+| `session_expire_on_route_once` | session deleted during submit | PASS | 16/16 | 36.5s |
+| `route_commit_then_503_once` | route saved, response 503 | PASS | 16/16 | 36.0s |
+| `kill@after_download` | hard exit after first download, resume | PASS | 16/16 | 42.8s |
+| `kill@before_click` | hard exit after INTENT, before submit, resume | PASS | 16/16 | 44.8s |
+| `kill@after_click` | hard exit after submit, before verify, resume | PASS | 17/17 | 44.4s |
+| `kill@after_click#4` | hard exit after the 4th submit (3 faxes done, unreported), resume | PASS | 18/18 | 44.0s |
+| `portal_reset_stale_checkpoint` | full run, sandbox reset, rerun same work dir | PASS | 17/17 | 53.6s |
+| `reset_mid_run_409` | sandbox reset after first download: 409 + dead Session A | PASS | 17/17 | 35.1s |
+| `download_gives_up` | one fax undownloadable in run 1, healthy run 2 | PASS | 19/19 | 42.5s |
+| `download_reauth` | login expires right before Download click | PASS | 3/3 | 2.4s |
+| `two_session_409` | same-session submit is refused and classified | PASS | 3/3 | 6.1s |
 
 ## Checks per case
 

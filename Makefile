@@ -37,7 +37,7 @@ test:
 	uv run pytest -q
 
 chaos:
-	uv run python -m agent.chaos
+	uv run python -m harness.chaos
 
 eval:
 	uv run python -m eval.run_eval --results $(RESULTS)

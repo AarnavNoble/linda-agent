@@ -7,3 +7,7 @@ __pycache__/
 state/
 downloads/
 runs/
+# per-run working output; the committed, canonical run lives in results/sample/
+results/results.*
+results/summary.md
+results/report.html

@@ -38,8 +38,8 @@ import traceback
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-from . import config
-from .config import ROOT
+from agent import config
+from agent.config import ROOT
 
 PORTS = range(8101, 8121)
 AGENT_TIMEOUT_S = 300
@@ -273,8 +273,8 @@ def wait_for_event(work: Path, pred, timeout_s: float, proc: subprocess.Popen | 
 def ui_snapshot(portal: Portal) -> dict:
     from playwright.sync_api import sync_playwright
 
-    from .browser import PortalSession
-    from .discover import discover_inbox
+    from agent.browser import PortalSession
+    from agent.discover import discover_inbox
 
     cfg = dataclasses.replace(config.load(), base_url=portal.url)
     with sync_playwright() as pw:
@@ -742,9 +742,9 @@ def case_download_reauth(tmp: Path, golden) -> tuple[Checks, dict, dict]:
     which is what an expired login looks like to the browser). Pins the stranded-on-/login bug."""
     from playwright.sync_api import sync_playwright
 
-    from .acquire import download_fax
-    from .browser import PortalSession
-    from .discover import discover_inbox
+    from agent.acquire import download_fax
+    from agent.browser import PortalSession
+    from agent.discover import discover_inbox
 
     c = Checks()
     portal = Portal("none", tmp).start()
@@ -790,11 +790,11 @@ def case_two_session_409(tmp: Path, golden) -> tuple[Checks, dict, dict]:
     and must not create a route. Uses the agent's own fill/submit code on a fresh portal."""
     from playwright.sync_api import sync_playwright
 
-    from .acquire import download_fax
-    from .browser import PortalSession
-    from .discover import discover_inbox
-    from .route import click_submit, fill_and_review, read_status
-    from .sop import NEEDS_REVIEW
+    from agent.acquire import download_fax
+    from agent.browser import PortalSession
+    from agent.discover import discover_inbox
+    from agent.route import click_submit, fill_and_review, read_status
+    from agent.sop import NEEDS_REVIEW
 
     c = Checks()
     portal = Portal("none", tmp).start()

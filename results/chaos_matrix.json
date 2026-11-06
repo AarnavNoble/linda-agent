@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-11-06 01:02:33 EST",
+  "generated_at": "2026-11-06 01:07:27 EST",
   "pass": true,
-  "total_seconds": 150.7,
+  "total_seconds": 158.5,
   "cases": [
     {
       "case": "baseline+lock",
       "scenario": "clean run; 2nd worker on same work dir; idempotent rerun",
       "pass": true,
-      "seconds": 33.5,
+      "seconds": 35.1,
       "checks": [
         {
           "check": "first worker started",
@@ -17,17 +17,17 @@
         {
           "check": "second worker on same work dir fails fast on the lock",
           "ok": true,
-          "detail": "rc=75 after 0.9s; first still running=True"
+          "detail": "rc=75 after 1.0s; first still running=True"
         },
         {
           "check": "second worker left no run behind",
           "ok": true,
-          "detail": "runs=['20261106T060003Z-82018']"
+          "detail": "runs=['20261106T060450Z-83815']"
         },
         {
           "check": "first worker exits 0",
           "ok": true,
-          "detail": "rc=0\n[intent_written] FX-207 \n[session_started] FX-207 label=B session=T7z89xJ2\n[submit_success] FX-207 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-207?notice_type=success \n[verify_ok] FX-207 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-207 action=routed verified=ui_verified\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=HW1qBSLB\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=Q5C_yzST\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[session_started] FX-210 label=V session=HketZqxP\n[fax_done] FX-210 action=skipped_duplicate verified=ui_status_new\n[session_started] FX-211 label=V session=Q5dv80fl\n[fax_done] FX-211 action=already_routed verified=preexisting_route_observed\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=UChagGQh\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-rfzu9zl7/baseline_lock/work/results/results.json"
+          "detail": "rc=0\n[intent_written] FX-207 \n[session_started] FX-207 label=B session=DBM0JAud\n[submit_success] FX-207 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-207?notice_type=success \n[verify_ok] FX-207 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-207 action=routed verified=ui_verified\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=Y6EOvxxk\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=5n6hzyym\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[session_started] FX-210 label=V session=7W2Dznsd\n[fax_done] FX-210 action=skipped_duplicate verified=ui_status_new\n[session_started] FX-211 label=V session=pGltQHhk\n[fax_done] FX-211 action=already_routed verified=preexisting_route_observed\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=dSeRS9J3\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-w3kowppm/baseline_lock/work/results/results.json"
         },
         {
           "check": "results.json written",
@@ -96,19 +96,19 @@
         }
       ],
       "info": {
-        "seconds": 25.9
+        "seconds": 27.1
       }
     },
     {
       "case": "download_503_once",
       "scenario": "download returns HTML 503 once",
       "pass": true,
-      "seconds": 34.4,
+      "seconds": 36.7,
       "checks": [
         {
           "check": "agent exits 0",
           "ok": true,
-          "detail": "rc=0\n[intent_written] FX-207 \n[session_started] FX-207 label=B session=JpGeyPaM\n[submit_success] FX-207 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-207?notice_type=success \n[verify_ok] FX-207 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-207 action=routed verified=ui_verified\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=ejiIy1uT\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=14daQC_R\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[session_started] FX-210 label=V session=zso5mzlx\n[fax_done] FX-210 action=skipped_duplicate verified=ui_status_new\n[session_started] FX-211 label=V session=J8zb0hqM\n[fax_done] FX-211 action=already_routed verified=preexisting_route_observed\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=JyirbHYN\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-rfzu9zl7/download_503_once/work/results/results.json"
+          "detail": "rc=0\n[intent_written] FX-207 \n[session_started] FX-207 label=B session=2A6uofMF\n[submit_success] FX-207 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-207?notice_type=success \n[verify_ok] FX-207 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-207 action=routed verified=ui_verified\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=fsfyZXO9\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=gwM83SKY\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[session_started] FX-210 label=V session=H7WDie6I\n[fax_done] FX-210 action=skipped_duplicate verified=ui_status_new\n[session_started] FX-211 label=V session=IW_jst3m\n[fax_done] FX-211 action=already_routed verified=preexisting_route_observed\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=Yn4Mu-sF\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-w3kowppm/download_503_once/work/results/results.json"
         },
         {
           "check": "results.json written",
@@ -192,7 +192,7 @@
         }
       ],
       "info": {
-        "seconds": 30.7,
+        "seconds": 32.8,
         "fault_fax": "FX-212"
       }
     },
@@ -200,12 +200,12 @@
       "case": "session_expire_on_route_once",
       "scenario": "session deleted during submit",
       "pass": true,
-      "seconds": 34.1,
+      "seconds": 36.5,
       "checks": [
         {
           "check": "agent exits 0",
           "ok": true,
-          "detail": "rc=0\n[intent_written] FX-207 \n[session_started] FX-207 label=B session=FpomoEAO\n[submit_success] FX-207 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-207?notice_type=success \n[verify_ok] FX-207 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-207 action=routed verified=ui_verified\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=uqG3Wwgw\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=cFSiXO4W\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[session_started] FX-210 label=V session=gIM7FfnL\n[fax_done] FX-210 action=skipped_duplicate verified=ui_status_new\n[session_started] FX-211 label=V session=GbUxC_0m\n[fax_done] FX-211 action=already_routed verified=preexisting_route_observed\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=-DPGRdGl\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-rfzu9zl7/session_expire_on_route_once/work/results/results.json"
+          "detail": "rc=0\n[intent_written] FX-207 \n[session_started] FX-207 label=B session=aeWGEweF\n[submit_success] FX-207 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-207?notice_type=success \n[verify_ok] FX-207 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-207 action=routed verified=ui_verified\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=41x4tZVk\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=Op7OuXHQ\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[session_started] FX-210 label=V session=W3rusaIT\n[fax_done] FX-210 action=skipped_duplicate verified=ui_status_new\n[session_started] FX-211 label=V session=CiH5mymB\n[fax_done] FX-211 action=already_routed verified=preexisting_route_observed\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=34t9vCWA\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-w3kowppm/session_expire_on_route_once/work/results/results.json"
         },
         {
           "check": "results.json written",
@@ -275,7 +275,7 @@
         {
           "check": "FX-201: re-login happened in the SAME Session B browser context",
           "ok": true,
-          "detail": "B contexts opened=1 portal sessions used=['BT64qasl', '8LQeRay1']"
+          "detail": "B contexts opened=1 portal sessions used=['1ymM5ZSH', 'tEx_HJgd']"
         },
         {
           "check": "FX-201: refilled, resubmitted once and verified",
@@ -284,7 +284,7 @@
         }
       ],
       "info": {
-        "seconds": 30.1,
+        "seconds": 32.5,
         "fault_fax": "FX-201"
       }
     },
@@ -292,12 +292,12 @@
       "case": "route_commit_then_503_once",
       "scenario": "route saved, response 503",
       "pass": true,
-      "seconds": 33.6,
+      "seconds": 36.0,
       "checks": [
         {
           "check": "agent exits 0",
           "ok": true,
-          "detail": "rc=0\n[intent_written] FX-207 \n[session_started] FX-207 label=B session=9y3FRCoI\n[submit_success] FX-207 detail=http=303 url=http://127.0.0.1:8103/faxes/FX-207?notice_type=success \n[verify_ok] FX-207 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-207 action=routed verified=ui_verified\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=jt8WBn3f\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8103/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=er7wGkh8\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8103/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[session_started] FX-210 label=V session=9FB0Ww1m\n[fax_done] FX-210 action=skipped_duplicate verified=ui_status_new\n[session_started] FX-211 label=V session=28rJPZ04\n[fax_done] FX-211 action=already_routed verified=preexisting_route_observed\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=X0u8CdMS\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8103/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-rfzu9zl7/route_commit_then_503_once/work/results/results.json"
+          "detail": "rc=0\n[intent_written] FX-207 \n[session_started] FX-207 label=B session=-jkkNk_P\n[submit_success] FX-207 detail=http=303 url=http://127.0.0.1:8103/faxes/FX-207?notice_type=success \n[verify_ok] FX-207 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-207 action=routed verified=ui_verified\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=Ri3PTA5U\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8103/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=GiXZmLLh\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8103/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[session_started] FX-210 label=V session=Pyh3QPuI\n[fax_done] FX-210 action=skipped_duplicate verified=ui_status_new\n[session_started] FX-211 label=V session=FaOAQtdU\n[fax_done] FX-211 action=already_routed verified=preexisting_route_observed\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=UaEyGewk\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8103/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-w3kowppm/route_commit_then_503_once/work/results/results.json"
         },
         {
           "check": "results.json written",
@@ -376,7 +376,7 @@
         }
       ],
       "info": {
-        "seconds": 29.7,
+        "seconds": 32.1,
         "fault_fax": "FX-201"
       }
     },
@@ -384,7 +384,7 @@
       "case": "kill@after_download",
       "scenario": "hard exit after first download, resume",
       "pass": true,
-      "seconds": 39.6,
+      "seconds": 42.8,
       "checks": [
         {
           "check": "run 1 hard-exited at after_download",
@@ -394,7 +394,7 @@
         {
           "check": "resume run exits 0",
           "ok": true,
-          "detail": "rc=0\n[intent_written] FX-207 \n[session_started] FX-207 label=B session=BIq9bAlN\n[submit_success] FX-207 detail=http=303 url=http://127.0.0.1:8104/faxes/FX-207?notice_type=success \n[verify_ok] FX-207 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-207 action=routed verified=ui_verified\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=Kj7Uxm_v\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8104/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=_fRazG_Q\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8104/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[session_started] FX-210 label=V session=aWkBv2XE\n[fax_done] FX-210 action=skipped_duplicate verified=ui_status_new\n[session_started] FX-211 label=V session=bYE-xyd7\n[fax_done] FX-211 action=already_routed verified=preexisting_route_observed\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=GIrt9yfn\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8104/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-rfzu9zl7/kill_after_download/work/results/results.json"
+          "detail": "rc=0\n[intent_written] FX-207 \n[session_started] FX-207 label=B session=2-Bh76FX\n[submit_success] FX-207 detail=http=303 url=http://127.0.0.1:8104/faxes/FX-207?notice_type=success \n[verify_ok] FX-207 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-207 action=routed verified=ui_verified\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=nddVG3x9\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8104/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=7T2_fFru\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8104/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[session_started] FX-210 label=V session=dV7k_pkQ\n[fax_done] FX-210 action=skipped_duplicate verified=ui_status_new\n[session_started] FX-211 label=V session=vdAG_j_O\n[fax_done] FX-211 action=already_routed verified=preexisting_route_observed\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=Ixnxapr9\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8104/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-w3kowppm/kill_after_download/work/results/results.json"
         },
         {
           "check": "run 1 submitted nothing",
@@ -470,14 +470,14 @@
       "info": {
         "crashed_fax": "FX-212",
         "done_before_crash": 0,
-        "seconds": 31.599999999999998
+        "seconds": 34.699999999999996
       }
     },
     {
       "case": "kill@before_click",
       "scenario": "hard exit after INTENT, before submit, resume",
       "pass": true,
-      "seconds": 43.0,
+      "seconds": 44.8,
       "checks": [
         {
           "check": "run 1 hard-exited at before_click",
@@ -487,7 +487,7 @@
         {
           "check": "resume run exits 0",
           "ok": true,
-          "detail": "rc=0\n[intent_written] FX-207 \n[session_started] FX-207 label=B session=R64xohk4\n[submit_success] FX-207 detail=http=303 url=http://127.0.0.1:8103/faxes/FX-207?notice_type=success \n[verify_ok] FX-207 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-207 action=routed verified=ui_verified\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=FfgTKwBH\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8103/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=vasD_OeJ\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8103/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[session_started] FX-210 label=V session=Ml6NWWT7\n[fax_done] FX-210 action=skipped_duplicate verified=ui_status_new\n[session_started] FX-211 label=V session=fKp04E7C\n[fax_done] FX-211 action=already_routed verified=preexisting_route_observed\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=BCWNx_G2\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8103/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-rfzu9zl7/kill_before_click/work/results/results.json"
+          "detail": "rc=0\n[intent_written] FX-207 \n[session_started] FX-207 label=B session=0IHsvG6s\n[submit_success] FX-207 detail=http=303 url=http://127.0.0.1:8103/faxes/FX-207?notice_type=success \n[verify_ok] FX-207 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-207 action=routed verified=ui_verified\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=vPXJc9ui\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8103/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=t-S9bqCg\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8103/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[session_started] FX-210 label=V session=UqJkNR9T\n[fax_done] FX-210 action=skipped_duplicate verified=ui_status_new\n[session_started] FX-211 label=V session=NJ1KBosS\n[fax_done] FX-211 action=already_routed verified=preexisting_route_observed\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=qmy8k3ka\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8103/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-w3kowppm/kill_before_click/work/results/results.json"
         },
         {
           "check": "FX-201: no submit before the crash; exactly one after resume",
@@ -563,14 +563,14 @@
       "info": {
         "crashed_fax": "FX-201",
         "done_before_crash": 0,
-        "seconds": 35.7
+        "seconds": 38.099999999999994
       }
     },
     {
       "case": "kill@after_click",
       "scenario": "hard exit after submit, before verify, resume",
       "pass": true,
-      "seconds": 42.0,
+      "seconds": 44.4,
       "checks": [
         {
           "check": "run 1 hard-exited at after_click",
@@ -580,7 +580,7 @@
         {
           "check": "resume run exits 0",
           "ok": true,
-          "detail": "rc=0\n[intent_written] FX-207 \n[session_started] FX-207 label=B session=V6B70MWh\n[submit_success] FX-207 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-207?notice_type=success \n[verify_ok] FX-207 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-207 action=routed verified=ui_verified\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=_O2AKDzX\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=0rg9V9RO\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[session_started] FX-210 label=V session=mWv0i-mb\n[fax_done] FX-210 action=skipped_duplicate verified=ui_status_new\n[session_started] FX-211 label=V session=DKe-cqiy\n[fax_done] FX-211 action=already_routed verified=preexisting_route_observed\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=QOlL44Hj\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-rfzu9zl7/kill_after_click/work/results/results.json"
+          "detail": "rc=0\n[intent_written] FX-207 \n[session_started] FX-207 label=B session=YyqGUDmU\n[submit_success] FX-207 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-207?notice_type=success \n[verify_ok] FX-207 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-207 action=routed verified=ui_verified\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=jAi-AjHt\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=ZZ8zU1gA\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[session_started] FX-210 label=V session=oHF8hCPp\n[fax_done] FX-210 action=skipped_duplicate verified=ui_status_new\n[session_started] FX-211 label=V session=h7-LgOuI\n[fax_done] FX-211 action=already_routed verified=preexisting_route_observed\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=FQFyerce\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-w3kowppm/kill_after_click/work/results/results.json"
         },
         {
           "check": "FX-201: submitted before the crash, NOT resubmitted on resume",
@@ -661,14 +661,14 @@
       "info": {
         "crashed_fax": "FX-201",
         "done_before_crash": 0,
-        "seconds": 35.2
+        "seconds": 38.0
       }
     },
     {
       "case": "kill@after_click#4",
       "scenario": "hard exit after the 4th submit (3 faxes done, unreported), resume",
       "pass": true,
-      "seconds": 40.9,
+      "seconds": 44.0,
       "checks": [
         {
           "check": "run 1 hard-exited at after_click#4",
@@ -683,7 +683,7 @@
         {
           "check": "resume run exits 0",
           "ok": true,
-          "detail": "rc=0\n[intent_written] FX-207 \n[session_started] FX-207 label=B session=3rxmTDmB\n[submit_success] FX-207 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-207?notice_type=success \n[verify_ok] FX-207 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-207 action=routed verified=ui_verified\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=pyyOwPDw\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=GVAbc_Ek\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[session_started] FX-210 label=V session=dpPt8cWV\n[fax_done] FX-210 action=skipped_duplicate verified=ui_status_new\n[session_started] FX-211 label=V session=1v9M1WEZ\n[fax_done] FX-211 action=already_routed verified=preexisting_route_observed\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=60f5x2Ml\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-rfzu9zl7/kill_after_click#4/work/results/results.json"
+          "detail": "rc=0\n[intent_written] FX-207 \n[session_started] FX-207 label=B session=GzXCM32S\n[submit_success] FX-207 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-207?notice_type=success \n[verify_ok] FX-207 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-207 action=routed verified=ui_verified\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=p4ePPmOe\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=LFD35ckk\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[session_started] FX-210 label=V session=T28HZjis\n[fax_done] FX-210 action=skipped_duplicate verified=ui_status_new\n[session_started] FX-211 label=V session=2KMHr0fk\n[fax_done] FX-211 action=already_routed verified=preexisting_route_observed\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=TNqZhbzI\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-w3kowppm/kill_after_click#4/work/results/results.json"
         },
         {
           "check": "FX-204: submitted before the crash, NOT resubmitted on resume",
@@ -764,14 +764,14 @@
       "info": {
         "crashed_fax": "FX-204",
         "done_before_crash": 3,
-        "seconds": 34.3
+        "seconds": 37.3
       }
     },
     {
       "case": "portal_reset_stale_checkpoint",
       "scenario": "full run, sandbox reset, rerun same work dir",
       "pass": true,
-      "seconds": 51.1,
+      "seconds": 53.6,
       "checks": [
         {
           "check": "first run exits 0",
@@ -786,7 +786,7 @@
         {
           "check": "rerun after reset exits 0",
           "ok": true,
-          "detail": "rc=0\n[session_started] FX-206 label=B session=APvsQQuX\n[submit_success] FX-206 detail=http=303 url=http://127.0.0.1:8104/faxes/FX-206?notice_type=success \n[verify_ok] FX-206 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-206 action=routed verified=ui_verified\n[intent_written] FX-207 \n[session_started] FX-207 label=B session=SnpCmHep\n[submit_success] FX-207 detail=http=303 url=http://127.0.0.1:8104/faxes/FX-207?notice_type=success \n[verify_ok] FX-207 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-207 action=routed verified=ui_verified\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=Y_oPr5AT\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8104/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=MjvrIDJb\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8104/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=tGlfHAkp\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8104/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-rfzu9zl7/portal_reset_stale_checkpoint/work/results/results.json"
+          "detail": "rc=0\n[session_started] FX-206 label=B session=JPvlTUKt\n[submit_success] FX-206 detail=http=303 url=http://127.0.0.1:8104/faxes/FX-206?notice_type=success \n[verify_ok] FX-206 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-206 action=routed verified=ui_verified\n[intent_written] FX-207 \n[session_started] FX-207 label=B session=AcwYczKO\n[submit_success] FX-207 detail=http=303 url=http://127.0.0.1:8104/faxes/FX-207?notice_type=success \n[verify_ok] FX-207 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-207 action=routed verified=ui_verified\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=1yAvOwIT\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8104/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=Zer9xmUJ\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8104/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=aI80jNJV\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8104/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-w3kowppm/portal_reset_stale_checkpoint/work/results/results.json"
         },
         {
           "check": "reconcile noticed every fax we had routed is New again",
@@ -860,14 +860,14 @@
         }
       ],
       "info": {
-        "seconds": 43.5
+        "seconds": 46.3
       }
     },
     {
       "case": "reset_mid_run_409",
       "scenario": "sandbox reset after first download: 409 + dead Session A",
       "pass": true,
-      "seconds": 34.0,
+      "seconds": 35.1,
       "checks": [
         {
           "check": "agent downloaded a first fax",
@@ -877,7 +877,7 @@
         {
           "check": "agent exits 0",
           "ok": true,
-          "detail": "rc=0\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=DaMB4K0g\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=MtAppLUy\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[session_started] FX-210 label=V session=bIvNHy2N\n[fax_done] FX-210 action=skipped_duplicate verified=ui_status_new\n[session_started] FX-211 label=V session=Upauj4rH\n[fax_done] FX-211 action=already_routed verified=preexisting_route_observed\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=MMYZzVy0\n[submit_two_session] FX-212 detail=http=409 url=http://127.0.0.1:8101/faxes/FX-212/route Routing requires a prior download in an earlier, separate login session. Start a new browser sessio\n[session_started] FX-212 label=A session=7GeiyUHk\n[download_ok] FX-212 detail=sha256=38773f9acc30 pages=3\n[downloaded] FX-212 session=7GeiyUHk sha=38773f9acc30 pages=3 attempts=1 ms=227\n[session_started] FX-212 label=B session=usl9X6ea\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-rfzu9zl7/reset_mid_run_409/work/results/results.json"
+          "detail": "rc=0\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=wgCxeXts\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=nBVV_E6-\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[session_started] FX-210 label=V session=OT40bDfH\n[fax_done] FX-210 action=skipped_duplicate verified=ui_status_new\n[session_started] FX-211 label=V session=NqfNl6F6\n[fax_done] FX-211 action=already_routed verified=preexisting_route_observed\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=cXUIi_9o\n[submit_two_session] FX-212 detail=http=409 url=http://127.0.0.1:8101/faxes/FX-212/route Routing requires a prior download in an earlier, separate login session. Start a new browser sessio\n[session_started] FX-212 label=A session=CrA8JSnR\n[download_ok] FX-212 detail=sha256=38773f9acc30 pages=3\n[downloaded] FX-212 session=CrA8JSnR sha=38773f9acc30 pages=3 attempts=1 ms=265\n[session_started] FX-212 label=B session=E6POBmEF\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-w3kowppm/reset_mid_run_409/work/results/results.json"
         },
         {
           "check": "FX-212: portal rejected the route with 409 (download lost in reset)",
@@ -892,7 +892,7 @@
         {
           "check": "Session A re-authenticated after its login vanished in the reset",
           "ok": true,
-          "detail": "download sessions before routing: {'HIH9Lkdf', 'M4rYLQYc'}"
+          "detail": "download sessions before routing: {'-oOWqDxo', '5BSHL54p'}"
         },
         {
           "check": "results.json written",
@@ -956,7 +956,7 @@
         }
       ],
       "info": {
-        "seconds": 30.3,
+        "seconds": 31.6,
         "fault_fax": "FX-212"
       }
     },
@@ -964,12 +964,12 @@
       "case": "download_gives_up",
       "scenario": "one fax undownloadable in run 1, healthy run 2",
       "pass": true,
-      "seconds": 40.9,
+      "seconds": 42.5,
       "checks": [
         {
           "check": "run 1 exits 1 (completed with failures), not a crash",
           "ok": true,
-          "detail": "rc=1\n[decision_held] FX-202 blocked_by=FX-201\n[decision_held] FX-203 blocked_by=FX-201\n[decision_held] FX-204 blocked_by=FX-201\n[decision_held] FX-205 blocked_by=FX-201\n[decision_held] FX-206 blocked_by=FX-201\n[decision_held] FX-207 blocked_by=FX-201\n[decision_held] FX-208 blocked_by=FX-201\n[decision_held] FX-209 blocked_by=FX-201\n[decision_held] FX-210 blocked_by=FX-201\n[decided] FX-211 action=already_routed category=imaging_report duplicate_of=None\n[decision_held] FX-212 blocked_by=FX-201\n[fax_done] FX-201 action=failed verified=not_processed\n[fax_done] FX-202 action=failed verified=not_processed\n[fax_done] FX-203 action=failed verified=not_processed\n[fax_done] FX-204 action=failed verified=not_processed\n[fax_done] FX-205 action=failed verified=not_processed\n[fax_done] FX-206 action=failed verified=not_processed\n[fax_done] FX-207 action=failed verified=not_processed\n[fax_done] FX-208 action=failed verified=not_processed\n[fax_done] FX-209 action=failed verified=not_processed\n[fax_done] FX-210 action=failed verified=not_processed\n[session_started] FX-211 label=V session=mITFr4Vx\n[fax_done] FX-211 action=already_routed verified=preexisting_route_observed\n[fax_done] FX-212 action=failed verified=not_processed\n[run_finished]  status=completed_with_failures results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-rfzu9zl7/download_gives_up/work/results/results.json"
+          "detail": "rc=1\n[decision_held] FX-202 blocked_by=FX-201\n[decision_held] FX-203 blocked_by=FX-201\n[decision_held] FX-204 blocked_by=FX-201\n[decision_held] FX-205 blocked_by=FX-201\n[decision_held] FX-206 blocked_by=FX-201\n[decision_held] FX-207 blocked_by=FX-201\n[decision_held] FX-208 blocked_by=FX-201\n[decision_held] FX-209 blocked_by=FX-201\n[decision_held] FX-210 blocked_by=FX-201\n[decided] FX-211 action=already_routed category=imaging_report duplicate_of=None\n[decision_held] FX-212 blocked_by=FX-201\n[fax_done] FX-201 action=failed verified=not_processed\n[fax_done] FX-202 action=failed verified=not_processed\n[fax_done] FX-203 action=failed verified=not_processed\n[fax_done] FX-204 action=failed verified=not_processed\n[fax_done] FX-205 action=failed verified=not_processed\n[fax_done] FX-206 action=failed verified=not_processed\n[fax_done] FX-207 action=failed verified=not_processed\n[fax_done] FX-208 action=failed verified=not_processed\n[fax_done] FX-209 action=failed verified=not_processed\n[fax_done] FX-210 action=failed verified=not_processed\n[session_started] FX-211 label=V session=Q7zPKL2Z\n[fax_done] FX-211 action=already_routed verified=preexisting_route_observed\n[fax_done] FX-212 action=failed verified=not_processed\n[run_finished]  status=completed_with_failures results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-w3kowppm/download_gives_up/work/results/results.json"
         },
         {
           "check": "FX-201: undownloadable fax reported failed/not_processed, never decided or submitted",
@@ -994,7 +994,7 @@
         {
           "check": "run 2 (download healthy) exits 0",
           "ok": true,
-          "detail": "rc=0\n[verify_ok] FX-206 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-206 action=routed verified=ui_verified\n[intent_written] FX-207 \n[session_started] FX-207 label=B session=NZw77T54\n[submit_success] FX-207 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-207?notice_type=success \n[verify_ok] FX-207 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-207 action=routed verified=ui_verified\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=4w-dYw0O\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=LsLVWqYJ\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[session_started] FX-210 label=V session=oQPAPdWu\n[fax_done] FX-210 action=skipped_duplicate verified=ui_status_new\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=2mIBOaWK\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-rfzu9zl7/download_gives_up/work/results/results.json"
+          "detail": "rc=0\n[verify_ok] FX-206 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-206 action=routed verified=ui_verified\n[intent_written] FX-207 \n[session_started] FX-207 label=B session=oZSdijIC\n[submit_success] FX-207 detail=http=303 url=http://127.0.0.1:8103/faxes/FX-207?notice_type=success \n[verify_ok] FX-207 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-207 action=routed verified=ui_verified\n[intent_written] FX-208 \n[session_started] FX-208 label=B session=oJUYlpK9\n[submit_success] FX-208 detail=http=303 url=http://127.0.0.1:8103/faxes/FX-208?notice_type=success \n[verify_ok] FX-208 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-208 action=routed verified=ui_verified\n[intent_written] FX-209 \n[session_started] FX-209 label=B session=qB8VGE5d\n[submit_success] FX-209 detail=http=303 url=http://127.0.0.1:8103/faxes/FX-209?notice_type=success \n[verify_ok] FX-209 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-209 action=needs_review verified=ui_verified\n[session_started] FX-210 label=V session=7HbiNCrb\n[fax_done] FX-210 action=skipped_duplicate verified=ui_status_new\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=IVNmzWTl\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8103/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-w3kowppm/download_gives_up/work/results/results.json"
         },
         {
           "check": "run 2 retried every failed fax",
@@ -1065,14 +1065,14 @@
       "info": {
         "failed_fax": "FX-201",
         "held": 10,
-        "seconds": 32.1
+        "seconds": 33.7
       }
     },
     {
       "case": "download_reauth",
       "scenario": "login expires right before Download click",
       "pass": true,
-      "seconds": 2.7,
+      "seconds": 2.4,
       "checks": [
         {
           "check": "expiry fired before the Download click",
@@ -1087,7 +1087,7 @@
         {
           "check": "tab returned to the fax page (not stranded on /login)",
           "ok": true,
-          "detail": "http://127.0.0.1:8103/faxes/FX-212"
+          "detail": "http://127.0.0.1:8102/faxes/FX-212"
         }
       ],
       "info": {}
@@ -1096,12 +1096,12 @@
       "case": "two_session_409",
       "scenario": "same-session submit is refused and classified",
       "pass": true,
-      "seconds": 5.5,
+      "seconds": 6.1,
       "checks": [
         {
           "check": "same-session submit classified as two_session (HTTP 409)",
           "ok": true,
-          "detail": "SubmitOutcome(kind='two_session', http_status=409, final_url='http://127.0.0.1:8103/faxes/FX-212/route', detail='Routing requires a prior download in an earlier, separate login session. Start a new browser session, log in, and find this fax again.')"
+          "detail": "SubmitOutcome(kind='two_session', http_status=409, final_url='http://127.0.0.1:8102/faxes/FX-212/route', detail='Routing requires a prior download in an earlier, separate login session. Start a new browser session, log in, and find this fax again.')"
         },
         {
           "check": "refused submit created no route",

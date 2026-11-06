@@ -117,7 +117,7 @@ CLI: `uv run python -m agent run [--replay] [--headed] [--fresh]` and `uv run py
 | Commit-then-503 / timeout: re-check before retry | `runner.py::route_fax` (`unknown` outcome → `verify` first) |
 | Restart: durable checkpoint, report once | `agent/state.py` (SQLite WAL, write-ahead INTENT, flock), `report.py::write_results` (`reported` flag) |
 | Per-fax JSON/CSV | `agent/report.py`, `results/` |
-| Tests / replay demo | `tests/` (`make test`), `make demo`, `make chaos` (`agent/chaos.py`) |
+| Tests / replay demo | `tests/` (`make test`), `make demo`, `make chaos` (`harness/chaos.py`) |
 | Engineering notes | [`NOTES.md`](NOTES.md), [`FAILURES.md`](FAILURES.md) |
 | Evals (beyond the brief) | `eval/` (`make eval`, `make perturb`, `eval.determinism`) |
 

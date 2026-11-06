@@ -32,9 +32,10 @@ class EventLog:
         rec = {"ts": round(time.time(), 3), "run": self.run_id, "event": event}
         if fax_id:
             rec["fax_id"] = fax_id
-        rec.update(redact(data))
+        safe = redact(data)
+        rec.update(safe)
         line = json.dumps(rec, default=str)
         with self.path.open("a") as f:
             f.write(line + "\n")
-        brief = " ".join(f"{k}={v}" for k, v in data.items() if not isinstance(v, (dict, list)))[:160]
+        brief = " ".join(f"{k}={v}" for k, v in safe.items() if not isinstance(v, (dict, list)))[:160]
         print(f"[{event}] {fax_id or ''} {brief}", file=sys.stderr, flush=True)

@@ -24,8 +24,14 @@ def main(argv=None) -> int:
         cfg = dataclasses.replace(cfg, headed=args.headed or cfg.headed,
                                   ocr_mode="replay" if args.replay else cfg.ocr_mode)
         if args.fresh:
-            for f in cfg.state_dir.glob("checkpoint.sqlite3*"):
-                f.unlink()
+            from .state import LockHeld, run_lock
+            try:
+                with run_lock(cfg.state_dir):  # never delete a checkpoint another worker is using
+                    for f in cfg.state_dir.glob("checkpoint.sqlite3*"):
+                        f.unlink()
+            except LockHeld as e:
+                print(f"refusing --fresh: {e}", file=sys.stderr)
+                return 75
         from .runner import Runner
         return Runner(cfg).run()
     if args.cmd == "status":

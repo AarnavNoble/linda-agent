@@ -155,10 +155,7 @@ def test_event_log_file_is_redacted(tmp_path):
     assert rec["event"] == "extracted" and rec["fax_id"] == "FX-1" and rec["run"] == "run1"
 
 
-@pytest.mark.xfail(strict=True, reason=(
-    "BUG: EventLog.emit redacts the JSONL record but builds its stderr summary line from the raw "
-    "`data` kwargs, so top-level patient_name/dob values are printed to the console unredacted. "
-    "Latent today (no caller passes them at top level) but the redaction contract is file-only."))
+# Regression (FAILURES.md): the console summary line used to print raw PHI kwargs.
 def test_event_log_console_line_is_redacted(tmp_path, capsys):
     events.EventLog(tmp_path / "events.jsonl", "run1").emit("x", "FX-1", patient_name="Ann Example")
     assert "Ann Example" not in capsys.readouterr().err
@@ -190,8 +187,8 @@ def test_second_agent_process_refuses_to_run_while_lock_held(tmp_path):
     with run_lock(tmp_path / "state"):
         p = subprocess.run([sys.executable, "-m", "agent", "run"], cwd=REPO, env=env,
                            capture_output=True, text=True, timeout=60)
-    assert p.returncode != 0
-    assert "LockHeld" in p.stderr
+    assert p.returncode == 75  # EX_TEMPFAIL: clean refusal, not a traceback
+    assert "another agent run holds" in p.stderr and "Traceback" not in p.stderr
     assert "run_started" not in p.stderr
     assert Store(tmp_path / "state" / "checkpoint.sqlite3").runs() == []
 

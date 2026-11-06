@@ -2,7 +2,7 @@
 
 These are the real bugs hit while building and hardening the agent. Each entry gives the
 symptom, the root cause, the fix, and the test or chaos case that now pins it. "Chaos"
-means `uv run python -m agent.chaos` (matrix in `results/chaos_matrix.md`). Every chaos case
+means `uv run python -m harness.chaos` (matrix in `results/chaos_matrix.md`). Every chaos case
 judges outcomes only through the portal UI (in a separate read-only browser session) and
 through the agent's own `results.json` / `events.jsonl`.
 
@@ -164,6 +164,25 @@ the old code back and confirmed the case fails. Those runs are quoted below.
 
 ---
 
+## 11. OCR negation leaked across fields and hid a real urgency flag (found by the test suite)
+
+- **Symptom:** `affirmative_flags("Fasting: No    STAT: Yes")` and `("Without delay - ASAP")` returned `[]`,
+  so the Tesseract safety cross-check would miss a genuine STAT/ASAP marker on form-style lines.
+- **Root cause:** the negation look-back scanned up to 20 characters before the marker regardless of
+  field or clause boundaries, so a "No" belonging to an earlier field negated a later one.
+- **Fix:** split the text before the marker on clause/field separators (`: ; , .`, ` - `, runs of spaces)
+  and only treat it as negated if a negation word sits in the same clause within four words
+  (`agent/extract/tesseract.py`). "No urgent flag", "Non-urgent" and "Not marked urgent or critical" stay negated.
+- **Pinned by:** `tests/test_units.py::test_affirmative_flags_negation_does_not_leak_across_fields` and
+  `test_affirmative_flags_negation_within_clause_still_suppresses`.
+
+## 12. Console log line printed patient identifiers unredacted (found by the test suite)
+
+- **Symptom:** `EventLog.emit(..., patient_name=...)` hashed the value in `events.jsonl` but printed it raw
+  in the stderr summary line. Latent (no caller passed PHI at top level), but the contract was file-only.
+- **Fix:** build both the JSONL record and the console line from the same redacted dict (`agent/events.py`).
+- **Pinned by:** `tests/test_units.py::test_event_log_console_line_is_redacted`.
+
 ## Fault handling that was verified and needed no fix
 
 Each of these is asserted in the chaos matrix through events and the UI:
@@ -193,8 +212,6 @@ Each of these is asserted in the chaos matrix through events and the UI:
 
 ## Known gaps
 
-- `--fresh` (in `agent/__main__.py`) deletes the checkpoint without taking the run lock. Run
-  it only when no worker is running.
 - Holding back every later fax after one permanent download failure is conservative on
   purpose: no irreversible route is made while a resend can't be ruled out. The cost is that
   one broken fax blocks the rest of that run's inbox until the next run.
