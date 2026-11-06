@@ -218,3 +218,10 @@ def test_resend_that_adds_an_urgency_marker_is_not_silently_skipped():
     ds = decide_all([o, r])
     assert ds["FX-1"].action == "routed"
     assert ds["FX-2"].action == "needs_review" and "urgency marker" in ds["FX-2"].note
+
+
+def test_footer_id_is_compared_as_an_id_not_as_raw_text():
+    # Regression: a cheaper model transcribed the footer as "TRANSMISSION FX-1"; exact string comparison
+    # flagged every such fax as a wrong document (found by eval/model_compare.py).
+    assert one(fax("FX-1", [page(cat="eob", footer="TRANSMISSION FX-1")])).action == "routed"
+    assert one(fax("FX-1", [page(cat="eob", footer="Transmission FX-9  Page 1 of 1")])).action == "needs_review"

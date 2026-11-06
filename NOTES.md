@@ -37,13 +37,18 @@ Perception and policy are split on purpose. The model only transcribes and label
 | Timeout on submit | No response | Same as the 503 case |
 | 409 two-session | Portal rejects the route | Re-download in a new Session A, open a new B, retry once |
 | 400 invalid | Field rejected | `failed`. This is a bug, so do not retry blindly |
-| Vision unavailable / refusal / wrong page count | No extraction | `needs_review` with the reason. Never crash, never guess |
+| Vision unavailable / refusal / wrong page count | No extraction | Not decided: the fax (and every later-received fax, which could be its resend) is held as `failed/not_processed` and retried next run. Never routed unread, never guessed |
+| Bare error page (proxy 502), inbox page failure | No portal navigation | Re-enter through the base URL (the same entry point as login) and retry; discovery retries in a fresh Session A |
 
 ## Rule precedence
 
-The first matching rule wins: already routed → duplicate (uncertain resend → review) → extraction unavailable / wrong document → explicit urgent flag → mixed categories → incomplete / illegible → unclear or low confidence → Tesseract contradiction → SOP row.
+The first matching rule wins: already routed → duplicate (uncertain resend → review) → extraction unavailable / wrong document → explicit urgent flag → mixed categories → incomplete (explicit statement, page-marker gap, a positional reference to a page/table the packet does not contain, a cover-sheet enclosure beyond the last page) / illegible → unclear or low confidence → Tesseract contradiction → SOP row.
 
-**Why duplicates come before exceptions.** A resend of an urgent original must be *skipped*, not filed into Manual Review a second time. Otherwise one critical result becomes two review tasks, and the second can be worked without the context of the first. If identity is uncertain (shared ID but a different patient, DOB or category, identical timestamps, or a resend marker with no matching original), the fax goes to review. If the original itself failed to route, its resend goes to review instead of being silently skipped.
+**Why duplicates come before exceptions.** A resend of an urgent original must be *skipped*, not filed into Manual Review a second time. Otherwise one critical result becomes two review tasks, and the second can be worked without the context of the first. If identity is uncertain (shared ID but a different patient, DOB or category, identical timestamps, or a resend marker with no matching original), the fax goes to review. If the original itself failed to route, its resend goes to review instead of being silently skipped. A resend that carries an urgency marker its original lacked is new information, so it goes to review rather than being skipped.
+
+## The FX-208 call (and why it is not fitted to one fax)
+
+FX-208 is a one-page lab report ("Page 1 of 1") that says *"Results: See values on following table"*; no table follows. On the first live run it went to review because the model filed that sentence as a completeness issue, while equivalent wording on FX-203/FX-211 ("See full radiology findings") was not. I first fixed the *inconsistency* by splitting `references_to_absent_content` from explicit `completeness_issues` (prompt v4), which auto-routed it. Review then pushed back, correctly: a lab result whose values are not in the transmission is the SOP's "important pages are missing" case. The final rule is general and deterministic, in `decide.py`, not in the prompt: only **positional** references count (following/next page or table, "page N", "continued"), and they are checked against the pages actually present. References to other documents ("see full report") and vague wording ("attached details") are not evidence of a missing page. On the 12 faxes this changes FX-208 only; FX-201 ("follows on the next page", page 2 present) and FX-206 ("included on page 2", present) still route. The cost is a possible false review when a table sits lower on the same page, which the vision pass would normally capture as values.
 
 ## Safety posture
 
@@ -59,14 +64,12 @@ The first matching rule wins: already routed → duplicate (uncertain resend →
 - **Vision is nondeterministic.** This is mitigated by schema-constrained output, a deterministic decider and the sha-keyed cache, but not measured across repeated live runs.
 - **Replay ≠ live accuracy.** Replay proves the browser and decision layers are deterministic (0 diffs across two fresh-portal runs). Only `make run` re-measures perception.
 - **Labels are the candidate's own.** n=12 is a smoke test, not an accuracy estimate.
+- **Holding is conservative.** One fax that cannot be downloaded or read holds every later-received fax for that run (they could be its resend). Nothing irreversible happens, and the next run converges, but one broken fax delays the rest of the inbox.
 - The probe shows the decider fails closed on *reported* damage. Whether the live model reports a blank or dropped page needs `eval.perturb --mode vision` with a key.
 
 ## Production at Linda
 
-- **Selector-drift canaries.** A scheduled run against a canary fax checks every locator and the matching invariant (h1 + Fax ID). On drift it alerts and stops routing, falling back to queue-only, rather than mis-clicking.
-- **Per-clinic SOP config.** The SOP table and dropdown labels become versioned per-tenant config, validated against the live dropdown options at startup. The eval's independent SOP oracle is the model for this check.
-- **HITL corrections become labels.** Every Manual Review resolution and every human re-route is captured as a labelled example. These form a regression set that gates prompt, model and rule changes using the metrics here. Unsafe auto-routes must stay at 0 and over-review is tracked as a cost.
-- **Concurrency.** A queue of fax IDs with one lease per fax replaces the global lock. The idempotency key goes on the intent, and Session B pools respect the portal's session limits.
-- **Model fallback.** The cheaper model goes first, escalating to Opus on low confidence or a Tesseract contradiction. Outages fail closed to review rather than stalling.
-- **PHI handling.** Logs are redacted or hashed as here. PDFs stay encrypted at rest with a TTL, the model provider is under a BAA with zero data retention, and traces are access-controlled because they contain page images.
-- **Cost at volume.** At the measured **$0.034 per fax** (Opus, about 6.2k input tokens per fax), 10k faxes a day costs about $340 a day. Prompt caching of the system prompt, a cheaper first-pass model and skipping resends identified by sha before vision would cut that several-fold. Latency (p50 about 5 s per fax) is not the bottleneck, since the portal round-trips are under 1 s per stage.
+- **Selector drift.** A canary run checks every locator and the matching invariant before routing; on drift, stop routing and queue for humans instead of mis-clicking.
+- **Per-clinic SOP as config,** validated against the live dropdown options at startup; every human correction from Manual Review becomes a labelled regression example gating prompt/model/rule changes (unsafe auto-routes must stay 0; over-review tracked as cost).
+- **Concurrency.** Replace the global lock with a per-fax lease queue keyed by the intent's idempotency key; respect portal session limits.
+- **Cost.** Measured $0.034/fax on Opus 5.5. A cheaper first pass escalating on low confidence or a Tesseract contradiction, plus skipping byte-identical resends by sha, would cut it several-fold; the model comparison in `eval/` is the evidence to make that call.

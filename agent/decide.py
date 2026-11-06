@@ -24,6 +24,7 @@ from .sop import (ALREADY_ROUTED, CATEGORIES, NEEDS_REVIEW, NEEDS_REVIEW_ACTION,
 
 ID_RE = re.compile(r"\b([A-Z]{1,5}-\d{2,})\b")
 PAGE_MARK_RE = re.compile(r"Page\s+(\d+)\s+of\s+(\d+)", re.I)
+FAX_ID_RE = re.compile(r"\bFX-\d+\b")
 POSITIONAL_REF_RE = re.compile(
     r"\b(?:following|next|subsequent)\s+(?:page|pages|table|sheet)\b|\bcontinued\b|\bsee\s+(?:over|reverse)\b"
     r"|\bpage\s+(?P<page>\d+)\b", re.I)
@@ -102,9 +103,12 @@ def analyse(fax: dict) -> Packet:
     markers = []
     for p in pages:
         n = p.get("page_number")
-        footer_id = (p.get("footer_transmission_id") or "").upper().strip()
-        if footer_id and footer_id != fid.upper():
-            issues.append(f"p{n}: footer transmission {footer_id} does not match portal fax {fid}")
+        # Compare the transmission *ID* in the footer, not the raw transcription: models differ in how
+        # much surrounding text they copy ("FX-205" vs "TRANSMISSION FX-205").
+        raw_footer = (p.get("footer_transmission_id") or "").upper()
+        footer_ids = set(FAX_ID_RE.findall(raw_footer))
+        if footer_ids and fid.upper() not in footer_ids:
+            issues.append(f"p{n}: footer transmission {', '.join(sorted(footer_ids))} does not match portal fax {fid}")
         m = PAGE_MARK_RE.search(p.get("footer_page_marker") or "")
         if m:
             markers.append((int(m.group(1)), int(m.group(2))))

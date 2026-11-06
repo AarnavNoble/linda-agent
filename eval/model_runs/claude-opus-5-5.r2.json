@@ -1,0 +1,590 @@
+{
+  "model": "claude-opus-5-5",
+  "repeat": 2,
+  "prompt_version": "v4",
+  "rows": [
+    {
+      "fax_id": "FX-201",
+      "pages": [
+        {
+          "page_number": 1,
+          "footer_transmission_id": "FX-201",
+          "footer_page_marker": "Page 1 of 2",
+          "title": "FAX COVER SHEET",
+          "page_role": "cover_sheet",
+          "category": "none",
+          "category_confidence": "high",
+          "source_doc_id": null,
+          "source_doc_id_label": null,
+          "related_doc_ids": [],
+          "patient_name": null,
+          "dob": null,
+          "explicit_flags": [],
+          "negated_flag_statements": [],
+          "resend_indicators": [],
+          "completeness_issues": [],
+          "references_to_absent_content": [
+            "Confidential patient paperwork follows on the next page."
+          ],
+          "enclosure_list": [],
+          "legibility": "high",
+          "evidence_quotes": [
+            "FAX COVER SHEET",
+            "RE: Documents enclosed for new consultation",
+            "Number of pages (including cover): 2"
+          ]
+        },
+        {
+          "page_number": 2,
+          "footer_transmission_id": "FX-201",
+          "footer_page_marker": "Page 2 of 2",
+          "title": "NEW PATIENT REFERRAL REQUEST",
+          "page_role": "primary_document",
+          "category": "referral",
+          "category_confidence": "high",
+          "source_doc_id": "RF-3001",
+          "source_doc_id_label": "Document ID",
+          "related_doc_ids": [],
+          "patient_name": "Elena Hart",
+          "dob": "04/16/1987",
+          "explicit_flags": [],
+          "negated_flag_statements": [],
+          "resend_indicators": [],
+          "completeness_issues": [],
+          "references_to_absent_content": [
+            "Please review attached patient details."
+          ],
+          "enclosure_list": [],
+          "legibility": "high",
+          "evidence_quotes": [
+            "NEW PATIENT REFERRAL REQUEST",
+            "Referring physician: Dr. Mira Gomez",
+            "Requested service: Neurology consultation",
+            "Priority: Routine"
+          ]
+        }
+      ],
+      "input_tokens": 7768,
+      "output_tokens": 658,
+      "cost_usd": 0.04423,
+      "latency_ms": 6004,
+      "error": null
+    },
+    {
+      "fax_id": "FX-202",
+      "pages": [
+        {
+          "page_number": 1,
+          "footer_transmission_id": "FX-202",
+          "footer_page_marker": "Page 1 of 1",
+          "title": "LABORATORY RESULTS",
+          "page_role": "primary_document",
+          "category": "lab_result",
+          "category_confidence": "high",
+          "source_doc_id": "LAB-8302",
+          "source_doc_id_label": "Document reference",
+          "related_doc_ids": [],
+          "patient_name": "Marcus Bell",
+          "dob": "09/03/1974",
+          "explicit_flags": [
+            "CRITICAL RESULT - CALLING PROVIDER"
+          ],
+          "negated_flag_statements": [],
+          "resend_indicators": [],
+          "completeness_issues": [],
+          "references_to_absent_content": [],
+          "enclosure_list": [],
+          "legibility": "high",
+          "evidence_quotes": [
+            "LABORATORY RESULTS",
+            "SUMMIT DIAGNOSTIC LABS",
+            "Panel: Basic metabolic panel",
+            "Result: Potassium 6.3 mmol/L"
+          ]
+        }
+      ],
+      "input_tokens": 5444,
+      "output_tokens": 389,
+      "cost_usd": 0.02956,
+      "latency_ms": 5483,
+      "error": null
+    },
+    {
+      "fax_id": "FX-203",
+      "pages": [
+        {
+          "page_number": 1,
+          "footer_transmission_id": "FX-203",
+          "footer_page_marker": "Page 1 of 1",
+          "title": "DIAGNOSTIC IMAGING REPORT",
+          "page_role": "primary_document",
+          "category": "imaging_report",
+          "category_confidence": "high",
+          "source_doc_id": "IMG-4003",
+          "source_doc_id_label": "Accession Number",
+          "related_doc_ids": [],
+          "patient_name": "Naomi Lee",
+          "dob": "12/11/1990",
+          "explicit_flags": [],
+          "negated_flag_statements": [],
+          "resend_indicators": [],
+          "completeness_issues": [],
+          "references_to_absent_content": [
+            "Impression: See full radiology findings."
+          ],
+          "enclosure_list": [],
+          "legibility": "high",
+          "evidence_quotes": [
+            "DIAGNOSTIC IMAGING REPORT",
+            "Study: MRI cervical spine without contrast",
+            "Interpreting radiologist: Dr. J. Webb",
+            "FINAL RADIOLOGY REPORT"
+          ]
+        }
+      ],
+      "input_tokens": 5444,
+      "output_tokens": 392,
+      "cost_usd": 0.02962,
+      "latency_ms": 4483,
+      "error": null
+    },
+    {
+      "fax_id": "FX-204",
+      "pages": [
+        {
+          "page_number": 1,
+          "footer_transmission_id": "FX-204",
+          "footer_page_marker": "Page 1 of 1",
+          "title": "PRIOR AUTHORIZATION REQUEST",
+          "page_role": "primary_document",
+          "category": "prior_authorization",
+          "category_confidence": "high",
+          "source_doc_id": "PA-4004",
+          "source_doc_id_label": "Request ID",
+          "related_doc_ids": [],
+          "patient_name": "Oliver Grant",
+          "dob": "06/21/1983",
+          "explicit_flags": [],
+          "negated_flag_statements": [],
+          "resend_indicators": [],
+          "completeness_issues": [],
+          "references_to_absent_content": [],
+          "enclosure_list": [],
+          "legibility": "high",
+          "evidence_quotes": [
+            "PRIOR AUTHORIZATION REQUEST",
+            "Status: Documentation requested for prior authorization.",
+            "Please review coverage requirements.",
+            "Service requested: MRI lumbar spine"
+          ]
+        }
+      ],
+      "input_tokens": 5444,
+      "output_tokens": 372,
+      "cost_usd": 0.02922,
+      "latency_ms": 5124,
+      "error": null
+    },
+    {
+      "fax_id": "FX-205",
+      "pages": [
+        {
+          "page_number": 1,
+          "footer_transmission_id": "FX-205",
+          "footer_page_marker": "Page 1 of 1",
+          "title": "PRESCRIPTION REFILL REQUEST",
+          "page_role": "primary_document",
+          "category": "refill_request",
+          "category_confidence": "high",
+          "source_doc_id": "RX-4005",
+          "source_doc_id_label": "Request number",
+          "related_doc_ids": [],
+          "patient_name": "Sydney Patel",
+          "dob": "08/07/1988",
+          "explicit_flags": [],
+          "negated_flag_statements": [],
+          "resend_indicators": [],
+          "completeness_issues": [],
+          "references_to_absent_content": [],
+          "enclosure_list": [],
+          "legibility": "high",
+          "evidence_quotes": [
+            "PRESCRIPTION REFILL REQUEST",
+            "Medication: Lisinopril 10 mg tablet",
+            "Request: Renewal authorization requested",
+            "HARBOR COMMUNITY PHARMACY"
+          ]
+        }
+      ],
+      "input_tokens": 5444,
+      "output_tokens": 366,
+      "cost_usd": 0.0291,
+      "latency_ms": 3627,
+      "error": null
+    },
+    {
+      "fax_id": "FX-206",
+      "pages": [
+        {
+          "page_number": 1,
+          "footer_transmission_id": "FX-206",
+          "footer_page_marker": "Page 1 of 2",
+          "title": "REQUEST FOR MEDICAL RECORDS",
+          "page_role": "primary_document",
+          "category": "records_request",
+          "category_confidence": "high",
+          "source_doc_id": "MR-4006",
+          "source_doc_id_label": "Records request ID",
+          "related_doc_ids": [],
+          "patient_name": "Cameron Blake",
+          "dob": "02/09/1980",
+          "explicit_flags": [],
+          "negated_flag_statements": [],
+          "resend_indicators": [],
+          "completeness_issues": [],
+          "references_to_absent_content": [
+            "Patient authorization: Included on page 2"
+          ],
+          "enclosure_list": [],
+          "legibility": "high",
+          "evidence_quotes": [
+            "REQUEST FOR MEDICAL RECORDS",
+            "Records request ID: MR-4006",
+            "Requested records: Office visits, imaging reports",
+            "Please process according to clinic release policy."
+          ]
+        },
+        {
+          "page_number": 2,
+          "footer_transmission_id": "FX-206",
+          "footer_page_marker": "Page 2 of 2",
+          "title": "AUTHORIZATION TO RELEASE INFORMATION",
+          "page_role": "supporting_attachment",
+          "category": "records_request",
+          "category_confidence": "high",
+          "source_doc_id": null,
+          "source_doc_id_label": null,
+          "related_doc_ids": [
+            "Related request: MR-4006"
+          ],
+          "patient_name": "Cameron Blake",
+          "dob": null,
+          "explicit_flags": [],
+          "negated_flag_statements": [],
+          "resend_indicators": [],
+          "completeness_issues": [],
+          "references_to_absent_content": [],
+          "enclosure_list": [],
+          "legibility": "high",
+          "evidence_quotes": [
+            "AUTHORIZATION TO RELEASE INFORMATION",
+            "Related request: MR-4006",
+            "I authorize release of records to Hillside Medical Group."
+          ]
+        }
+      ],
+      "input_tokens": 7768,
+      "output_tokens": 668,
+      "cost_usd": 0.04443,
+      "latency_ms": 6459,
+      "error": null
+    },
+    {
+      "fax_id": "FX-207",
+      "pages": [
+        {
+          "page_number": 1,
+          "footer_transmission_id": "FX-207",
+          "footer_page_marker": "Page 1 of 1",
+          "title": "EXPLANATION OF BENEFITS (EOB)",
+          "page_role": "primary_document",
+          "category": "eob",
+          "category_confidence": "high",
+          "source_doc_id": "EOB-4007",
+          "source_doc_id_label": "Remittance ID",
+          "related_doc_ids": [
+            "Claim reference: C-10778"
+          ],
+          "patient_name": "Jordan Clark",
+          "dob": null,
+          "explicit_flags": [],
+          "negated_flag_statements": [],
+          "resend_indicators": [],
+          "completeness_issues": [],
+          "references_to_absent_content": [],
+          "enclosure_list": [],
+          "legibility": "high",
+          "evidence_quotes": [
+            "EXPLANATION OF BENEFITS (EOB)",
+            "Remittance ID: EOB-4007",
+            "Plan paid: $195.20",
+            "This is not a bill to the patient."
+          ]
+        }
+      ],
+      "input_tokens": 5444,
+      "output_tokens": 371,
+      "cost_usd": 0.0292,
+      "latency_ms": 3976,
+      "error": null
+    },
+    {
+      "fax_id": "FX-208",
+      "pages": [
+        {
+          "page_number": 1,
+          "footer_transmission_id": "FX-208",
+          "footer_page_marker": "Page 1 of 1",
+          "title": "LABORATORY REPORT",
+          "page_role": "primary_document",
+          "category": "lab_result",
+          "category_confidence": "high",
+          "source_doc_id": "LAB-4008",
+          "source_doc_id_label": "Report ID",
+          "related_doc_ids": [],
+          "patient_name": "Talia Nguyen",
+          "dob": "01/27/1993",
+          "explicit_flags": [],
+          "negated_flag_statements": [
+            "No urgent flag provided on this report."
+          ],
+          "resend_indicators": [],
+          "completeness_issues": [],
+          "references_to_absent_content": [
+            "Results: See values on following table"
+          ],
+          "enclosure_list": [],
+          "legibility": "high",
+          "evidence_quotes": [
+            "LABORATORY REPORT",
+            "SUMMIT DIAGNOSTIC LABS",
+            "Panel: CBC with differential",
+            "Status: Final"
+          ]
+        }
+      ],
+      "input_tokens": 5444,
+      "output_tokens": 373,
+      "cost_usd": 0.02924,
+      "latency_ms": 4648,
+      "error": null
+    },
+    {
+      "fax_id": "FX-209",
+      "pages": [
+        {
+          "page_number": 1,
+          "footer_transmission_id": "FX-209",
+          "footer_page_marker": "Page 1 of 1",
+          "title": "FAX DOCUMENT",
+          "page_role": "unreadable",
+          "category": "unknown",
+          "category_confidence": "low",
+          "source_doc_id": "U-4009",
+          "source_doc_id_label": "Transmission ID",
+          "related_doc_ids": [],
+          "patient_name": null,
+          "dob": null,
+          "explicit_flags": [],
+          "negated_flag_statements": [],
+          "resend_indicators": [],
+          "completeness_issues": [
+            "Attached page appears incomplete.",
+            "Please see missing continuation page.",
+            "No readable document category or destination found.",
+            "[SCAN CUT OFF]"
+          ],
+          "references_to_absent_content": [],
+          "enclosure_list": [],
+          "legibility": "high",
+          "evidence_quotes": [
+            "UNKNOWN SENDER",
+            "Subject: Patient paperwork",
+            "No readable document category or destination found."
+          ]
+        }
+      ],
+      "input_tokens": 5444,
+      "output_tokens": 374,
+      "cost_usd": 0.02926,
+      "latency_ms": 5072,
+      "error": null
+    },
+    {
+      "fax_id": "FX-210",
+      "pages": [
+        {
+          "page_number": 1,
+          "footer_transmission_id": "FX-210",
+          "footer_page_marker": "Page 1 of 1",
+          "title": "FAX RESEND - REFERRAL REQUEST",
+          "page_role": "primary_document",
+          "category": "referral",
+          "category_confidence": "high",
+          "source_doc_id": null,
+          "source_doc_id_label": null,
+          "related_doc_ids": [
+            "Original Document ID: RF-3001"
+          ],
+          "patient_name": "Elena Hart",
+          "dob": "04/16/1987",
+          "explicit_flags": [],
+          "negated_flag_statements": [],
+          "resend_indicators": [
+            "FAX RESEND - REFERRAL REQUEST",
+            "Please disregard if original was received.",
+            "This is a retransmission of the same referral."
+          ],
+          "completeness_issues": [],
+          "references_to_absent_content": [],
+          "enclosure_list": [],
+          "legibility": "high",
+          "evidence_quotes": [
+            "FAX RESEND - REFERRAL REQUEST",
+            "Referring physician: Dr. Mira Gomez",
+            "Requested specialty: Neurology",
+            "Reason: Evaluation of recurrent headaches."
+          ]
+        }
+      ],
+      "input_tokens": 5444,
+      "output_tokens": 415,
+      "cost_usd": 0.03008,
+      "latency_ms": 4064,
+      "error": null
+    },
+    {
+      "fax_id": "FX-211",
+      "pages": [
+        {
+          "page_number": 1,
+          "footer_transmission_id": "FX-211",
+          "footer_page_marker": "Page 1 of 1",
+          "title": "FINAL IMAGING REPORT",
+          "page_role": "primary_document",
+          "category": "imaging_report",
+          "category_confidence": "high",
+          "source_doc_id": "IMG-4111",
+          "source_doc_id_label": "Accession",
+          "related_doc_ids": [],
+          "patient_name": "Elliot Brooks",
+          "dob": "07/18/1991",
+          "explicit_flags": [],
+          "negated_flag_statements": [],
+          "resend_indicators": [],
+          "completeness_issues": [],
+          "references_to_absent_content": [
+            "Impression: Findings documented in full report."
+          ],
+          "enclosure_list": [],
+          "legibility": "high",
+          "evidence_quotes": [
+            "FINAL IMAGING REPORT",
+            "Exam: CT sinus without contrast",
+            "Report status: Final",
+            "NORTHBRIDGE IMAGING"
+          ]
+        }
+      ],
+      "input_tokens": 5444,
+      "output_tokens": 359,
+      "cost_usd": 0.02896,
+      "latency_ms": 4310,
+      "error": null
+    },
+    {
+      "fax_id": "FX-212",
+      "pages": [
+        {
+          "page_number": 1,
+          "footer_transmission_id": "FX-212",
+          "footer_page_marker": "Page 1 of 3",
+          "title": "FAX COVER - MULTIPLE ENCLOSURES",
+          "page_role": "cover_sheet",
+          "category": "none",
+          "category_confidence": "high",
+          "source_doc_id": "PKT-4012",
+          "source_doc_id_label": "Transmission reference",
+          "related_doc_ids": [],
+          "patient_name": "Riley Morgan",
+          "dob": null,
+          "explicit_flags": [],
+          "negated_flag_statements": [],
+          "resend_indicators": [],
+          "completeness_issues": [],
+          "references_to_absent_content": [],
+          "enclosure_list": [
+            "Page 2: Laboratory result",
+            "Page 3: Imaging interpretation"
+          ],
+          "legibility": "high",
+          "evidence_quotes": [
+            "FAX COVER - MULTIPLE ENCLOSURES",
+            "Contains multiple documents with different purposes.",
+            "Please review entire packet before filing."
+          ]
+        },
+        {
+          "page_number": 2,
+          "footer_transmission_id": "FX-212",
+          "footer_page_marker": "Page 2 of 3",
+          "title": "LABORATORY REPORT",
+          "page_role": "primary_document",
+          "category": "lab_result",
+          "category_confidence": "high",
+          "source_doc_id": "LAB-4012A",
+          "source_doc_id_label": "Document number",
+          "related_doc_ids": [],
+          "patient_name": "Riley Morgan",
+          "dob": "03/18/1979",
+          "explicit_flags": [],
+          "negated_flag_statements": [],
+          "resend_indicators": [],
+          "completeness_issues": [],
+          "references_to_absent_content": [],
+          "enclosure_list": [],
+          "legibility": "high",
+          "evidence_quotes": [
+            "LABORATORY REPORT",
+            "Panel: Thyroid function",
+            "Final report, routine",
+            "This page is a laboratory result."
+          ]
+        },
+        {
+          "page_number": 3,
+          "footer_transmission_id": "FX-212",
+          "footer_page_marker": "Page 3 of 3",
+          "title": "RADIOLOGY REPORT",
+          "page_role": "primary_document",
+          "category": "imaging_report",
+          "category_confidence": "high",
+          "source_doc_id": "IMG-4012B",
+          "source_doc_id_label": "Document number",
+          "related_doc_ids": [],
+          "patient_name": "Riley Morgan",
+          "dob": "03/18/1979",
+          "explicit_flags": [],
+          "negated_flag_statements": [],
+          "resend_indicators": [],
+          "completeness_issues": [],
+          "references_to_absent_content": [
+            "Impression: Please see radiologist narrative."
+          ],
+          "enclosure_list": [],
+          "legibility": "high",
+          "evidence_quotes": [
+            "RADIOLOGY REPORT",
+            "Exam: Ultrasound thyroid",
+            "This page is an imaging report."
+          ]
+        }
+      ],
+      "input_tokens": 10092,
+      "output_tokens": 958,
+      "cost_usd": 0.05953,
+      "latency_ms": 9287,
+      "error": null
+    }
+  ]
+}

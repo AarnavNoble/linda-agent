@@ -181,6 +181,17 @@ the old code back and confirmed the case fails. Those runs are quoted below.
 - **Fix:** build both the JSONL record and the console line from the same redacted dict (`agent/events.py`).
 - **Pinned by:** `tests/test_units.py::test_event_log_console_line_is_redacted`.
 
+## 13. Footer check compared raw text, so a cheaper model's transcription looked like a wrong document (found by the model comparison)
+
+- **Symptom:** in `eval/model_compare.py`, Haiku 5.5 sent FX-205/206/207 to review: "footer transmission
+  TRANSMISSION FX-205 does not match portal fax FX-205".
+- **Root cause:** the wrong-document check compared the footer field as a raw string. Opus happened to return
+  just the ID; Haiku copied the label too. The invariant is about the *ID*, not the transcription.
+- **Fix:** extract `FX-\d+` IDs from the footer field and require the portal fax ID among them (`agent/decide.py`).
+  Haiku then agrees with the reference on 12/12 decisions.
+- **Pinned by:** `tests/test_decide.py::test_footer_id_is_compared_as_an_id_not_as_raw_text`. Lesson: running
+  the eval across models surfaced a brittleness in the *deterministic* layer that a single model hid.
+
 ## Fault handling that was verified and needed no fix
 
 Each of these is asserted in the chaos matrix through events and the UI:
