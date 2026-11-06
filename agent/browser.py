@@ -73,12 +73,22 @@ class PortalSession:
         """If the portal bounced us to /login, sign in again. Returns True if a re-login happened."""
         if not self.on_login_page():
             return False
+        # The portal returns us to `next` after login. If the expired request was a file
+        # download, that redirect is an attachment: the tab never leaves /login and is
+        # stranded on a page with no navigation. Return to the fax page instead; callers
+        # re-trigger the download through the visible button.
+        nxt = self.page.locator("form[action='/login'] input[name=next]")
+        if nxt.count() == 1:
+            target = nxt.get_attribute("value") or ""
+            if target.rstrip("/").endswith("/download"):
+                nxt.evaluate("(el, v) => { el.value = v; }", target.rstrip("/")[: -len("/download")])
         self.page.fill("#username", self.cfg.username)
         self.page.fill("#password", self.cfg.password)
         self.page.click("form[action='/login'] button[type=submit]")
         self.page.wait_for_load_state("domcontentloaded")
         if self.on_login_page():
-            raise PortalError("login failed: still on /login (bad credentials?)")
+            reason = "bad credentials" if "error=" in self.page.url else "post-login page did not load"
+            raise PortalError(f"login failed: still on /login ({reason})")
         self.logins += 1
         self.session_prefix = self._read_session_prefix()
         return True
