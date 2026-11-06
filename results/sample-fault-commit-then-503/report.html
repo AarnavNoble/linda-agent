@@ -1,0 +1,300 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Linda Run Report</title>
+<style>
+:root{--bg:#fbfbfa;--fg:#1d1f21;--muted:#6a6f76;--card:#fff;--line:#e3e4e6;--code:#f3f4f5;--badge-fg:#fff;
+--routed:#1f7a4d;--review:#a15c00;--dup:#3d5a99;--already:#5f6670;--failed:#b3261e}
+@media (prefers-color-scheme:dark){:root{--bg:#141517;--fg:#e6e7e9;--muted:#9aa0a8;--card:#1c1e21;
+--line:#2c2f33;--code:#24272b;--badge-fg:#111;--routed:#4fc28a;--review:#e6a23c;--dup:#8fa8e6;--already:#a3a9b1;--failed:#f07167}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);
+font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+main{max-width:1100px;margin:0 auto;padding:24px 16px 64px}h1{font-size:20px;margin:0 0 4px}
+.meta{color:var(--muted);margin-bottom:16px}.tiles{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 20px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 12px;min-width:110px}
+.tile b{display:block;font-size:20px}.tile span{color:var(--muted);font-size:12px}
+table.sum{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:8px;
+overflow:hidden;margin-bottom:24px}.sum th,.sum td{text-align:left;padding:6px 10px;border-bottom:1px solid var(--line);
+vertical-align:top}.sum td:nth-child(1),.sum td:nth-child(4){white-space:nowrap}.sum th{font-size:12px;color:var(--muted);font-weight:600}.wrap{overflow-x:auto}
+.badge{display:inline-block;padding:1px 8px;border-radius:999px;font-size:12px;font-weight:600;color:var(--badge-fg);white-space:nowrap}
+.routed{background:var(--routed)}.needs_review{background:var(--review)}.skipped_duplicate{background:var(--dup)}
+.already_routed{background:var(--already)}.failed{background:var(--failed)}
+details{background:var(--card);border:1px solid var(--line);border-radius:8px;margin:8px 0}
+summary{cursor:pointer;padding:10px 12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+summary .id{font-weight:700;font-family:ui-monospace,Menlo,monospace}.body{padding:0 12px 12px}
+.grid{display:grid;grid-template-columns:150px 1fr;gap:4px 12px}.grid dt{color:var(--muted)}.grid dd{margin:0}
+code,.q{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:var(--code);border-radius:4px;padding:1px 4px}
+ul{margin:2px 0;padding-left:18px}.tl{font-family:ui-monospace,Menlo,monospace;font-size:12px}
+.tl td{padding:1px 8px 1px 0;vertical-align:top}.muted{color:var(--muted)}a{color:inherit}
+@media (max-width:640px){.grid{grid-template-columns:1fr}.grid dt{margin-top:6px}}
+</style></head><body><main>
+<h1>Linda Mini fax routing: run report</h1>
+<div class="meta">run <code>20261106T064054Z-339</code> &middot; mode vision &middot; generated 2026-11-06 06:41:19 UTC
+ &middot; synthetic data only</div>
+<div class="tiles"><div class="tile"><b>12</b><span>faxes</span></div><div class="tile"><b>6</b><span>routed</span></div><div class="tile"><b>4</b><span>needs_review</span></div><div class="tile"><b>1</b><span>skipped_duplicate</span></div><div class="tile"><b>1</b><span>already_routed</span></div><div class="tile"><b>0</b><span>failed</span></div><div class="tile"><b>12/12</b><span>UI-verified</span></div><div class="tile"><b>$0.41</b><span>vision cost (live)</span></div><div class="tile"><b>25.1 s</b><span>wall clock</span></div></div>
+<div class="wrap"><table class="sum"><thead><tr><th>Fax</th><th>Action</th><th>Type</th><th>Source ID</th><th>Dup of</th>
+<th>Selected route</th><th>Verification</th><th>Retries</th></tr></thead><tbody><tr><td><a href='#FX-201'>FX-201</a></td><td><span class="badge routed">routed</span></td><td>referral</td><td>RF-3001</td><td></td><td>Olivia Chen - Referrals / Referral / Referrals / New</td><td>ui_verified</td><td>1</td></tr><tr><td><a href='#FX-202'>FX-202</a></td><td><span class="badge needs_review">needs_review</span></td><td>lab_result</td><td>LAB-8302</td><td></td><td>Jordan Ellis - Manual Review / Needs Review / Review / Unclassified</td><td>ui_verified</td><td>0</td></tr><tr><td><a href='#FX-203'>FX-203</a></td><td><span class="badge routed">routed</span></td><td>imaging_report</td><td>IMG-4003</td><td></td><td>Noah Patel - Clinical Review / Imaging Report / Clinical / Imaging</td><td>ui_verified</td><td>0</td></tr><tr><td><a href='#FX-204'>FX-204</a></td><td><span class="badge routed">routed</span></td><td>prior_authorization</td><td>PA-4004</td><td></td><td>Ethan Brooks - Authorizations / Prior Authorization / Authorizations / Pending</td><td>ui_verified</td><td>0</td></tr><tr><td><a href='#FX-205'>FX-205</a></td><td><span class="badge routed">routed</span></td><td>refill_request</td><td>RX-4005</td><td></td><td>Ava Wilson - Nursing / Medication / Refill Request / Nursing / Medication</td><td>ui_verified</td><td>0</td></tr><tr><td><a href='#FX-206'>FX-206</a></td><td><span class="badge routed">routed</span></td><td>records_request</td><td>MR-4006</td><td></td><td>Mia Gomez - Medical Records / Records Request / Records / Requests</td><td>ui_verified</td><td>0</td></tr><tr><td><a href='#FX-207'>FX-207</a></td><td><span class="badge routed">routed</span></td><td>eob</td><td>EOB-4007</td><td></td><td>Liam Rivera - Billing / EOB / Billing / EOBs</td><td>ui_verified</td><td>0</td></tr><tr><td><a href='#FX-208'>FX-208</a></td><td><span class="badge needs_review">needs_review</span></td><td>lab_result</td><td>LAB-4008</td><td></td><td>Jordan Ellis - Manual Review / Needs Review / Review / Unclassified</td><td>ui_verified</td><td>0</td></tr><tr><td><a href='#FX-209'>FX-209</a></td><td><span class="badge needs_review">needs_review</span></td><td>-</td><td>-</td><td></td><td>Jordan Ellis - Manual Review / Needs Review / Review / Unclassified</td><td>ui_verified</td><td>0</td></tr><tr><td><a href='#FX-210'>FX-210</a></td><td><span class="badge skipped_duplicate">skipped_duplicate</span></td><td>referral</td><td>-</td><td>FX-201</td><td>-</td><td>ui_status_new</td><td>0</td></tr><tr><td><a href='#FX-211'>FX-211</a></td><td><span class="badge already_routed">already_routed</span></td><td>imaging_report</td><td>IMG-4111</td><td></td><td>-</td><td>preexisting_route_observed</td><td>0</td></tr><tr><td><a href='#FX-212'>FX-212</a></td><td><span class="badge needs_review">needs_review</span></td><td>mixed</td><td>LAB-4012A</td><td></td><td>Jordan Ellis - Manual Review / Needs Review / Review / Unclassified</td><td>ui_verified</td><td>0</td></tr></tbody></table></div>
+<div id="FX-201"><details>
+<summary><span class="id">FX-201</span><span class="badge routed">routed</span>
+<span>referral</span><span class="muted">RF-3001</span>
+<span class="muted">verification: ui_verified &middot; retries: 1</span></summary>
+<div class="body"><dl class="grid">
+<dt>Received / sender</dt><dd>2026-11-03 08:02 &middot; Bayview Family Practice &middot; 2 page(s)</dd>
+<dt>Decision reasons</dt><dd><ul><li>classified as referral</li><li>note: refers to other documents not sent in this fax (p2: Please review attached patient details.); not treated as missing pages</li></ul></dd>
+<dt>Explicit flags</dt><dd><span class="muted">none</span></dd>
+<dt>Evidence</dt><dd><span class="q">&ldquo;NEW PATIENT REFERRAL REQUEST&rdquo;</span> <span class="q">&ldquo;Referring physician: Dr. Mira Gomez&rdquo;</span> <span class="q">&ldquo;Requested service: Neurology consultation&rdquo;</span> <span class="q">&ldquo;Priority: Routine&rdquo;</span></dd>
+<dt>Selected fields</dt><dd>Olivia Chen - Referrals / Referral / Referrals / New</dd>
+<dt>Note sent</dt><dd>Routed by Linda agent: referral | source RF-3001
+ <span class="muted">(recorded; the portal never renders notes, so not UI-verifiable)</span></dd>
+<dt>Verification</dt><dd><b>ui_verified</b> <span class="muted">routing panel and Routed Documents both match intent</span></dd>
+<dt>Sessions</dt><dd>A: <code>xvBYA2P7</code>
+ &middot; B: <code>GT4l6Pqr</code></dd>
+<dt>Extraction</dt><dd>vision &middot; claude-opus-5-5 &middot; cache hit: True
+ &middot; 7768/658 tok &middot; $0.0442
+ &middot; Tesseract cross-check: ran, mean conf 94.4, 0 contradiction(s)</dd>
+<dt>Errors / recovery</dt><dd><ul><li>uncertain submit outcome (http=503); re-reading UI before retry</li></ul></dd>
+<dt>Attempts</dt><dd><ul><li><code>download</code> &rarr; <b>ok</b> <span class='muted'>sha256=3e5d967db98e pages=2</span></li><li><code>submit</code> &rarr; <b>unknown</b> <span class='muted'>http=503 url=http://127.0.0.1:8000/faxes/FX-201/route Gateway error (503). The outcome of this submit is unknown; check the fax&#x27;s current status before retrying</span></li><li><code>verify</code> &rarr; <b>ok</b> <span class='muted'>routing panel and Routed Documents both match intent</span></li></ul></dd>
+<dt>Timeline</dt><dd><table class="tl"><tr><td>+  0.00s</td><td>download_ok</td><td class='muted'>detail=sha256=3e5d967db98e pages=2</td></tr><tr><td>+  0.00s</td><td>downloaded</td><td class='muted'>session=xvBYA2P7, sha=3e5d967db98e, pages=2, attempts=1, ms=228</td></tr><tr><td>+  1.67s</td><td>extracted</td><td class='muted'>engine=vision, error=None, cache_hit=True, contradictions=0, ms=1589</td></tr><tr><td>+ 12.22s</td><td>decided</td><td class='muted'>action=routed, category=referral, duplicate_of=None</td></tr><tr><td>+ 12.23s</td><td>intent_written</td><td class='muted'></td></tr><tr><td>+ 12.38s</td><td>session_started</td><td class='muted'>label=B, session=GT4l6Pqr</td></tr><tr><td>+ 12.80s</td><td>submit_unknown</td><td class='muted'>detail=http=503 url=http://127.0.0.1:8000/faxes/FX-201/route Gateway error (503). The outcome of this submit is unknown; check the fax&#x27;s current status before r</td></tr><tr><td>+ 13.05s</td><td>verify_ok</td><td class='muted'>detail=routing panel and Routed Documents both match intent</td></tr><tr><td>+ 13.05s</td><td>fax_done</td><td class='muted'>action=routed, verified=ui_verified</td></tr></table></dd>
+<dt>Traces</dt><dd><span class="muted">none</span></dd>
+</dl></div></details></div><div id="FX-202"><details>
+<summary><span class="id">FX-202</span><span class="badge needs_review">needs_review</span>
+<span>lab_result</span><span class="muted">LAB-8302</span>
+<span class="muted">verification: ui_verified &middot; retries: 0</span></summary>
+<div class="body"><dl class="grid">
+<dt>Received / sender</dt><dd>2026-11-03 08:06 &middot; Summit Diagnostic Labs &middot; 1 page(s)</dd>
+<dt>Decision reasons</dt><dd><ul><li>Explicit urgency flag on document: &#x27;p1: CRITICAL RESULT - CALLING PROVIDER&#x27;</li><li>No clinical triage performed by the agent</li></ul></dd>
+<dt>Explicit flags</dt><dd><span class="q">&ldquo;p1: CRITICAL RESULT - CALLING PROVIDER&rdquo;</span></dd>
+<dt>Evidence</dt><dd><span class="q">&ldquo;LABORATORY RESULTS&rdquo;</span> <span class="q">&ldquo;SUMMIT DIAGNOSTIC LABS&rdquo;</span> <span class="q">&ldquo;Panel: Basic metabolic panel&rdquo;</span> <span class="q">&ldquo;Result: Potassium 6.3 mmol/L&rdquo;</span></dd>
+<dt>Selected fields</dt><dd>Jordan Ellis - Manual Review / Needs Review / Review / Unclassified</dd>
+<dt>Note sent</dt><dd>NEEDS REVIEW (Linda agent): Explicit urgency flag on document: &#x27;p1: CRITICAL RESULT - CALLING PROVIDER&#x27; | No clinical triage performed by the agent
+ <span class="muted">(recorded; the portal never renders notes, so not UI-verifiable)</span></dd>
+<dt>Verification</dt><dd><b>ui_verified</b> <span class="muted">routing panel and Routed Documents both match intent</span></dd>
+<dt>Sessions</dt><dd>A: <code>xvBYA2P7</code>
+ &middot; B: <code>foDPU540</code></dd>
+<dt>Extraction</dt><dd>vision &middot; claude-opus-5-5 &middot; cache hit: True
+ &middot; 5444/386 tok &middot; $0.0295
+ &middot; Tesseract cross-check: ran, mean conf 91.9, 0 contradiction(s)</dd>
+<dt>Errors / recovery</dt><dd><span class="muted">none</span></dd>
+<dt>Attempts</dt><dd><ul><li><code>download</code> &rarr; <b>ok</b> <span class='muted'>sha256=519e074e41a3 pages=1</span></li><li><code>submit</code> &rarr; <b>success</b> <span class='muted'>http=303 url=http://127.0.0.1:8000/faxes/FX-202?notice_type=success </span></li><li><code>verify</code> &rarr; <b>ok</b> <span class='muted'>routing panel and Routed Documents both match intent</span></li></ul></dd>
+<dt>Timeline</dt><dd><table class="tl"><tr><td>+  0.00s</td><td>download_ok</td><td class='muted'>detail=sha256=519e074e41a3 pages=1</td></tr><tr><td>+  0.00s</td><td>downloaded</td><td class='muted'>session=xvBYA2P7, sha=519e074e41a3, pages=1, attempts=1, ms=207</td></tr><tr><td>+  2.74s</td><td>extracted</td><td class='muted'>engine=vision, error=None, cache_hit=True, contradictions=0, ms=842</td></tr><tr><td>+ 12.46s</td><td>decided</td><td class='muted'>action=needs_review, category=lab_result, duplicate_of=None</td></tr><tr><td>+ 13.32s</td><td>intent_written</td><td class='muted'></td></tr><tr><td>+ 13.47s</td><td>session_started</td><td class='muted'>label=B, session=foDPU540</td></tr><tr><td>+ 13.85s</td><td>submit_success</td><td class='muted'>detail=http=303 url=http://127.0.0.1:8000/faxes/FX-202?notice_type=success </td></tr><tr><td>+ 14.14s</td><td>verify_ok</td><td class='muted'>detail=routing panel and Routed Documents both match intent</td></tr><tr><td>+ 14.14s</td><td>fax_done</td><td class='muted'>action=needs_review, verified=ui_verified</td></tr></table></dd>
+<dt>Traces</dt><dd><span class="muted">none</span></dd>
+</dl></div></details></div><div id="FX-203"><details>
+<summary><span class="id">FX-203</span><span class="badge routed">routed</span>
+<span>imaging_report</span><span class="muted">IMG-4003</span>
+<span class="muted">verification: ui_verified &middot; retries: 0</span></summary>
+<div class="body"><dl class="grid">
+<dt>Received / sender</dt><dd>2026-11-03 08:12 &middot; Blue Ridge Medical &middot; 1 page(s)</dd>
+<dt>Decision reasons</dt><dd><ul><li>classified as imaging_report</li><li>note: refers to other documents not sent in this fax (p1: Impression: See full radiology findings.); not treated as missing pages</li></ul></dd>
+<dt>Explicit flags</dt><dd><span class="muted">none</span></dd>
+<dt>Evidence</dt><dd><span class="q">&ldquo;DIAGNOSTIC IMAGING REPORT&rdquo;</span> <span class="q">&ldquo;Study: MRI cervical spine without contrast&rdquo;</span> <span class="q">&ldquo;Interpreting radiologist: Dr. J. Webb&rdquo;</span> <span class="q">&ldquo;FINAL RADIOLOGY REPORT&rdquo;</span></dd>
+<dt>Selected fields</dt><dd>Noah Patel - Clinical Review / Imaging Report / Clinical / Imaging</dd>
+<dt>Note sent</dt><dd>Routed by Linda agent: imaging_report | source IMG-4003
+ <span class="muted">(recorded; the portal never renders notes, so not UI-verifiable)</span></dd>
+<dt>Verification</dt><dd><b>ui_verified</b> <span class="muted">routing panel and Routed Documents both match intent</span></dd>
+<dt>Sessions</dt><dd>A: <code>xvBYA2P7</code>
+ &middot; B: <code>jLfZ05mX</code></dd>
+<dt>Extraction</dt><dd>vision &middot; claude-opus-5-5 &middot; cache hit: True
+ &middot; 5444/382 tok &middot; $0.0294
+ &middot; Tesseract cross-check: ran, mean conf 91.7, 0 contradiction(s)</dd>
+<dt>Errors / recovery</dt><dd><span class="muted">none</span></dd>
+<dt>Attempts</dt><dd><ul><li><code>download</code> &rarr; <b>ok</b> <span class='muted'>sha256=ab215f8f4818 pages=1</span></li><li><code>submit</code> &rarr; <b>success</b> <span class='muted'>http=303 url=http://127.0.0.1:8000/faxes/FX-203?notice_type=success </span></li><li><code>verify</code> &rarr; <b>ok</b> <span class='muted'>routing panel and Routed Documents both match intent</span></li></ul></dd>
+<dt>Timeline</dt><dd><table class="tl"><tr><td>+  0.00s</td><td>download_ok</td><td class='muted'>detail=sha256=ab215f8f4818 pages=1</td></tr><tr><td>+  0.00s</td><td>downloaded</td><td class='muted'>session=xvBYA2P7, sha=ab215f8f4818, pages=1, attempts=1, ms=209</td></tr><tr><td>+  3.74s</td><td>extracted</td><td class='muted'>engine=vision, error=None, cache_hit=True, contradictions=0, ms=785</td></tr><tr><td>+ 12.66s</td><td>decided</td><td class='muted'>action=routed, category=imaging_report, duplicate_of=None</td></tr><tr><td>+ 14.38s</td><td>intent_written</td><td class='muted'></td></tr><tr><td>+ 14.54s</td><td>session_started</td><td class='muted'>label=B, session=jLfZ05mX</td></tr><tr><td>+ 14.91s</td><td>submit_success</td><td class='muted'>detail=http=303 url=http://127.0.0.1:8000/faxes/FX-203?notice_type=success </td></tr><tr><td>+ 15.21s</td><td>verify_ok</td><td class='muted'>detail=routing panel and Routed Documents both match intent</td></tr><tr><td>+ 15.21s</td><td>fax_done</td><td class='muted'>action=routed, verified=ui_verified</td></tr></table></dd>
+<dt>Traces</dt><dd><span class="muted">none</span></dd>
+</dl></div></details></div><div id="FX-204"><details>
+<summary><span class="id">FX-204</span><span class="badge routed">routed</span>
+<span>prior_authorization</span><span class="muted">PA-4004</span>
+<span class="muted">verification: ui_verified &middot; retries: 0</span></summary>
+<div class="body"><dl class="grid">
+<dt>Received / sender</dt><dd>2026-11-03 08:12 &middot; Blue Ridge Medical &middot; 1 page(s)</dd>
+<dt>Decision reasons</dt><dd><ul><li>classified as prior_authorization</li></ul></dd>
+<dt>Explicit flags</dt><dd><span class="muted">none</span></dd>
+<dt>Evidence</dt><dd><span class="q">&ldquo;PRIOR AUTHORIZATION REQUEST&rdquo;</span> <span class="q">&ldquo;Status: Documentation requested for prior authorization.&rdquo;</span> <span class="q">&ldquo;Please review coverage requirements.&rdquo;</span> <span class="q">&ldquo;This document is not an authorization approval.&rdquo;</span></dd>
+<dt>Selected fields</dt><dd>Ethan Brooks - Authorizations / Prior Authorization / Authorizations / Pending</dd>
+<dt>Note sent</dt><dd>Routed by Linda agent: prior_authorization | source PA-4004
+ <span class="muted">(recorded; the portal never renders notes, so not UI-verifiable)</span></dd>
+<dt>Verification</dt><dd><b>ui_verified</b> <span class="muted">routing panel and Routed Documents both match intent</span></dd>
+<dt>Sessions</dt><dd>A: <code>xvBYA2P7</code>
+ &middot; B: <code>pSlfgCJp</code></dd>
+<dt>Extraction</dt><dd>vision &middot; claude-opus-5-5 &middot; cache hit: True
+ &middot; 5444/368 tok &middot; $0.0291
+ &middot; Tesseract cross-check: ran, mean conf 93.4, 0 contradiction(s)</dd>
+<dt>Errors / recovery</dt><dd><span class="muted">none</span></dd>
+<dt>Attempts</dt><dd><ul><li><code>download</code> &rarr; <b>ok</b> <span class='muted'>sha256=201436548e34 pages=1</span></li><li><code>submit</code> &rarr; <b>success</b> <span class='muted'>http=303 url=http://127.0.0.1:8000/faxes/FX-204?notice_type=success </span></li><li><code>verify</code> &rarr; <b>ok</b> <span class='muted'>routing panel and Routed Documents both match intent</span></li></ul></dd>
+<dt>Timeline</dt><dd><table class="tl"><tr><td>+  0.00s</td><td>download_ok</td><td class='muted'>detail=sha256=201436548e34 pages=1</td></tr><tr><td>+  0.00s</td><td>downloaded</td><td class='muted'>session=xvBYA2P7, sha=201436548e34, pages=1, attempts=1, ms=207</td></tr><tr><td>+  4.75s</td><td>extracted</td><td class='muted'>engine=vision, error=None, cache_hit=True, contradictions=0, ms=806</td></tr><tr><td>+ 12.87s</td><td>decided</td><td class='muted'>action=routed, category=prior_authorization, duplicate_of=None</td></tr><tr><td>+ 15.45s</td><td>intent_written</td><td class='muted'></td></tr><tr><td>+ 15.60s</td><td>session_started</td><td class='muted'>label=B, session=pSlfgCJp</td></tr><tr><td>+ 15.98s</td><td>submit_success</td><td class='muted'>detail=http=303 url=http://127.0.0.1:8000/faxes/FX-204?notice_type=success </td></tr><tr><td>+ 16.27s</td><td>verify_ok</td><td class='muted'>detail=routing panel and Routed Documents both match intent</td></tr><tr><td>+ 16.27s</td><td>fax_done</td><td class='muted'>action=routed, verified=ui_verified</td></tr></table></dd>
+<dt>Traces</dt><dd><span class="muted">none</span></dd>
+</dl></div></details></div><div id="FX-205"><details>
+<summary><span class="id">FX-205</span><span class="badge routed">routed</span>
+<span>refill_request</span><span class="muted">RX-4005</span>
+<span class="muted">verification: ui_verified &middot; retries: 0</span></summary>
+<div class="body"><dl class="grid">
+<dt>Received / sender</dt><dd>2026-11-03 08:19 &middot; Harbor Community Pharmacy &middot; 1 page(s)</dd>
+<dt>Decision reasons</dt><dd><ul><li>classified as refill_request</li></ul></dd>
+<dt>Explicit flags</dt><dd><span class="muted">none</span></dd>
+<dt>Evidence</dt><dd><span class="q">&ldquo;PRESCRIPTION REFILL REQUEST&rdquo;</span> <span class="q">&ldquo;Medication: Lisinopril 10 mg tablet&rdquo;</span> <span class="q">&ldquo;Request: Renewal authorization requested&rdquo;</span> <span class="q">&ldquo;HARBOR COMMUNITY PHARMACY&rdquo;</span></dd>
+<dt>Selected fields</dt><dd>Ava Wilson - Nursing / Medication / Refill Request / Nursing / Medication</dd>
+<dt>Note sent</dt><dd>Routed by Linda agent: refill_request | source RX-4005
+ <span class="muted">(recorded; the portal never renders notes, so not UI-verifiable)</span></dd>
+<dt>Verification</dt><dd><b>ui_verified</b> <span class="muted">routing panel and Routed Documents both match intent</span></dd>
+<dt>Sessions</dt><dd>A: <code>xvBYA2P7</code>
+ &middot; B: <code>Zz4XBzOV</code></dd>
+<dt>Extraction</dt><dd>vision &middot; claude-opus-5-5 &middot; cache hit: True
+ &middot; 5444/390 tok &middot; $0.0296
+ &middot; Tesseract cross-check: ran, mean conf 90.6, 0 contradiction(s)</dd>
+<dt>Errors / recovery</dt><dd><span class="muted">none</span></dd>
+<dt>Attempts</dt><dd><ul><li><code>download</code> &rarr; <b>ok</b> <span class='muted'>sha256=91819d99630c pages=1</span></li><li><code>submit</code> &rarr; <b>success</b> <span class='muted'>http=303 url=http://127.0.0.1:8000/faxes/FX-205?notice_type=success </span></li><li><code>verify</code> &rarr; <b>ok</b> <span class='muted'>routing panel and Routed Documents both match intent</span></li></ul></dd>
+<dt>Timeline</dt><dd><table class="tl"><tr><td>+  0.00s</td><td>download_ok</td><td class='muted'>detail=sha256=91819d99630c pages=1</td></tr><tr><td>+  0.00s</td><td>downloaded</td><td class='muted'>session=xvBYA2P7, sha=91819d99630c, pages=1, attempts=1, ms=206</td></tr><tr><td>+  5.78s</td><td>extracted</td><td class='muted'>engine=vision, error=None, cache_hit=True, contradictions=0, ms=819</td></tr><tr><td>+ 13.08s</td><td>decided</td><td class='muted'>action=routed, category=refill_request, duplicate_of=None</td></tr><tr><td>+ 16.52s</td><td>intent_written</td><td class='muted'></td></tr><tr><td>+ 16.67s</td><td>session_started</td><td class='muted'>label=B, session=Zz4XBzOV</td></tr><tr><td>+ 17.07s</td><td>submit_success</td><td class='muted'>detail=http=303 url=http://127.0.0.1:8000/faxes/FX-205?notice_type=success </td></tr><tr><td>+ 17.35s</td><td>verify_ok</td><td class='muted'>detail=routing panel and Routed Documents both match intent</td></tr><tr><td>+ 17.35s</td><td>fax_done</td><td class='muted'>action=routed, verified=ui_verified</td></tr></table></dd>
+<dt>Traces</dt><dd><span class="muted">none</span></dd>
+</dl></div></details></div><div id="FX-206"><details>
+<summary><span class="id">FX-206</span><span class="badge routed">routed</span>
+<span>records_request</span><span class="muted">MR-4006</span>
+<span class="muted">verification: ui_verified &middot; retries: 0</span></summary>
+<div class="body"><dl class="grid">
+<dt>Received / sender</dt><dd>2026-11-03 08:25 &middot; Hillside Records Office &middot; 2 page(s)</dd>
+<dt>Decision reasons</dt><dd><ul><li>classified as records_request</li></ul></dd>
+<dt>Explicit flags</dt><dd><span class="muted">none</span></dd>
+<dt>Evidence</dt><dd><span class="q">&ldquo;REQUEST FOR MEDICAL RECORDS&rdquo;</span> <span class="q">&ldquo;Requested records: Office visits, imaging reports&rdquo;</span> <span class="q">&ldquo;Please process according to clinic release policy.&rdquo;</span> <span class="q">&ldquo;AUTHORIZATION TO RELEASE INFORMATION&rdquo;</span> <span class="q">&ldquo;Related request: MR-4006&rdquo;</span> <span class="q">&ldquo;I authorize release of records to Hillside Medical Group.&rdquo;</span></dd>
+<dt>Selected fields</dt><dd>Mia Gomez - Medical Records / Records Request / Records / Requests</dd>
+<dt>Note sent</dt><dd>Routed by Linda agent: records_request | source MR-4006
+ <span class="muted">(recorded; the portal never renders notes, so not UI-verifiable)</span></dd>
+<dt>Verification</dt><dd><b>ui_verified</b> <span class="muted">routing panel and Routed Documents both match intent</span></dd>
+<dt>Sessions</dt><dd>A: <code>xvBYA2P7</code>
+ &middot; B: <code>YRm_ZzwT</code></dd>
+<dt>Extraction</dt><dd>vision &middot; claude-opus-5-5 &middot; cache hit: True
+ &middot; 7768/657 tok &middot; $0.0442
+ &middot; Tesseract cross-check: ran, mean conf 94.5, 0 contradiction(s)</dd>
+<dt>Errors / recovery</dt><dd><span class="muted">none</span></dd>
+<dt>Attempts</dt><dd><ul><li><code>download</code> &rarr; <b>ok</b> <span class='muted'>sha256=44b68d8fcf36 pages=2</span></li><li><code>submit</code> &rarr; <b>success</b> <span class='muted'>http=303 url=http://127.0.0.1:8000/faxes/FX-206?notice_type=success </span></li><li><code>verify</code> &rarr; <b>ok</b> <span class='muted'>routing panel and Routed Documents both match intent</span></li></ul></dd>
+<dt>Timeline</dt><dd><table class="tl"><tr><td>+  0.00s</td><td>download_ok</td><td class='muted'>detail=sha256=44b68d8fcf36 pages=2</td></tr><tr><td>+  0.00s</td><td>downloaded</td><td class='muted'>session=xvBYA2P7, sha=44b68d8fcf36, pages=2, attempts=1, ms=209</td></tr><tr><td>+  7.53s</td><td>extracted</td><td class='muted'>engine=vision, error=None, cache_hit=True, contradictions=0, ms=1543</td></tr><tr><td>+ 13.29s</td><td>decided</td><td class='muted'>action=routed, category=records_request, duplicate_of=None</td></tr><tr><td>+ 17.59s</td><td>intent_written</td><td class='muted'></td></tr><tr><td>+ 17.74s</td><td>session_started</td><td class='muted'>label=B, session=YRm_ZzwT</td></tr><tr><td>+ 18.13s</td><td>submit_success</td><td class='muted'>detail=http=303 url=http://127.0.0.1:8000/faxes/FX-206?notice_type=success </td></tr><tr><td>+ 18.42s</td><td>verify_ok</td><td class='muted'>detail=routing panel and Routed Documents both match intent</td></tr><tr><td>+ 18.42s</td><td>fax_done</td><td class='muted'>action=routed, verified=ui_verified</td></tr></table></dd>
+<dt>Traces</dt><dd><span class="muted">none</span></dd>
+</dl></div></details></div><div id="FX-207"><details>
+<summary><span class="id">FX-207</span><span class="badge routed">routed</span>
+<span>eob</span><span class="muted">EOB-4007</span>
+<span class="muted">verification: ui_verified &middot; retries: 0</span></summary>
+<div class="body"><dl class="grid">
+<dt>Received / sender</dt><dd>2026-11-03 08:31 &middot; Example Health Plan &middot; 1 page(s)</dd>
+<dt>Decision reasons</dt><dd><ul><li>classified as eob</li></ul></dd>
+<dt>Explicit flags</dt><dd><span class="muted">none</span></dd>
+<dt>Evidence</dt><dd><span class="q">&ldquo;EXPLANATION OF BENEFITS (EOB)&rdquo;</span> <span class="q">&ldquo;Remittance ID: EOB-4007&rdquo;</span> <span class="q">&ldquo;Plan paid: $195.20&rdquo;</span> <span class="q">&ldquo;This is not a bill to the patient.&rdquo;</span></dd>
+<dt>Selected fields</dt><dd>Liam Rivera - Billing / EOB / Billing / EOBs</dd>
+<dt>Note sent</dt><dd>Routed by Linda agent: eob | source EOB-4007
+ <span class="muted">(recorded; the portal never renders notes, so not UI-verifiable)</span></dd>
+<dt>Verification</dt><dd><b>ui_verified</b> <span class="muted">routing panel and Routed Documents both match intent</span></dd>
+<dt>Sessions</dt><dd>A: <code>xvBYA2P7</code>
+ &middot; B: <code>2hOKSqgv</code></dd>
+<dt>Extraction</dt><dd>vision &middot; claude-opus-5-5 &middot; cache hit: True
+ &middot; 5444/365 tok &middot; $0.0291
+ &middot; Tesseract cross-check: ran, mean conf 91.3, 0 contradiction(s)</dd>
+<dt>Errors / recovery</dt><dd><span class="muted">none</span></dd>
+<dt>Attempts</dt><dd><ul><li><code>download</code> &rarr; <b>ok</b> <span class='muted'>sha256=c8c9944ada8c pages=1</span></li><li><code>submit</code> &rarr; <b>success</b> <span class='muted'>http=303 url=http://127.0.0.1:8000/faxes/FX-207?notice_type=success </span></li><li><code>verify</code> &rarr; <b>ok</b> <span class='muted'>routing panel and Routed Documents both match intent</span></li></ul></dd>
+<dt>Timeline</dt><dd><table class="tl"><tr><td>+  0.00s</td><td>download_ok</td><td class='muted'>detail=sha256=c8c9944ada8c pages=1</td></tr><tr><td>+  0.00s</td><td>downloaded</td><td class='muted'>session=xvBYA2P7, sha=c8c9944ada8c, pages=1, attempts=1, ms=205</td></tr><tr><td>+  8.49s</td><td>extracted</td><td class='muted'>engine=vision, error=None, cache_hit=True, contradictions=0, ms=744</td></tr><tr><td>+ 13.50s</td><td>decided</td><td class='muted'>action=routed, category=eob, duplicate_of=None</td></tr><tr><td>+ 18.66s</td><td>intent_written</td><td class='muted'></td></tr><tr><td>+ 18.81s</td><td>session_started</td><td class='muted'>label=B, session=2hOKSqgv</td></tr><tr><td>+ 19.19s</td><td>submit_success</td><td class='muted'>detail=http=303 url=http://127.0.0.1:8000/faxes/FX-207?notice_type=success </td></tr><tr><td>+ 19.48s</td><td>verify_ok</td><td class='muted'>detail=routing panel and Routed Documents both match intent</td></tr><tr><td>+ 19.48s</td><td>fax_done</td><td class='muted'>action=routed, verified=ui_verified</td></tr></table></dd>
+<dt>Traces</dt><dd><span class="muted">none</span></dd>
+</dl></div></details></div><div id="FX-208"><details>
+<summary><span class="id">FX-208</span><span class="badge needs_review">needs_review</span>
+<span>lab_result</span><span class="muted">LAB-4008</span>
+<span class="muted">verification: ui_verified &middot; retries: 0</span></summary>
+<div class="body"><dl class="grid">
+<dt>Received / sender</dt><dd>2026-11-03 08:37 &middot; Summit Diagnostic Labs &middot; 1 page(s)</dd>
+<dt>Decision reasons</dt><dd><ul><li>Incomplete or unreadable: p1: refers to content after it (&#x27;Results: See values on following table&#x27;) but it is the last page of the packet</li></ul></dd>
+<dt>Explicit flags</dt><dd><span class="muted">none</span></dd>
+<dt>Evidence</dt><dd><span class="q">&ldquo;LABORATORY REPORT&rdquo;</span> <span class="q">&ldquo;SUMMIT DIAGNOSTIC LABS&rdquo;</span> <span class="q">&ldquo;Panel: CBC with differential&rdquo;</span> <span class="q">&ldquo;Status: Final&rdquo;</span></dd>
+<dt>Selected fields</dt><dd>Jordan Ellis - Manual Review / Needs Review / Review / Unclassified</dd>
+<dt>Note sent</dt><dd>NEEDS REVIEW (Linda agent): Incomplete or unreadable: p1: refers to content after it (&#x27;Results: See values on following table&#x27;) but it is the last page of the packet
+ <span class="muted">(recorded; the portal never renders notes, so not UI-verifiable)</span></dd>
+<dt>Verification</dt><dd><b>ui_verified</b> <span class="muted">routing panel and Routed Documents both match intent</span></dd>
+<dt>Sessions</dt><dd>A: <code>xvBYA2P7</code>
+ &middot; B: <code>K5cE5TkT</code></dd>
+<dt>Extraction</dt><dd>vision &middot; claude-opus-5-5 &middot; cache hit: True
+ &middot; 5444/373 tok &middot; $0.0292
+ &middot; Tesseract cross-check: ran, mean conf 91.8, 0 contradiction(s)</dd>
+<dt>Errors / recovery</dt><dd><span class="muted">none</span></dd>
+<dt>Attempts</dt><dd><ul><li><code>download</code> &rarr; <b>ok</b> <span class='muted'>sha256=4678dd0bb54f pages=1</span></li><li><code>submit</code> &rarr; <b>success</b> <span class='muted'>http=303 url=http://127.0.0.1:8000/faxes/FX-208?notice_type=success </span></li><li><code>verify</code> &rarr; <b>ok</b> <span class='muted'>routing panel and Routed Documents both match intent</span></li></ul></dd>
+<dt>Timeline</dt><dd><table class="tl"><tr><td>+  0.00s</td><td>download_ok</td><td class='muted'>detail=sha256=4678dd0bb54f pages=1</td></tr><tr><td>+  0.00s</td><td>downloaded</td><td class='muted'>session=xvBYA2P7, sha=4678dd0bb54f, pages=1, attempts=1, ms=309</td></tr><tr><td>+  9.44s</td><td>extracted</td><td class='muted'>engine=vision, error=None, cache_hit=True, contradictions=0, ms=748</td></tr><tr><td>+ 13.70s</td><td>decided</td><td class='muted'>action=needs_review, category=lab_result, duplicate_of=None</td></tr><tr><td>+ 19.72s</td><td>intent_written</td><td class='muted'></td></tr><tr><td>+ 19.87s</td><td>session_started</td><td class='muted'>label=B, session=K5cE5TkT</td></tr><tr><td>+ 20.25s</td><td>submit_success</td><td class='muted'>detail=http=303 url=http://127.0.0.1:8000/faxes/FX-208?notice_type=success </td></tr><tr><td>+ 20.54s</td><td>verify_ok</td><td class='muted'>detail=routing panel and Routed Documents both match intent</td></tr><tr><td>+ 20.54s</td><td>fax_done</td><td class='muted'>action=needs_review, verified=ui_verified</td></tr></table></dd>
+<dt>Traces</dt><dd><span class="muted">none</span></dd>
+</dl></div></details></div><div id="FX-209"><details>
+<summary><span class="id">FX-209</span><span class="badge needs_review">needs_review</span>
+<span>unclassified</span><span class="muted"></span>
+<span class="muted">verification: ui_verified &middot; retries: 0</span></summary>
+<div class="body"><dl class="grid">
+<dt>Received / sender</dt><dd>2026-11-03 08:42 &middot; Unidentified Fax Number &middot; 1 page(s)</dd>
+<dt>Decision reasons</dt><dd><ul><li>Incomplete or unreadable: p1: Attached page appears incomplete.; p1: Please see missing continuation page.; p1: No readable document category or destination found.; p1: [SCAN CUT OFF]; p1: page is illegible</li></ul></dd>
+<dt>Explicit flags</dt><dd><span class="muted">none</span></dd>
+<dt>Evidence</dt><dd><span class="muted">none</span></dd>
+<dt>Selected fields</dt><dd>Jordan Ellis - Manual Review / Needs Review / Review / Unclassified</dd>
+<dt>Note sent</dt><dd>NEEDS REVIEW (Linda agent): Incomplete or unreadable: p1: Attached page appears incomplete.; p1: Please see missing continuation page.; p1: No readable document category or destination found.; p1: [SCAN CUT OFF]; p1: page is illegible
+ <span class="muted">(recorded; the portal never renders notes, so not UI-verifiable)</span></dd>
+<dt>Verification</dt><dd><b>ui_verified</b> <span class="muted">routing panel and Routed Documents both match intent</span></dd>
+<dt>Sessions</dt><dd>A: <code>xvBYA2P7</code>
+ &middot; B: <code>1V3VMmK_</code></dd>
+<dt>Extraction</dt><dd>vision &middot; claude-opus-5-5 &middot; cache hit: True
+ &middot; 5444/374 tok &middot; $0.0293
+ &middot; Tesseract cross-check: ran, mean conf 90.3, 0 contradiction(s)</dd>
+<dt>Errors / recovery</dt><dd><span class="muted">none</span></dd>
+<dt>Attempts</dt><dd><ul><li><code>download</code> &rarr; <b>ok</b> <span class='muted'>sha256=587f25e225a1 pages=1</span></li><li><code>submit</code> &rarr; <b>success</b> <span class='muted'>http=303 url=http://127.0.0.1:8000/faxes/FX-209?notice_type=success </span></li><li><code>verify</code> &rarr; <b>ok</b> <span class='muted'>routing panel and Routed Documents both match intent</span></li></ul></dd>
+<dt>Timeline</dt><dd><table class="tl"><tr><td>+  0.00s</td><td>download_ok</td><td class='muted'>detail=sha256=587f25e225a1 pages=1</td></tr><tr><td>+  0.00s</td><td>downloaded</td><td class='muted'>session=xvBYA2P7, sha=587f25e225a1, pages=1, attempts=1, ms=310</td></tr><tr><td>+ 10.44s</td><td>extracted</td><td class='muted'>engine=vision, error=None, cache_hit=True, contradictions=0, ms=686</td></tr><tr><td>+ 14.01s</td><td>decided</td><td class='muted'>action=needs_review, category=None, duplicate_of=None</td></tr><tr><td>+ 20.88s</td><td>intent_written</td><td class='muted'></td></tr><tr><td>+ 21.04s</td><td>session_started</td><td class='muted'>label=B, session=1V3VMmK_</td></tr><tr><td>+ 21.42s</td><td>submit_success</td><td class='muted'>detail=http=303 url=http://127.0.0.1:8000/faxes/FX-209?notice_type=success </td></tr><tr><td>+ 21.71s</td><td>verify_ok</td><td class='muted'>detail=routing panel and Routed Documents both match intent</td></tr><tr><td>+ 21.71s</td><td>fax_done</td><td class='muted'>action=needs_review, verified=ui_verified</td></tr></table></dd>
+<dt>Traces</dt><dd><span class="muted">none</span></dd>
+</dl></div></details></div><div id="FX-210"><details>
+<summary><span class="id">FX-210</span><span class="badge skipped_duplicate">skipped_duplicate</span> of <b>FX-201</b>
+<span>referral</span><span class="muted"></span>
+<span class="muted">verification: ui_status_new &middot; retries: 0</span></summary>
+<div class="body"><dl class="grid">
+<dt>Received / sender</dt><dd>2026-11-03 08:49 &middot; Bayview Family Practice &middot; 1 page(s)</dd>
+<dt>Decision reasons</dt><dd><ul><li>resend of FX-201: same source ID RF-3001, same patient name and DOB, same category; FX-201 received earlier (2026-11-03 08:02)</li></ul></dd>
+<dt>Explicit flags</dt><dd><span class="muted">none</span></dd>
+<dt>Evidence</dt><dd><span class="q">&ldquo;FAX RESEND - REFERRAL REQUEST&rdquo;</span> <span class="q">&ldquo;Referring physician: Dr. Mira Gomez&rdquo;</span> <span class="q">&ldquo;Requested specialty: Neurology&rdquo;</span> <span class="q">&ldquo;Reason: Evaluation of recurrent headaches.&rdquo;</span></dd>
+<dt>Selected fields</dt><dd>-</dd>
+<dt>Note sent</dt><dd><span class="muted">none</span>
+</dd>
+<dt>Verification</dt><dd><b>ui_status_new</b> <span class="muted"></span></dd>
+<dt>Sessions</dt><dd>A: <code>xvBYA2P7</code>
+ &middot; B: <code>-</code></dd>
+<dt>Extraction</dt><dd>vision &middot; claude-opus-5-5 &middot; cache hit: True
+ &middot; 5444/409 tok &middot; $0.0300
+ &middot; Tesseract cross-check: ran, mean conf 92.4, 0 contradiction(s)</dd>
+<dt>Errors / recovery</dt><dd><span class="muted">none</span></dd>
+<dt>Attempts</dt><dd><ul><li><code>download</code> &rarr; <b>ok</b> <span class='muted'>sha256=4f74c305a578 pages=1</span></li></ul></dd>
+<dt>Timeline</dt><dd><table class="tl"><tr><td>+  0.00s</td><td>download_ok</td><td class='muted'>detail=sha256=4f74c305a578 pages=1</td></tr><tr><td>+  0.00s</td><td>downloaded</td><td class='muted'>session=xvBYA2P7, sha=4f74c305a578, pages=1, attempts=1, ms=223</td></tr><tr><td>+ 11.58s</td><td>extracted</td><td class='muted'>engine=vision, error=None, cache_hit=True, contradictions=0, ms=825</td></tr><tr><td>+ 14.32s</td><td>decided</td><td class='muted'>action=skipped_duplicate, category=referral, duplicate_of=FX-201</td></tr><tr><td>+ 22.21s</td><td>session_started</td><td class='muted'>label=V, session=bbFZoCxF</td></tr><tr><td>+ 22.44s</td><td>fax_done</td><td class='muted'>action=skipped_duplicate, verified=ui_status_new</td></tr></table></dd>
+<dt>Traces</dt><dd><span class="muted">none</span></dd>
+</dl></div></details></div><div id="FX-211"><details>
+<summary><span class="id">FX-211</span><span class="badge already_routed">already_routed</span>
+<span>imaging_report</span><span class="muted">IMG-4111</span>
+<span class="muted">verification: preexisting_route_observed &middot; retries: 0</span></summary>
+<div class="body"><dl class="grid">
+<dt>Received / sender</dt><dd>2026-11-03 08:54 &middot; Northbridge Imaging &middot; 1 page(s)</dd>
+<dt>Decision reasons</dt><dd><ul><li>portal shows Routed before this agent acted</li></ul></dd>
+<dt>Explicit flags</dt><dd><span class="muted">none</span></dd>
+<dt>Evidence</dt><dd><span class="q">&ldquo;FINAL IMAGING REPORT&rdquo;</span> <span class="q">&ldquo;Exam: CT sinus without contrast&rdquo;</span> <span class="q">&ldquo;Report status: Final&rdquo;</span> <span class="q">&ldquo;NORTHBRIDGE IMAGING&rdquo;</span></dd>
+<dt>Selected fields</dt><dd>-</dd>
+<dt>Note sent</dt><dd><span class="muted">none</span>
+</dd>
+<dt>Verification</dt><dd><b>preexisting_route_observed</b> <span class="muted"></span></dd>
+<dt>Sessions</dt><dd>A: <code>xvBYA2P7</code>
+ &middot; B: <code>-</code></dd>
+<dt>Extraction</dt><dd>vision &middot; claude-opus-5-5 &middot; cache hit: True
+ &middot; 5444/368 tok &middot; $0.0291
+ &middot; Tesseract cross-check: ran, mean conf 90.6, 0 contradiction(s)</dd>
+<dt>Errors / recovery</dt><dd><span class="muted">none</span></dd>
+<dt>Attempts</dt><dd><ul><li><code>download</code> &rarr; <b>ok</b> <span class='muted'>sha256=83838a6b6580 pages=1</span></li></ul></dd>
+<dt>Timeline</dt><dd><table class="tl"><tr><td>+  0.00s</td><td>download_ok</td><td class='muted'>detail=sha256=83838a6b6580 pages=1</td></tr><tr><td>+  0.00s</td><td>downloaded</td><td class='muted'>session=xvBYA2P7, sha=83838a6b6580, pages=1, attempts=1, ms=223</td></tr><tr><td>+ 12.50s</td><td>extracted</td><td class='muted'>engine=vision, error=None, cache_hit=True, contradictions=0, ms=697</td></tr><tr><td>+ 14.55s</td><td>decided</td><td class='muted'>action=already_routed, category=imaging_report, duplicate_of=None</td></tr><tr><td>+ 22.82s</td><td>session_started</td><td class='muted'>label=V, session=FMJchaCk</td></tr><tr><td>+ 23.06s</td><td>fax_done</td><td class='muted'>action=already_routed, verified=preexisting_route_observed</td></tr></table></dd>
+<dt>Traces</dt><dd><span class="muted">none</span></dd>
+</dl></div></details></div><div id="FX-212"><details>
+<summary><span class="id">FX-212</span><span class="badge needs_review">needs_review</span>
+<span>mixed</span><span class="muted">LAB-4012A</span>
+<span class="muted">verification: ui_verified &middot; retries: 0</span></summary>
+<div class="body"><dl class="grid">
+<dt>Received / sender</dt><dd>2026-11-03 09:03 &middot; Central Care Associates &middot; 3 page(s)</dd>
+<dt>Decision reasons</dt><dd><ul><li>Mixed packet: contains imaging_report, lab_result</li></ul></dd>
+<dt>Explicit flags</dt><dd><span class="muted">none</span></dd>
+<dt>Evidence</dt><dd><span class="q">&ldquo;LABORATORY REPORT&rdquo;</span> <span class="q">&ldquo;Panel: Thyroid function&rdquo;</span> <span class="q">&ldquo;Final report, routine&rdquo;</span> <span class="q">&ldquo;This page is a laboratory result.&rdquo;</span> <span class="q">&ldquo;RADIOLOGY REPORT&rdquo;</span> <span class="q">&ldquo;Exam: Ultrasound thyroid&rdquo;</span></dd>
+<dt>Selected fields</dt><dd>Jordan Ellis - Manual Review / Needs Review / Review / Unclassified</dd>
+<dt>Note sent</dt><dd>NEEDS REVIEW (Linda agent): Mixed packet: contains imaging_report, lab_result
+ <span class="muted">(recorded; the portal never renders notes, so not UI-verifiable)</span></dd>
+<dt>Verification</dt><dd><b>ui_verified</b> <span class="muted">routing panel and Routed Documents both match intent</span></dd>
+<dt>Sessions</dt><dd>A: <code>xvBYA2P7</code>
+ &middot; B: <code>SrMnrK6y</code></dd>
+<dt>Extraction</dt><dd>vision &middot; claude-opus-5-5 &middot; cache hit: True
+ &middot; 10092/958 tok &middot; $0.0595
+ &middot; Tesseract cross-check: ran, mean conf 94.6, 0 contradiction(s)</dd>
+<dt>Errors / recovery</dt><dd><span class="muted">none</span></dd>
+<dt>Attempts</dt><dd><ul><li><code>download</code> &rarr; <b>ok</b> <span class='muted'>sha256=38773f9acc30 pages=3</span></li><li><code>submit</code> &rarr; <b>success</b> <span class='muted'>http=303 url=http://127.0.0.1:8000/faxes/FX-212?notice_type=success </span></li><li><code>verify</code> &rarr; <b>ok</b> <span class='muted'>routing panel and Routed Documents both match intent</span></li></ul></dd>
+<dt>Timeline</dt><dd><table class="tl"><tr><td>+  0.00s</td><td>download_ok</td><td class='muted'>detail=sha256=38773f9acc30 pages=3</td></tr><tr><td>+  0.00s</td><td>downloaded</td><td class='muted'>session=xvBYA2P7, sha=38773f9acc30, pages=3, attempts=1, ms=202</td></tr><tr><td>+ 14.77s</td><td>extracted</td><td class='muted'>engine=vision, error=None, cache_hit=True, contradictions=0, ms=2041</td></tr><tr><td>+ 14.77s</td><td>decided</td><td class='muted'>action=needs_review, category=mixed, duplicate_of=None</td></tr><tr><td>+ 23.28s</td><td>intent_written</td><td class='muted'></td></tr><tr><td>+ 23.44s</td><td>session_started</td><td class='muted'>label=B, session=SrMnrK6y</td></tr><tr><td>+ 23.82s</td><td>submit_success</td><td class='muted'>detail=http=303 url=http://127.0.0.1:8000/faxes/FX-212?notice_type=success </td></tr><tr><td>+ 24.11s</td><td>verify_ok</td><td class='muted'>detail=routing panel and Routed Documents both match intent</td></tr><tr><td>+ 24.11s</td><td>fax_done</td><td class='muted'>action=needs_review, verified=ui_verified</td></tr></table></dd>
+<dt>Traces</dt><dd><span class="muted">none</span></dd>
+</dl></div></details></div>
+</main></body></html>

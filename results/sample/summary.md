@@ -7,8 +7,10 @@
 | FX-205 | refill_request | RX-4005 | routed | Ava Wilson - Nursing / Medication | ui_verified | 0 |
 | FX-206 | records_request | MR-4006 | routed | Mia Gomez - Medical Records | ui_verified | 0 |
 | FX-207 | eob | EOB-4007 | routed | Liam Rivera - Billing | ui_verified | 0 |
-| FX-208 | lab_result | LAB-4008 | routed | Noah Patel - Clinical Review | ui_verified | 0 |
+| FX-208 | lab_result | LAB-4008 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |
 | FX-209 | - | - | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |
 | FX-210 | referral | - | skipped_duplicate of FX-201 | - | ui_status_new | 0 |
 | FX-211 | imaging_report | IMG-4111 | already_routed | - | preexisting_route_observed | 0 |
-| FX-212 | lab_result | LAB-4012A | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |
+| FX-212 | mixed | LAB-4012A | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |
+
+Local OCR cross-check ran on 12/12 extracted faxes

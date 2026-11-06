@@ -2,7 +2,7 @@
 
 Source run: `results/sample/results.json`; extraction mode: `replay`. Only faxes the agent auto-routed are perturbed (a damaged copy of an already-reviewed fax is trivially safe).
 
-**35 damaged variants, 0 auto-routed** (target 0).
+**replay cache miss (fail-closed only, not perception): 12 variants, 0 auto-routed; decider on edited extractions: 20 variants, 0 auto-routed** (target 0 auto-routed).
 
 | Fax | Damage | Path | Engine | Decision | First reason |
 |---|---|---|---|---|---|
@@ -15,7 +15,7 @@ Source run: `results/sample/results.json`; extraction mode: `replay`. Only faxes
 | FX-201 | drop_page_1 | pipeline/replay | unavailable | **needs_review** | Document content could not be extracted: replay mode: no cached extraction for sha 02481f06e30a (model=claude-opus-5-5, v4) |
 | FX-201 | drop_page_1 | simulated/drop | cached+edited | **needs_review** | Incomplete or unreadable: extraction covers 1 pages but portal lists 2; page markers [2] have gaps (expected [1, 2]) |
 | FX-201 | drop_page_2 | pipeline/replay | unavailable | **needs_review** | Document content could not be extracted: replay mode: no cached extraction for sha a34974058d0e (model=claude-opus-5-5, v4) |
-| FX-201 | drop_page_2 | simulated/drop | cached+edited | **needs_review** | Incomplete or unreadable: extraction covers 1 pages but portal lists 2; page markers [1] have gaps (expected [1, 2]) |
+| FX-201 | drop_page_2 | simulated/drop | cached+edited | **needs_review** | Incomplete or unreadable: extraction covers 1 pages but portal lists 2; page markers [1] have gaps (expected [1, 2]); p1: refers to content  |
 | FX-203 | blank_page_1 | pipeline/replay | unavailable | **needs_review** | Document content could not be extracted: replay mode: no cached extraction for sha 561fb4d8f9d8 (model=claude-opus-5-5, v4) |
 | FX-203 | blank_page_1 | simulated/blank_unreadable | cached+edited | **needs_review** | Incomplete or unreadable: p1: page is illegible |
 | FX-203 | blank_page_1 | simulated/blank_as_cover | cached+edited | **needs_review** | Document type could not be established from the scanned content |
@@ -34,13 +34,10 @@ Source run: `results/sample/results.json`; extraction mode: `replay`. Only faxes
 | FX-206 | drop_page_1 | pipeline/replay | unavailable | **needs_review** | Document content could not be extracted: replay mode: no cached extraction for sha f7ea68ff8eb5 (model=claude-opus-5-5, v4) |
 | FX-206 | drop_page_1 | simulated/drop | cached+edited | **needs_review** | Incomplete or unreadable: extraction covers 1 pages but portal lists 2; page markers [2] have gaps (expected [1, 2]) |
 | FX-206 | drop_page_2 | pipeline/replay | unavailable | **needs_review** | Document content could not be extracted: replay mode: no cached extraction for sha ec10950d844c (model=claude-opus-5-5, v4) |
-| FX-206 | drop_page_2 | simulated/drop | cached+edited | **needs_review** | Incomplete or unreadable: extraction covers 1 pages but portal lists 2; page markers [1] have gaps (expected [1, 2]) |
+| FX-206 | drop_page_2 | simulated/drop | cached+edited | **needs_review** | Incomplete or unreadable: extraction covers 1 pages but portal lists 2; page markers [1] have gaps (expected [1, 2]); p1: refers to page 2 ( |
 | FX-207 | blank_page_1 | pipeline/replay | unavailable | **needs_review** | Document content could not be extracted: replay mode: no cached extraction for sha 561fb4d8f9d8 (model=claude-opus-5-5, v4) |
 | FX-207 | blank_page_1 | simulated/blank_unreadable | cached+edited | **needs_review** | Incomplete or unreadable: p1: page is illegible |
 | FX-207 | blank_page_1 | simulated/blank_as_cover | cached+edited | **needs_review** | Document type could not be established from the scanned content |
-| FX-208 | blank_page_1 | pipeline/replay | unavailable | **needs_review** | Document content could not be extracted: replay mode: no cached extraction for sha 561fb4d8f9d8 (model=claude-opus-5-5, v4) |
-| FX-208 | blank_page_1 | simulated/blank_unreadable | cached+edited | **needs_review** | Incomplete or unreadable: p1: page is illegible |
-| FX-208 | blank_page_1 | simulated/blank_as_cover | cached+edited | **needs_review** | Document type could not be established from the scanned content |
 
 How to read this:
 

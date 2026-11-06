@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-11-06 01:34:59 EST",
-  "pass": false,
-  "total_seconds": 158.3,
+  "generated_at": "2026-11-06 01:39:45 EST",
+  "pass": true,
+  "total_seconds": 150.4,
   "cases": [
     {
       "case": "baseline+lock",
       "scenario": "clean run; 2nd worker on same work dir; idempotent rerun",
       "pass": true,
-      "seconds": 36.2,
+      "seconds": 33.4,
       "checks": [
         {
           "check": "first worker started",
@@ -22,12 +22,12 @@
         {
           "check": "second worker left no run behind",
           "ok": true,
-          "detail": "runs=['20261106T063221Z-96396']"
+          "detail": "runs=['20261106T063716Z-98892']"
         },
         {
           "check": "first worker exits 0",
           "ok": true,
-          "detail": "rc=0\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=EhkNyhVV\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-4yo64nla/baseline_lock/work/results/results.json\n\n| Fax | Type | Source ID | Action | Assigned To | Verification | Retries |\n|---|---|---|---|---|---|---|\n| FX-201 | referral | RF-3001 | routed | Olivia Chen - Referrals | ui_verified | 0 |\n| FX-202 | lab_result | LAB-8302 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-203 | imaging_report | IMG-4003 | routed | Noah Patel - Clinical Review | ui_verified | 0 |\n| FX-204 | prior_authorization | PA-4004 | routed | Ethan Brooks - Authorizations | ui_verified | 0 |\n| FX-205 | refill_request | RX-4005 | routed | Ava Wilson - Nursing / Medication | ui_verified | 0 |\n| FX-206 | records_request | MR-4006 | routed | Mia Gomez - Medical Records | ui_verified | 0 |\n| FX-207 | eob | EOB-4007 | routed | Liam Rivera - Billing | ui_verified | 0 |\n| FX-208 | lab_result | LAB-4008 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-209 | - | - | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-210 | referral | - | skipped_duplicate of FX-201 | - | ui_status_new | 0 |\n| FX-211 | imaging_report | IMG-4111 | already_routed | - | preexisting_route_observed | 0 |\n| FX-212 | mixed | LAB-4012A | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n\nLocal OCR cross-check ran on 12/12 extracted faxes\n\nstatus: completed | results: /var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-4yo64nla/baseline_lock/work/results/results.json"
+          "detail": "rc=0\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=__FWwhHT\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-_ju40x0e/baseline_lock/work/results/results.json\n\n| Fax | Type | Source ID | Action | Assigned To | Verification | Retries |\n|---|---|---|---|---|---|---|\n| FX-201 | referral | RF-3001 | routed | Olivia Chen - Referrals | ui_verified | 0 |\n| FX-202 | lab_result | LAB-8302 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-203 | imaging_report | IMG-4003 | routed | Noah Patel - Clinical Review | ui_verified | 0 |\n| FX-204 | prior_authorization | PA-4004 | routed | Ethan Brooks - Authorizations | ui_verified | 0 |\n| FX-205 | refill_request | RX-4005 | routed | Ava Wilson - Nursing / Medication | ui_verified | 0 |\n| FX-206 | records_request | MR-4006 | routed | Mia Gomez - Medical Records | ui_verified | 0 |\n| FX-207 | eob | EOB-4007 | routed | Liam Rivera - Billing | ui_verified | 0 |\n| FX-208 | lab_result | LAB-4008 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-209 | - | - | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-210 | referral | - | skipped_duplicate of FX-201 | - | ui_status_new | 0 |\n| FX-211 | imaging_report | IMG-4111 | already_routed | - | preexisting_route_observed | 0 |\n| FX-212 | mixed | LAB-4012A | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n\nLocal OCR cross-check ran on 12/12 extracted faxes\n\nstatus: completed | results: /var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-_ju40x0e/baseline_lock/work/results/results.json"
         },
         {
           "check": "results.json written",
@@ -96,19 +96,19 @@
         }
       ],
       "info": {
-        "seconds": 27.6
+        "seconds": 26.0
       }
     },
     {
       "case": "download_503_once",
       "scenario": "download returns HTML 503 once",
       "pass": true,
-      "seconds": 36.7,
+      "seconds": 34.5,
       "checks": [
         {
           "check": "agent exits 0",
           "ok": true,
-          "detail": "rc=0\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=2O-w4CaB\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-4yo64nla/download_503_once/work/results/results.json\n\n| Fax | Type | Source ID | Action | Assigned To | Verification | Retries |\n|---|---|---|---|---|---|---|\n| FX-201 | referral | RF-3001 | routed | Olivia Chen - Referrals | ui_verified | 0 |\n| FX-202 | lab_result | LAB-8302 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-203 | imaging_report | IMG-4003 | routed | Noah Patel - Clinical Review | ui_verified | 0 |\n| FX-204 | prior_authorization | PA-4004 | routed | Ethan Brooks - Authorizations | ui_verified | 0 |\n| FX-205 | refill_request | RX-4005 | routed | Ava Wilson - Nursing / Medication | ui_verified | 0 |\n| FX-206 | records_request | MR-4006 | routed | Mia Gomez - Medical Records | ui_verified | 0 |\n| FX-207 | eob | EOB-4007 | routed | Liam Rivera - Billing | ui_verified | 0 |\n| FX-208 | lab_result | LAB-4008 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-209 | - | - | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-210 | referral | - | skipped_duplicate of FX-201 | - | ui_status_new | 0 |\n| FX-211 | imaging_report | IMG-4111 | already_routed | - | preexisting_route_observed | 0 |\n| FX-212 | mixed | LAB-4012A | needs_review | Jordan Ellis - Manual Review | ui_verified | 1 |\n\nLocal OCR cross-check ran on 12/12 extracted faxes\n\nstatus: completed | results: /var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-4yo64nla/download_503_once/work/results/results.json"
+          "detail": "rc=0\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=iuCIZd7k\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-_ju40x0e/download_503_once/work/results/results.json\n\n| Fax | Type | Source ID | Action | Assigned To | Verification | Retries |\n|---|---|---|---|---|---|---|\n| FX-201 | referral | RF-3001 | routed | Olivia Chen - Referrals | ui_verified | 0 |\n| FX-202 | lab_result | LAB-8302 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-203 | imaging_report | IMG-4003 | routed | Noah Patel - Clinical Review | ui_verified | 0 |\n| FX-204 | prior_authorization | PA-4004 | routed | Ethan Brooks - Authorizations | ui_verified | 0 |\n| FX-205 | refill_request | RX-4005 | routed | Ava Wilson - Nursing / Medication | ui_verified | 0 |\n| FX-206 | records_request | MR-4006 | routed | Mia Gomez - Medical Records | ui_verified | 0 |\n| FX-207 | eob | EOB-4007 | routed | Liam Rivera - Billing | ui_verified | 0 |\n| FX-208 | lab_result | LAB-4008 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-209 | - | - | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-210 | referral | - | skipped_duplicate of FX-201 | - | ui_status_new | 0 |\n| FX-211 | imaging_report | IMG-4111 | already_routed | - | preexisting_route_observed | 0 |\n| FX-212 | mixed | LAB-4012A | needs_review | Jordan Ellis - Manual Review | ui_verified | 1 |\n\nLocal OCR cross-check ran on 12/12 extracted faxes\n\nstatus: completed | results: /var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-_ju40x0e/download_503_once/work/results/results.json"
         },
         {
           "check": "results.json written",
@@ -192,7 +192,7 @@
         }
       ],
       "info": {
-        "seconds": 32.7,
+        "seconds": 30.8,
         "fault_fax": "FX-212"
       }
     },
@@ -200,12 +200,12 @@
       "case": "session_expire_on_route_once",
       "scenario": "session deleted during submit",
       "pass": true,
-      "seconds": 36.4,
+      "seconds": 34.4,
       "checks": [
         {
           "check": "agent exits 0",
           "ok": true,
-          "detail": "rc=0\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=B-KNrx1q\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-4yo64nla/session_expire_on_route_once/work/results/results.json\n\n| Fax | Type | Source ID | Action | Assigned To | Verification | Retries |\n|---|---|---|---|---|---|---|\n| FX-201 | referral | RF-3001 | routed | Olivia Chen - Referrals | ui_verified | 1 |\n| FX-202 | lab_result | LAB-8302 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-203 | imaging_report | IMG-4003 | routed | Noah Patel - Clinical Review | ui_verified | 0 |\n| FX-204 | prior_authorization | PA-4004 | routed | Ethan Brooks - Authorizations | ui_verified | 0 |\n| FX-205 | refill_request | RX-4005 | routed | Ava Wilson - Nursing / Medication | ui_verified | 0 |\n| FX-206 | records_request | MR-4006 | routed | Mia Gomez - Medical Records | ui_verified | 0 |\n| FX-207 | eob | EOB-4007 | routed | Liam Rivera - Billing | ui_verified | 0 |\n| FX-208 | lab_result | LAB-4008 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-209 | - | - | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-210 | referral | - | skipped_duplicate of FX-201 | - | ui_status_new | 0 |\n| FX-211 | imaging_report | IMG-4111 | already_routed | - | preexisting_route_observed | 0 |\n| FX-212 | mixed | LAB-4012A | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n\nLocal OCR cross-check ran on 12/12 extracted faxes\n\nstatus: completed | results: /var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-4yo64nla/session_expire_on_route_once/work/results/results.json"
+          "detail": "rc=0\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=SXrol88E\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-_ju40x0e/session_expire_on_route_once/work/results/results.json\n\n| Fax | Type | Source ID | Action | Assigned To | Verification | Retries |\n|---|---|---|---|---|---|---|\n| FX-201 | referral | RF-3001 | routed | Olivia Chen - Referrals | ui_verified | 1 |\n| FX-202 | lab_result | LAB-8302 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-203 | imaging_report | IMG-4003 | routed | Noah Patel - Clinical Review | ui_verified | 0 |\n| FX-204 | prior_authorization | PA-4004 | routed | Ethan Brooks - Authorizations | ui_verified | 0 |\n| FX-205 | refill_request | RX-4005 | routed | Ava Wilson - Nursing / Medication | ui_verified | 0 |\n| FX-206 | records_request | MR-4006 | routed | Mia Gomez - Medical Records | ui_verified | 0 |\n| FX-207 | eob | EOB-4007 | routed | Liam Rivera - Billing | ui_verified | 0 |\n| FX-208 | lab_result | LAB-4008 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-209 | - | - | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-210 | referral | - | skipped_duplicate of FX-201 | - | ui_status_new | 0 |\n| FX-211 | imaging_report | IMG-4111 | already_routed | - | preexisting_route_observed | 0 |\n| FX-212 | mixed | LAB-4012A | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n\nLocal OCR cross-check ran on 12/12 extracted faxes\n\nstatus: completed | results: /var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-_ju40x0e/session_expire_on_route_once/work/results/results.json"
         },
         {
           "check": "results.json written",
@@ -275,7 +275,7 @@
         {
           "check": "FX-201: re-login happened in the SAME Session B browser context",
           "ok": true,
-          "detail": "B contexts opened=1 portal sessions used=['vjGx8UXs', 'MfkLiiRA']"
+          "detail": "B contexts opened=1 portal sessions used=['Bt6Nm3fW', 'prYsaTBT']"
         },
         {
           "check": "FX-201: refilled, resubmitted once and verified",
@@ -284,7 +284,7 @@
         }
       ],
       "info": {
-        "seconds": 32.3,
+        "seconds": 30.7,
         "fault_fax": "FX-201"
       }
     },
@@ -292,12 +292,12 @@
       "case": "route_commit_then_503_once",
       "scenario": "route saved, response 503",
       "pass": true,
-      "seconds": 36.1,
+      "seconds": 34.0,
       "checks": [
         {
           "check": "agent exits 0",
           "ok": true,
-          "detail": "rc=0\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=_JiiziWP\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8103/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-4yo64nla/route_commit_then_503_once/work/results/results.json\n\n| Fax | Type | Source ID | Action | Assigned To | Verification | Retries |\n|---|---|---|---|---|---|---|\n| FX-201 | referral | RF-3001 | routed | Olivia Chen - Referrals | ui_verified | 1 |\n| FX-202 | lab_result | LAB-8302 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-203 | imaging_report | IMG-4003 | routed | Noah Patel - Clinical Review | ui_verified | 0 |\n| FX-204 | prior_authorization | PA-4004 | routed | Ethan Brooks - Authorizations | ui_verified | 0 |\n| FX-205 | refill_request | RX-4005 | routed | Ava Wilson - Nursing / Medication | ui_verified | 0 |\n| FX-206 | records_request | MR-4006 | routed | Mia Gomez - Medical Records | ui_verified | 0 |\n| FX-207 | eob | EOB-4007 | routed | Liam Rivera - Billing | ui_verified | 0 |\n| FX-208 | lab_result | LAB-4008 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-209 | - | - | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-210 | referral | - | skipped_duplicate of FX-201 | - | ui_status_new | 0 |\n| FX-211 | imaging_report | IMG-4111 | already_routed | - | preexisting_route_observed | 0 |\n| FX-212 | mixed | LAB-4012A | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n\nLocal OCR cross-check ran on 12/12 extracted faxes\n\nstatus: completed | results: /var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-4yo64nla/route_commit_then_503_once/work/results/results.json"
+          "detail": "rc=0\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=bX00lmwW\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8103/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-_ju40x0e/route_commit_then_503_once/work/results/results.json\n\n| Fax | Type | Source ID | Action | Assigned To | Verification | Retries |\n|---|---|---|---|---|---|---|\n| FX-201 | referral | RF-3001 | routed | Olivia Chen - Referrals | ui_verified | 1 |\n| FX-202 | lab_result | LAB-8302 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-203 | imaging_report | IMG-4003 | routed | Noah Patel - Clinical Review | ui_verified | 0 |\n| FX-204 | prior_authorization | PA-4004 | routed | Ethan Brooks - Authorizations | ui_verified | 0 |\n| FX-205 | refill_request | RX-4005 | routed | Ava Wilson - Nursing / Medication | ui_verified | 0 |\n| FX-206 | records_request | MR-4006 | routed | Mia Gomez - Medical Records | ui_verified | 0 |\n| FX-207 | eob | EOB-4007 | routed | Liam Rivera - Billing | ui_verified | 0 |\n| FX-208 | lab_result | LAB-4008 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-209 | - | - | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-210 | referral | - | skipped_duplicate of FX-201 | - | ui_status_new | 0 |\n| FX-211 | imaging_report | IMG-4111 | already_routed | - | preexisting_route_observed | 0 |\n| FX-212 | mixed | LAB-4012A | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n\nLocal OCR cross-check ran on 12/12 extracted faxes\n\nstatus: completed | results: /var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-_ju40x0e/route_commit_then_503_once/work/results/results.json"
         },
         {
           "check": "results.json written",
@@ -376,7 +376,7 @@
         }
       ],
       "info": {
-        "seconds": 31.7,
+        "seconds": 30.1,
         "fault_fax": "FX-201"
       }
     },
@@ -384,7 +384,7 @@
       "case": "kill@after_download",
       "scenario": "hard exit after first download, resume",
       "pass": true,
-      "seconds": 41.4,
+      "seconds": 38.3,
       "checks": [
         {
           "check": "run 1 hard-exited at after_download",
@@ -394,7 +394,7 @@
         {
           "check": "resume run exits 0",
           "ok": true,
-          "detail": "rc=0\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=xUa29pA8\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8104/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-4yo64nla/kill_after_download/work/results/results.json\n\n| Fax | Type | Source ID | Action | Assigned To | Verification | Retries |\n|---|---|---|---|---|---|---|\n| FX-201 | referral | RF-3001 | routed | Olivia Chen - Referrals | ui_verified | 0 |\n| FX-202 | lab_result | LAB-8302 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-203 | imaging_report | IMG-4003 | routed | Noah Patel - Clinical Review | ui_verified | 0 |\n| FX-204 | prior_authorization | PA-4004 | routed | Ethan Brooks - Authorizations | ui_verified | 0 |\n| FX-205 | refill_request | RX-4005 | routed | Ava Wilson - Nursing / Medication | ui_verified | 0 |\n| FX-206 | records_request | MR-4006 | routed | Mia Gomez - Medical Records | ui_verified | 0 |\n| FX-207 | eob | EOB-4007 | routed | Liam Rivera - Billing | ui_verified | 0 |\n| FX-208 | lab_result | LAB-4008 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-209 | - | - | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-210 | referral | - | skipped_duplicate of FX-201 | - | ui_status_new | 0 |\n| FX-211 | imaging_report | IMG-4111 | already_routed | - | preexisting_route_observed | 0 |\n| FX-212 | mixed | LAB-4012A | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n\nLocal OCR cross-check ran on 12/12 extracted faxes\n\nstatus: completed | results: /var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-4yo64nla/kill_after_download/work/results/results.json"
+          "detail": "rc=0\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=LiuKQUKf\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8104/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-_ju40x0e/kill_after_download/work/results/results.json\n\n| Fax | Type | Source ID | Action | Assigned To | Verification | Retries |\n|---|---|---|---|---|---|---|\n| FX-201 | referral | RF-3001 | routed | Olivia Chen - Referrals | ui_verified | 0 |\n| FX-202 | lab_result | LAB-8302 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-203 | imaging_report | IMG-4003 | routed | Noah Patel - Clinical Review | ui_verified | 0 |\n| FX-204 | prior_authorization | PA-4004 | routed | Ethan Brooks - Authorizations | ui_verified | 0 |\n| FX-205 | refill_request | RX-4005 | routed | Ava Wilson - Nursing / Medication | ui_verified | 0 |\n| FX-206 | records_request | MR-4006 | routed | Mia Gomez - Medical Records | ui_verified | 0 |\n| FX-207 | eob | EOB-4007 | routed | Liam Rivera - Billing | ui_verified | 0 |\n| FX-208 | lab_result | LAB-4008 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-209 | - | - | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-210 | referral | - | skipped_duplicate of FX-201 | - | ui_status_new | 0 |\n| FX-211 | imaging_report | IMG-4111 | already_routed | - | preexisting_route_observed | 0 |\n| FX-212 | mixed | LAB-4012A | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n\nLocal OCR cross-check ran on 12/12 extracted faxes\n\nstatus: completed | results: /var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-_ju40x0e/kill_after_download/work/results/results.json"
         },
         {
           "check": "run 1 submitted nothing",
@@ -470,14 +470,14 @@
       "info": {
         "crashed_fax": "FX-212",
         "done_before_crash": 0,
-        "seconds": 34.5
+        "seconds": 32.1
       }
     },
     {
       "case": "kill@before_click",
       "scenario": "hard exit after INTENT, before submit, resume",
       "pass": true,
-      "seconds": 44.4,
+      "seconds": 42.2,
       "checks": [
         {
           "check": "run 1 hard-exited at before_click",
@@ -487,7 +487,7 @@
         {
           "check": "resume run exits 0",
           "ok": true,
-          "detail": "rc=0\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=CAeCimJo\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8103/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-4yo64nla/kill_before_click/work/results/results.json\n\n| Fax | Type | Source ID | Action | Assigned To | Verification | Retries |\n|---|---|---|---|---|---|---|\n| FX-201 | referral | RF-3001 | routed | Olivia Chen - Referrals | ui_verified | 0 |\n| FX-202 | lab_result | LAB-8302 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-203 | imaging_report | IMG-4003 | routed | Noah Patel - Clinical Review | ui_verified | 0 |\n| FX-204 | prior_authorization | PA-4004 | routed | Ethan Brooks - Authorizations | ui_verified | 0 |\n| FX-205 | refill_request | RX-4005 | routed | Ava Wilson - Nursing / Medication | ui_verified | 0 |\n| FX-206 | records_request | MR-4006 | routed | Mia Gomez - Medical Records | ui_verified | 0 |\n| FX-207 | eob | EOB-4007 | routed | Liam Rivera - Billing | ui_verified | 0 |\n| FX-208 | lab_result | LAB-4008 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-209 | - | - | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-210 | referral | - | skipped_duplicate of FX-201 | - | ui_status_new | 0 |\n| FX-211 | imaging_report | IMG-4111 | already_routed | - | preexisting_route_observed | 0 |\n| FX-212 | mixed | LAB-4012A | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n\nLocal OCR cross-check ran on 12/12 extracted faxes\n\nstatus: completed | results: /var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-4yo64nla/kill_before_click/work/results/results.json"
+          "detail": "rc=0\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=Qjw6CcjQ\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8103/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-_ju40x0e/kill_before_click/work/results/results.json\n\n| Fax | Type | Source ID | Action | Assigned To | Verification | Retries |\n|---|---|---|---|---|---|---|\n| FX-201 | referral | RF-3001 | routed | Olivia Chen - Referrals | ui_verified | 0 |\n| FX-202 | lab_result | LAB-8302 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-203 | imaging_report | IMG-4003 | routed | Noah Patel - Clinical Review | ui_verified | 0 |\n| FX-204 | prior_authorization | PA-4004 | routed | Ethan Brooks - Authorizations | ui_verified | 0 |\n| FX-205 | refill_request | RX-4005 | routed | Ava Wilson - Nursing / Medication | ui_verified | 0 |\n| FX-206 | records_request | MR-4006 | routed | Mia Gomez - Medical Records | ui_verified | 0 |\n| FX-207 | eob | EOB-4007 | routed | Liam Rivera - Billing | ui_verified | 0 |\n| FX-208 | lab_result | LAB-4008 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-209 | - | - | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-210 | referral | - | skipped_duplicate of FX-201 | - | ui_status_new | 0 |\n| FX-211 | imaging_report | IMG-4111 | already_routed | - | preexisting_route_observed | 0 |\n| FX-212 | mixed | LAB-4012A | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n\nLocal OCR cross-check ran on 12/12 extracted faxes\n\nstatus: completed | results: /var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-_ju40x0e/kill_before_click/work/results/results.json"
         },
         {
           "check": "FX-201: no submit before the crash; exactly one after resume",
@@ -563,14 +563,14 @@
       "info": {
         "crashed_fax": "FX-201",
         "done_before_crash": 0,
-        "seconds": 37.5
+        "seconds": 36.2
       }
     },
     {
       "case": "kill@after_click",
       "scenario": "hard exit after submit, before verify, resume",
       "pass": true,
-      "seconds": 44.0,
+      "seconds": 41.4,
       "checks": [
         {
           "check": "run 1 hard-exited at after_click",
@@ -580,7 +580,7 @@
         {
           "check": "resume run exits 0",
           "ok": true,
-          "detail": "rc=0\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=XKVBQnwJ\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-4yo64nla/kill_after_click/work/results/results.json\n\n| Fax | Type | Source ID | Action | Assigned To | Verification | Retries |\n|---|---|---|---|---|---|---|\n| FX-201 | referral | RF-3001 | routed | Olivia Chen - Referrals | ui_verified | 0 |\n| FX-202 | lab_result | LAB-8302 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-203 | imaging_report | IMG-4003 | routed | Noah Patel - Clinical Review | ui_verified | 0 |\n| FX-204 | prior_authorization | PA-4004 | routed | Ethan Brooks - Authorizations | ui_verified | 0 |\n| FX-205 | refill_request | RX-4005 | routed | Ava Wilson - Nursing / Medication | ui_verified | 0 |\n| FX-206 | records_request | MR-4006 | routed | Mia Gomez - Medical Records | ui_verified | 0 |\n| FX-207 | eob | EOB-4007 | routed | Liam Rivera - Billing | ui_verified | 0 |\n| FX-208 | lab_result | LAB-4008 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-209 | - | - | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-210 | referral | - | skipped_duplicate of FX-201 | - | ui_status_new | 0 |\n| FX-211 | imaging_report | IMG-4111 | already_routed | - | preexisting_route_observed | 0 |\n| FX-212 | mixed | LAB-4012A | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n\nLocal OCR cross-check ran on 12/12 extracted faxes\n\nstatus: completed | results: /var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-4yo64nla/kill_after_click/work/results/results.json"
+          "detail": "rc=0\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=9UHkrYaE\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-_ju40x0e/kill_after_click/work/results/results.json\n\n| Fax | Type | Source ID | Action | Assigned To | Verification | Retries |\n|---|---|---|---|---|---|---|\n| FX-201 | referral | RF-3001 | routed | Olivia Chen - Referrals | ui_verified | 0 |\n| FX-202 | lab_result | LAB-8302 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-203 | imaging_report | IMG-4003 | routed | Noah Patel - Clinical Review | ui_verified | 0 |\n| FX-204 | prior_authorization | PA-4004 | routed | Ethan Brooks - Authorizations | ui_verified | 0 |\n| FX-205 | refill_request | RX-4005 | routed | Ava Wilson - Nursing / Medication | ui_verified | 0 |\n| FX-206 | records_request | MR-4006 | routed | Mia Gomez - Medical Records | ui_verified | 0 |\n| FX-207 | eob | EOB-4007 | routed | Liam Rivera - Billing | ui_verified | 0 |\n| FX-208 | lab_result | LAB-4008 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-209 | - | - | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-210 | referral | - | skipped_duplicate of FX-201 | - | ui_status_new | 0 |\n| FX-211 | imaging_report | IMG-4111 | already_routed | - | preexisting_route_observed | 0 |\n| FX-212 | mixed | LAB-4012A | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n\nLocal OCR cross-check ran on 12/12 extracted faxes\n\nstatus: completed | results: /var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-_ju40x0e/kill_after_click/work/results/results.json"
         },
         {
           "check": "FX-201: submitted before the crash, NOT resubmitted on resume",
@@ -661,14 +661,14 @@
       "info": {
         "crashed_fax": "FX-201",
         "done_before_crash": 0,
-        "seconds": 37.5
+        "seconds": 35.599999999999994
       }
     },
     {
       "case": "kill@after_click#4",
       "scenario": "hard exit after the 4th submit (3 faxes done, unreported), resume",
       "pass": true,
-      "seconds": 43.8,
+      "seconds": 40.3,
       "checks": [
         {
           "check": "run 1 hard-exited at after_click#4",
@@ -683,7 +683,7 @@
         {
           "check": "resume run exits 0",
           "ok": true,
-          "detail": "rc=0\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=-0gw4Mi_\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-4yo64nla/kill_after_click#4/work/results/results.json\n\n| Fax | Type | Source ID | Action | Assigned To | Verification | Retries |\n|---|---|---|---|---|---|---|\n| FX-201 | referral | RF-3001 | routed | Olivia Chen - Referrals | ui_verified | 0 |\n| FX-202 | lab_result | LAB-8302 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-203 | imaging_report | IMG-4003 | routed | Noah Patel - Clinical Review | ui_verified | 0 |\n| FX-204 | prior_authorization | PA-4004 | routed | Ethan Brooks - Authorizations | ui_verified | 0 |\n| FX-205 | refill_request | RX-4005 | routed | Ava Wilson - Nursing / Medication | ui_verified | 0 |\n| FX-206 | records_request | MR-4006 | routed | Mia Gomez - Medical Records | ui_verified | 0 |\n| FX-207 | eob | EOB-4007 | routed | Liam Rivera - Billing | ui_verified | 0 |\n| FX-208 | lab_result | LAB-4008 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-209 | - | - | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-210 | referral | - | skipped_duplicate of FX-201 | - | ui_status_new | 0 |\n| FX-211 | imaging_report | IMG-4111 | already_routed | - | preexisting_route_observed | 0 |\n| FX-212 | mixed | LAB-4012A | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n\nLocal OCR cross-check ran on 12/12 extracted faxes\n\nstatus: completed | results: /var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-4yo64nla/kill_after_click#4/work/results/results.json"
+          "detail": "rc=0\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=axige7G0\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-_ju40x0e/kill_after_click#4/work/results/results.json\n\n| Fax | Type | Source ID | Action | Assigned To | Verification | Retries |\n|---|---|---|---|---|---|---|\n| FX-201 | referral | RF-3001 | routed | Olivia Chen - Referrals | ui_verified | 0 |\n| FX-202 | lab_result | LAB-8302 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-203 | imaging_report | IMG-4003 | routed | Noah Patel - Clinical Review | ui_verified | 0 |\n| FX-204 | prior_authorization | PA-4004 | routed | Ethan Brooks - Authorizations | ui_verified | 0 |\n| FX-205 | refill_request | RX-4005 | routed | Ava Wilson - Nursing / Medication | ui_verified | 0 |\n| FX-206 | records_request | MR-4006 | routed | Mia Gomez - Medical Records | ui_verified | 0 |\n| FX-207 | eob | EOB-4007 | routed | Liam Rivera - Billing | ui_verified | 0 |\n| FX-208 | lab_result | LAB-4008 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-209 | - | - | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-210 | referral | - | skipped_duplicate of FX-201 | - | ui_status_new | 0 |\n| FX-211 | imaging_report | IMG-4111 | already_routed | - | preexisting_route_observed | 0 |\n| FX-212 | mixed | LAB-4012A | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n\nLocal OCR cross-check ran on 12/12 extracted faxes\n\nstatus: completed | results: /var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-_ju40x0e/kill_after_click#4/work/results/results.json"
         },
         {
           "check": "FX-204: submitted before the crash, NOT resubmitted on resume",
@@ -764,14 +764,14 @@
       "info": {
         "crashed_fax": "FX-204",
         "done_before_crash": 3,
-        "seconds": 36.8
+        "seconds": 34.5
       }
     },
     {
       "case": "portal_reset_stale_checkpoint",
       "scenario": "full run, sandbox reset, rerun same work dir",
-      "pass": false,
-      "seconds": 53.3,
+      "pass": true,
+      "seconds": 51.2,
       "checks": [
         {
           "check": "first run exits 0",
@@ -786,7 +786,7 @@
         {
           "check": "rerun after reset exits 0",
           "ok": true,
-          "detail": "rc=0\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=b-d8hLda\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8104/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-4yo64nla/portal_reset_stale_checkpoint/work/results/results.json\n\n| Fax | Type | Source ID | Action | Assigned To | Verification | Retries |\n|---|---|---|---|---|---|---|\n| FX-201 | referral | RF-3001 | routed | Olivia Chen - Referrals | ui_verified | 0 |\n| FX-202 | lab_result | LAB-8302 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-203 | imaging_report | IMG-4003 | routed | Noah Patel - Clinical Review | ui_verified | 0 |\n| FX-204 | prior_authorization | PA-4004 | routed | Ethan Brooks - Authorizations | ui_verified | 0 |\n| FX-205 | refill_request | RX-4005 | routed | Ava Wilson - Nursing / Medication | ui_verified | 0 |\n| FX-206 | records_request | MR-4006 | routed | Mia Gomez - Medical Records | ui_verified | 0 |\n| FX-207 | eob | EOB-4007 | routed | Liam Rivera - Billing | ui_verified | 0 |\n| FX-208 | lab_result | LAB-4008 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-209 | - | - | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-210 | referral | - | skipped_duplicate of FX-201 | - | ui_status_new | 0 |\n| FX-211 | imaging_report | IMG-4111 | already_routed | - | preexisting_route_observed | 0 |\n| FX-212 | mixed | LAB-4012A | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n\nLocal OCR cross-check ran on 12/12 extracted faxes\n\nstatus: completed | results: /var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-4yo64nla/portal_reset_stale_checkpoint/work/results/results.json"
+          "detail": "rc=0\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=84rBxVXp\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8104/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-_ju40x0e/portal_reset_stale_checkpoint/work/results/results.json\n\n| Fax | Type | Source ID | Action | Assigned To | Verification | Retries |\n|---|---|---|---|---|---|---|\n| FX-201 | referral | RF-3001 | routed | Olivia Chen - Referrals | ui_verified | 0 |\n| FX-202 | lab_result | LAB-8302 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-203 | imaging_report | IMG-4003 | routed | Noah Patel - Clinical Review | ui_verified | 0 |\n| FX-204 | prior_authorization | PA-4004 | routed | Ethan Brooks - Authorizations | ui_verified | 0 |\n| FX-205 | refill_request | RX-4005 | routed | Ava Wilson - Nursing / Medication | ui_verified | 0 |\n| FX-206 | records_request | MR-4006 | routed | Mia Gomez - Medical Records | ui_verified | 0 |\n| FX-207 | eob | EOB-4007 | routed | Liam Rivera - Billing | ui_verified | 0 |\n| FX-208 | lab_result | LAB-4008 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-209 | - | - | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-210 | referral | - | skipped_duplicate of FX-201 | - | ui_status_new | 0 |\n| FX-211 | imaging_report | IMG-4111 | already_routed | - | preexisting_route_observed | 0 |\n| FX-212 | mixed | LAB-4012A | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n\nLocal OCR cross-check ran on 12/12 extracted faxes\n\nstatus: completed | results: /var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-_ju40x0e/portal_reset_stale_checkpoint/work/results/results.json"
         },
         {
           "check": "reconcile noticed every fax we had routed is New again",
@@ -855,19 +855,19 @@
         },
         {
           "check": "reset outcomes re-reported (new portal world), nothing else",
-          "ok": false,
-          "detail": "[]"
+          "ok": true,
+          "detail": "['FX-201', 'FX-202', 'FX-203', 'FX-204', 'FX-205', 'FX-206', 'FX-207', 'FX-208', 'FX-209', 'FX-212']"
         }
       ],
       "info": {
-        "seconds": 46.3
+        "seconds": 44.1
       }
     },
     {
       "case": "reset_mid_run_409",
       "scenario": "sandbox reset after first download: 409 + dead Session A",
       "pass": true,
-      "seconds": 34.9,
+      "seconds": 33.9,
       "checks": [
         {
           "check": "agent downloaded a first fax",
@@ -877,7 +877,7 @@
         {
           "check": "agent exits 0",
           "ok": true,
-          "detail": "rc=0\n[downloaded] FX-212 session=8fn1e_3d sha=38773f9acc30 pages=3 attempts=1 ms=266\n[session_started] FX-212 label=B session=kVkcZNX1\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-4yo64nla/reset_mid_run_409/work/results/results.json\n\n| Fax | Type | Source ID | Action | Assigned To | Verification | Retries |\n|---|---|---|---|---|---|---|\n| FX-201 | referral | RF-3001 | routed | Olivia Chen - Referrals | ui_verified | 0 |\n| FX-202 | lab_result | LAB-8302 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-203 | imaging_report | IMG-4003 | routed | Noah Patel - Clinical Review | ui_verified | 0 |\n| FX-204 | prior_authorization | PA-4004 | routed | Ethan Brooks - Authorizations | ui_verified | 0 |\n| FX-205 | refill_request | RX-4005 | routed | Ava Wilson - Nursing / Medication | ui_verified | 0 |\n| FX-206 | records_request | MR-4006 | routed | Mia Gomez - Medical Records | ui_verified | 0 |\n| FX-207 | eob | EOB-4007 | routed | Liam Rivera - Billing | ui_verified | 0 |\n| FX-208 | lab_result | LAB-4008 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-209 | - | - | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-210 | referral | - | skipped_duplicate of FX-201 | - | ui_status_new | 0 |\n| FX-211 | imaging_report | IMG-4111 | already_routed | - | preexisting_route_observed | 0 |\n| FX-212 | mixed | LAB-4012A | needs_review | Jordan Ellis - Manual Review | ui_verified | 1 |\n\nLocal OCR cross-check ran on 12/12 extracted faxes\n\nstatus: completed | results: /var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-4yo64nla/reset_mid_run_409/work/results/results.json"
+          "detail": "rc=0\n[downloaded] FX-212 session=tLcp33-G sha=38773f9acc30 pages=3 attempts=1 ms=223\n[session_started] FX-212 label=B session=1KOQjBf8\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-_ju40x0e/reset_mid_run_409/work/results/results.json\n\n| Fax | Type | Source ID | Action | Assigned To | Verification | Retries |\n|---|---|---|---|---|---|---|\n| FX-201 | referral | RF-3001 | routed | Olivia Chen - Referrals | ui_verified | 0 |\n| FX-202 | lab_result | LAB-8302 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-203 | imaging_report | IMG-4003 | routed | Noah Patel - Clinical Review | ui_verified | 0 |\n| FX-204 | prior_authorization | PA-4004 | routed | Ethan Brooks - Authorizations | ui_verified | 0 |\n| FX-205 | refill_request | RX-4005 | routed | Ava Wilson - Nursing / Medication | ui_verified | 0 |\n| FX-206 | records_request | MR-4006 | routed | Mia Gomez - Medical Records | ui_verified | 0 |\n| FX-207 | eob | EOB-4007 | routed | Liam Rivera - Billing | ui_verified | 0 |\n| FX-208 | lab_result | LAB-4008 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-209 | - | - | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-210 | referral | - | skipped_duplicate of FX-201 | - | ui_status_new | 0 |\n| FX-211 | imaging_report | IMG-4111 | already_routed | - | preexisting_route_observed | 0 |\n| FX-212 | mixed | LAB-4012A | needs_review | Jordan Ellis - Manual Review | ui_verified | 1 |\n\nLocal OCR cross-check ran on 12/12 extracted faxes\n\nstatus: completed | results: /var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-_ju40x0e/reset_mid_run_409/work/results/results.json"
         },
         {
           "check": "FX-212: portal rejected the route with 409 (download lost in reset)",
@@ -892,7 +892,7 @@
         {
           "check": "Session A re-authenticated after its login vanished in the reset",
           "ok": true,
-          "detail": "download sessions before routing: {'_qoPZ1FR', 'K04Mo0Mg'}"
+          "detail": "download sessions before routing: {'QNlrY07y', 'LHf4qA6U'}"
         },
         {
           "check": "results.json written",
@@ -956,7 +956,7 @@
         }
       ],
       "info": {
-        "seconds": 31.3,
+        "seconds": 30.4,
         "fault_fax": "FX-212"
       }
     },
@@ -964,12 +964,12 @@
       "case": "download_gives_up",
       "scenario": "one fax undownloadable in run 1, healthy run 2",
       "pass": true,
-      "seconds": 41.5,
+      "seconds": 41.1,
       "checks": [
         {
           "check": "run 1 exits 1 (completed with failures), not a crash",
           "ok": true,
-          "detail": "rc=1\n[fax_done] FX-209 action=failed verified=not_processed\n[fax_done] FX-210 action=failed verified=not_processed\n[session_started] FX-211 label=V session=J7I8YgTQ\n[fax_done] FX-211 action=already_routed verified=preexisting_route_observed\n[fax_done] FX-212 action=failed verified=not_processed\n[run_finished]  status=completed_with_failures results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-4yo64nla/download_gives_up/work/results/results.json\n\n| Fax | Type | Source ID | Action | Assigned To | Verification | Retries |\n|---|---|---|---|---|---|---|\n| FX-201 | - | - | failed | - | not_processed | 1 |\n| FX-202 | - | - | failed | - | not_processed | 0 |\n| FX-203 | - | - | failed | - | not_processed | 0 |\n| FX-204 | - | - | failed | - | not_processed | 0 |\n| FX-205 | - | - | failed | - | not_processed | 0 |\n| FX-206 | - | - | failed | - | not_processed | 0 |\n| FX-207 | - | - | failed | - | not_processed | 0 |\n| FX-208 | - | - | failed | - | not_processed | 0 |\n| FX-209 | - | - | failed | - | not_processed | 0 |\n| FX-210 | - | - | failed | - | not_processed | 0 |\n| FX-211 | imaging_report | IMG-4111 | already_routed | - | preexisting_route_observed | 0 |\n| FX-212 | - | - | failed | - | not_processed | 0 |\n\nLocal OCR cross-check ran on 11/11 extracted faxes\n\nstatus: completed_with_failures | results: /var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-4yo64nla/download_gives_up/work/results/results.json"
+          "detail": "rc=1\n[fax_done] FX-209 action=failed verified=not_processed\n[fax_done] FX-210 action=failed verified=not_processed\n[session_started] FX-211 label=V session=AMS_5Eap\n[fax_done] FX-211 action=already_routed verified=preexisting_route_observed\n[fax_done] FX-212 action=failed verified=not_processed\n[run_finished]  status=completed_with_failures results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-_ju40x0e/download_gives_up/work/results/results.json\n\n| Fax | Type | Source ID | Action | Assigned To | Verification | Retries |\n|---|---|---|---|---|---|---|\n| FX-201 | - | - | failed | - | not_processed | 1 |\n| FX-202 | - | - | failed | - | not_processed | 0 |\n| FX-203 | - | - | failed | - | not_processed | 0 |\n| FX-204 | - | - | failed | - | not_processed | 0 |\n| FX-205 | - | - | failed | - | not_processed | 0 |\n| FX-206 | - | - | failed | - | not_processed | 0 |\n| FX-207 | - | - | failed | - | not_processed | 0 |\n| FX-208 | - | - | failed | - | not_processed | 0 |\n| FX-209 | - | - | failed | - | not_processed | 0 |\n| FX-210 | - | - | failed | - | not_processed | 0 |\n| FX-211 | imaging_report | IMG-4111 | already_routed | - | preexisting_route_observed | 0 |\n| FX-212 | - | - | failed | - | not_processed | 0 |\n\nLocal OCR cross-check ran on 11/11 extracted faxes\n\nstatus: completed_with_failures | results: /var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-_ju40x0e/download_gives_up/work/results/results.json"
         },
         {
           "check": "FX-201: undownloadable fax reported failed/not_processed, never decided or submitted",
@@ -994,7 +994,7 @@
         {
           "check": "run 2 (download healthy) exits 0",
           "ok": true,
-          "detail": "rc=0\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=pQdgL-TS\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8101/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-4yo64nla/download_gives_up/work/results/results.json\n\n| Fax | Type | Source ID | Action | Assigned To | Verification | Retries |\n|---|---|---|---|---|---|---|\n| FX-201 | referral | RF-3001 | routed | Olivia Chen - Referrals | ui_verified | 1 |\n| FX-202 | lab_result | LAB-8302 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-203 | imaging_report | IMG-4003 | routed | Noah Patel - Clinical Review | ui_verified | 0 |\n| FX-204 | prior_authorization | PA-4004 | routed | Ethan Brooks - Authorizations | ui_verified | 0 |\n| FX-205 | refill_request | RX-4005 | routed | Ava Wilson - Nursing / Medication | ui_verified | 0 |\n| FX-206 | records_request | MR-4006 | routed | Mia Gomez - Medical Records | ui_verified | 0 |\n| FX-207 | eob | EOB-4007 | routed | Liam Rivera - Billing | ui_verified | 0 |\n| FX-208 | lab_result | LAB-4008 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-209 | - | - | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-210 | referral | - | skipped_duplicate of FX-201 | - | ui_status_new | 0 |\n| FX-211 | imaging_report | IMG-4111 | already_routed | - | preexisting_route_observed | 0 |\n| FX-212 | mixed | LAB-4012A | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n\nLocal OCR cross-check ran on 12/12 extracted faxes\n\nstatus: completed | results: /var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-4yo64nla/download_gives_up/work/results/results.json"
+          "detail": "rc=0\n[intent_written] FX-212 \n[session_started] FX-212 label=B session=wRyhshsR\n[submit_success] FX-212 detail=http=303 url=http://127.0.0.1:8102/faxes/FX-212?notice_type=success \n[verify_ok] FX-212 detail=routing panel and Routed Documents both match intent\n[fax_done] FX-212 action=needs_review verified=ui_verified\n[run_finished]  status=completed results=/var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-_ju40x0e/download_gives_up/work/results/results.json\n\n| Fax | Type | Source ID | Action | Assigned To | Verification | Retries |\n|---|---|---|---|---|---|---|\n| FX-201 | referral | RF-3001 | routed | Olivia Chen - Referrals | ui_verified | 1 |\n| FX-202 | lab_result | LAB-8302 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-203 | imaging_report | IMG-4003 | routed | Noah Patel - Clinical Review | ui_verified | 0 |\n| FX-204 | prior_authorization | PA-4004 | routed | Ethan Brooks - Authorizations | ui_verified | 0 |\n| FX-205 | refill_request | RX-4005 | routed | Ava Wilson - Nursing / Medication | ui_verified | 0 |\n| FX-206 | records_request | MR-4006 | routed | Mia Gomez - Medical Records | ui_verified | 0 |\n| FX-207 | eob | EOB-4007 | routed | Liam Rivera - Billing | ui_verified | 0 |\n| FX-208 | lab_result | LAB-4008 | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-209 | - | - | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n| FX-210 | referral | - | skipped_duplicate of FX-201 | - | ui_status_new | 0 |\n| FX-211 | imaging_report | IMG-4111 | already_routed | - | preexisting_route_observed | 0 |\n| FX-212 | mixed | LAB-4012A | needs_review | Jordan Ellis - Manual Review | ui_verified | 0 |\n\nLocal OCR cross-check ran on 12/12 extracted faxes\n\nstatus: completed | results: /var/folders/6q/ddvryb3x4yb31zlvvn8l4pd80000gn/T/linda-chaos-_ju40x0e/download_gives_up/work/results/results.json"
         },
         {
           "check": "run 2 retried every failed fax",
@@ -1065,14 +1065,14 @@
       "info": {
         "failed_fax": "FX-201",
         "held": 10,
-        "seconds": 32.6
+        "seconds": 32.0
       }
     },
     {
       "case": "download_reauth",
       "scenario": "login expires right before Download click",
       "pass": true,
-      "seconds": 2.9,
+      "seconds": 3.1,
       "checks": [
         {
           "check": "expiry fired before the Download click",
@@ -1096,7 +1096,7 @@
       "case": "two_session_409",
       "scenario": "same-session submit is refused and classified",
       "pass": true,
-      "seconds": 5.6,
+      "seconds": 5.5,
       "checks": [
         {
           "check": "same-session submit classified as two_session (HTTP 409)",

@@ -1,6 +1,6 @@
 {
-  "run_id": "20261106T053209Z",
-  "generated_at": 1793943157.939666,
+  "run_id": "20261106T064018Z-192",
+  "generated_at": "2026-11-06T06:40:43Z",
   "count": 12,
   "newly_reported_this_run": [
     "FX-201",
@@ -25,6 +25,12 @@
       "pages": 2,
       "extracted_type": "referral",
       "source_doc_id": "RF-3001",
+      "categories": [
+        "referral"
+      ],
+      "identifiers": [
+        "RF-3001"
+      ],
       "evidence": [
         "NEW PATIENT REFERRAL REQUEST",
         "Referring physician: Dr. Mira Gomez",
@@ -35,7 +41,7 @@
       "action": "routed",
       "reasons": [
         "classified as referral",
-        "note: refers to content not in packet (p1: Confidential patient paperwork follows on the next page.; p2: Please review attached patient details.); page markers show packet complete"
+        "note: refers to other documents not sent in this fax (p2: Please review attached patient details.); not treated as missing pages"
       ],
       "duplicate_of": null,
       "selected_fields": {
@@ -64,10 +70,10 @@
       },
       "sessions": {
         "download_session_a": [
-          "v2ZMHiyW"
+          "9SGq6FeF"
         ],
         "route_sessions_b": [
-          "hoEg8GmG"
+          "2pn3OUcU"
         ]
       },
       "pdf_sha256": "3e5d967db98e1c52d6dd7a83eaa50620e65ca51fa2bf1c9a622720e019e88a39",
@@ -84,33 +90,52 @@
           "ran": true,
           "contradictions": [],
           "warnings": [],
-          "mean_conf": 94.4
+          "mean_conf": 94.4,
+          "pages": [
+            {
+              "page": 1,
+              "mean_conf": 93.9,
+              "chars": 459,
+              "footer_ids": [
+                "FX-201"
+              ]
+            },
+            {
+              "page": 2,
+              "mean_conf": 94.8,
+              "chars": 419,
+              "footer_ids": [
+                "FX-201"
+              ]
+            }
+          ]
         },
         "text_layer_present": false
       },
       "errors": [],
       "attempts": [
         {
-          "run_id": "20261106T053209Z",
+          "run_id": "20261106T064018Z-192",
           "stage": "download",
           "outcome": "ok",
           "detail": "sha256=3e5d967db98e pages=2"
         },
         {
-          "run_id": "20261106T053209Z",
+          "run_id": "20261106T064018Z-192",
           "stage": "submit",
           "outcome": "success",
-          "detail": "http=303 url=http://127.0.0.1:8311/faxes/FX-201?notice_type=success "
+          "detail": "http=303 url=http://127.0.0.1:8000/faxes/FX-201?notice_type=success "
         },
         {
-          "run_id": "20261106T053209Z",
+          "run_id": "20261106T064018Z-192",
           "stage": "verify",
           "outcome": "ok",
           "detail": "routing panel and Routed Documents both match intent"
         }
       ],
+      "submits": 1,
       "retries": 0,
-      "finished_at": 1793943149.2198012
+      "finished_at": "2026-11-06T06:40:35Z"
     },
     {
       "fax_id": "FX-202",
@@ -119,6 +144,12 @@
       "pages": 1,
       "extracted_type": "lab_result",
       "source_doc_id": "LAB-8302",
+      "categories": [
+        "lab_result"
+      ],
+      "identifiers": [
+        "LAB-8302"
+      ],
       "evidence": [
         "LABORATORY RESULTS",
         "SUMMIT DIAGNOSTIC LABS",
@@ -160,10 +191,10 @@
       },
       "sessions": {
         "download_session_a": [
-          "v2ZMHiyW"
+          "9SGq6FeF"
         ],
         "route_sessions_b": [
-          "QgVmj27I"
+          "e9sqSzKT"
         ]
       },
       "pdf_sha256": "519e074e41a3bc3d89aba0eaa42e512bdad98db090992b48a89d2685edddf8cc",
@@ -180,33 +211,44 @@
           "ran": true,
           "contradictions": [],
           "warnings": [],
-          "mean_conf": 91.9
+          "mean_conf": 91.9,
+          "pages": [
+            {
+              "page": 1,
+              "mean_conf": 91.9,
+              "chars": 488,
+              "footer_ids": [
+                "FX-202"
+              ]
+            }
+          ]
         },
         "text_layer_present": false
       },
       "errors": [],
       "attempts": [
         {
-          "run_id": "20261106T053209Z",
+          "run_id": "20261106T064018Z-192",
           "stage": "download",
           "outcome": "ok",
           "detail": "sha256=519e074e41a3 pages=1"
         },
         {
-          "run_id": "20261106T053209Z",
+          "run_id": "20261106T064018Z-192",
           "stage": "submit",
           "outcome": "success",
-          "detail": "http=303 url=http://127.0.0.1:8311/faxes/FX-202?notice_type=success "
+          "detail": "http=303 url=http://127.0.0.1:8000/faxes/FX-202?notice_type=success "
         },
         {
-          "run_id": "20261106T053209Z",
+          "run_id": "20261106T064018Z-192",
           "stage": "verify",
           "outcome": "ok",
           "detail": "routing panel and Routed Documents both match intent"
         }
       ],
+      "submits": 1,
       "retries": 0,
-      "finished_at": 1793943150.1323268
+      "finished_at": "2026-11-06T06:40:35Z"
     },
     {
       "fax_id": "FX-203",
@@ -215,6 +257,12 @@
       "pages": 1,
       "extracted_type": "imaging_report",
       "source_doc_id": "IMG-4003",
+      "categories": [
+        "imaging_report"
+      ],
+      "identifiers": [
+        "IMG-4003"
+      ],
       "evidence": [
         "DIAGNOSTIC IMAGING REPORT",
         "Study: MRI cervical spine without contrast",
@@ -225,7 +273,7 @@
       "action": "routed",
       "reasons": [
         "classified as imaging_report",
-        "note: refers to content not in packet (p1: Impression: See full radiology findings.); page markers show packet complete"
+        "note: refers to other documents not sent in this fax (p1: Impression: See full radiology findings.); not treated as missing pages"
       ],
       "duplicate_of": null,
       "selected_fields": {
@@ -254,10 +302,10 @@
       },
       "sessions": {
         "download_session_a": [
-          "v2ZMHiyW"
+          "9SGq6FeF"
         ],
         "route_sessions_b": [
-          "9czgS83H"
+          "WAroyAyK"
         ]
       },
       "pdf_sha256": "ab215f8f481801f254bc5f983145ee848d42123c728024ce1354f376c3da4ded",
@@ -274,33 +322,44 @@
           "ran": true,
           "contradictions": [],
           "warnings": [],
-          "mean_conf": 91.7
+          "mean_conf": 91.7,
+          "pages": [
+            {
+              "page": 1,
+              "mean_conf": 91.7,
+              "chars": 437,
+              "footer_ids": [
+                "FX-203"
+              ]
+            }
+          ]
         },
         "text_layer_present": false
       },
       "errors": [],
       "attempts": [
         {
-          "run_id": "20261106T053209Z",
+          "run_id": "20261106T064018Z-192",
           "stage": "download",
           "outcome": "ok",
           "detail": "sha256=ab215f8f4818 pages=1"
         },
         {
-          "run_id": "20261106T053209Z",
+          "run_id": "20261106T064018Z-192",
           "stage": "submit",
           "outcome": "success",
-          "detail": "http=303 url=http://127.0.0.1:8311/faxes/FX-203?notice_type=success "
+          "detail": "http=303 url=http://127.0.0.1:8000/faxes/FX-203?notice_type=success "
         },
         {
-          "run_id": "20261106T053209Z",
+          "run_id": "20261106T064018Z-192",
           "stage": "verify",
           "outcome": "ok",
           "detail": "routing panel and Routed Documents both match intent"
         }
       ],
+      "submits": 1,
       "retries": 0,
-      "finished_at": 1793943150.997555
+      "finished_at": "2026-11-06T06:40:36Z"
     },
     {
       "fax_id": "FX-204",
@@ -309,6 +368,12 @@
       "pages": 1,
       "extracted_type": "prior_authorization",
       "source_doc_id": "PA-4004",
+      "categories": [
+        "prior_authorization"
+      ],
+      "identifiers": [
+        "PA-4004"
+      ],
       "evidence": [
         "PRIOR AUTHORIZATION REQUEST",
         "Status: Documentation requested for prior authorization.",
@@ -347,10 +412,10 @@
       },
       "sessions": {
         "download_session_a": [
-          "v2ZMHiyW"
+          "9SGq6FeF"
         ],
         "route_sessions_b": [
-          "wrT6-NVm"
+          "Htr41juf"
         ]
       },
       "pdf_sha256": "201436548e34065cc195238547b3c30bb9b759c47cbc106a9bc1a654268766ba",
@@ -367,33 +432,44 @@
           "ran": true,
           "contradictions": [],
           "warnings": [],
-          "mean_conf": 93.4
+          "mean_conf": 93.4,
+          "pages": [
+            {
+              "page": 1,
+              "mean_conf": 93.4,
+              "chars": 471,
+              "footer_ids": [
+                "FX-204"
+              ]
+            }
+          ]
         },
         "text_layer_present": false
       },
       "errors": [],
       "attempts": [
         {
-          "run_id": "20261106T053209Z",
+          "run_id": "20261106T064018Z-192",
           "stage": "download",
           "outcome": "ok",
           "detail": "sha256=201436548e34 pages=1"
         },
         {
-          "run_id": "20261106T053209Z",
+          "run_id": "20261106T064018Z-192",
           "stage": "submit",
           "outcome": "success",
-          "detail": "http=303 url=http://127.0.0.1:8311/faxes/FX-204?notice_type=success "
+          "detail": "http=303 url=http://127.0.0.1:8000/faxes/FX-204?notice_type=success "
         },
         {
-          "run_id": "20261106T053209Z",
+          "run_id": "20261106T064018Z-192",
           "stage": "verify",
           "outcome": "ok",
           "detail": "routing panel and Routed Documents both match intent"
         }
       ],
+      "submits": 1,
       "retries": 0,
-      "finished_at": 1793943151.817896
+      "finished_at": "2026-11-06T06:40:37Z"
     },
     {
       "fax_id": "FX-205",
@@ -402,6 +478,12 @@
       "pages": 1,
       "extracted_type": "refill_request",
       "source_doc_id": "RX-4005",
+      "categories": [
+        "refill_request"
+      ],
+      "identifiers": [
+        "RX-4005"
+      ],
       "evidence": [
         "PRESCRIPTION REFILL REQUEST",
         "Medication: Lisinopril 10 mg tablet",
@@ -440,10 +522,10 @@
       },
       "sessions": {
         "download_session_a": [
-          "v2ZMHiyW"
+          "9SGq6FeF"
         ],
         "route_sessions_b": [
-          "jeVlHbzL"
+          "ZBMojQey"
         ]
       },
       "pdf_sha256": "91819d99630c246be302e3100140612a53ebae691e137b31761c4804fbfe0cf0",
@@ -460,33 +542,44 @@
           "ran": true,
           "contradictions": [],
           "warnings": [],
-          "mean_conf": 90.6
+          "mean_conf": 90.6,
+          "pages": [
+            {
+              "page": 1,
+              "mean_conf": 90.6,
+              "chars": 472,
+              "footer_ids": [
+                "FX-205"
+              ]
+            }
+          ]
         },
         "text_layer_present": false
       },
       "errors": [],
       "attempts": [
         {
-          "run_id": "20261106T053209Z",
+          "run_id": "20261106T064018Z-192",
           "stage": "download",
           "outcome": "ok",
           "detail": "sha256=91819d99630c pages=1"
         },
         {
-          "run_id": "20261106T053209Z",
+          "run_id": "20261106T064018Z-192",
           "stage": "submit",
           "outcome": "success",
-          "detail": "http=303 url=http://127.0.0.1:8311/faxes/FX-205?notice_type=success "
+          "detail": "http=303 url=http://127.0.0.1:8000/faxes/FX-205?notice_type=success "
         },
         {
-          "run_id": "20261106T053209Z",
+          "run_id": "20261106T064018Z-192",
           "stage": "verify",
           "outcome": "ok",
           "detail": "routing panel and Routed Documents both match intent"
         }
       ],
+      "submits": 1,
       "retries": 0,
-      "finished_at": 1793943152.666931
+      "finished_at": "2026-11-06T06:40:38Z"
     },
     {
       "fax_id": "FX-206",
@@ -495,6 +588,12 @@
       "pages": 2,
       "extracted_type": "records_request",
       "source_doc_id": "MR-4006",
+      "categories": [
+        "records_request"
+      ],
+      "identifiers": [
+        "MR-4006"
+      ],
       "evidence": [
         "REQUEST FOR MEDICAL RECORDS",
         "Requested records: Office visits, imaging reports",
@@ -506,8 +605,7 @@
       "flags": [],
       "action": "routed",
       "reasons": [
-        "classified as records_request",
-        "note: refers to content not in packet (p1: Patient authorization: Included on page 2); page markers show packet complete"
+        "classified as records_request"
       ],
       "duplicate_of": null,
       "selected_fields": {
@@ -536,10 +634,10 @@
       },
       "sessions": {
         "download_session_a": [
-          "v2ZMHiyW"
+          "9SGq6FeF"
         ],
         "route_sessions_b": [
-          "9ia62oT4"
+          "4RjJ-lSq"
         ]
       },
       "pdf_sha256": "44b68d8fcf367def23745addd79d26d47c17e930f4b5a496feb2d0a4aef0f958",
@@ -556,33 +654,52 @@
           "ran": true,
           "contradictions": [],
           "warnings": [],
-          "mean_conf": 94.5
+          "mean_conf": 94.5,
+          "pages": [
+            {
+              "page": 1,
+              "mean_conf": 94.5,
+              "chars": 456,
+              "footer_ids": [
+                "FX-206"
+              ]
+            },
+            {
+              "page": 2,
+              "mean_conf": 94.5,
+              "chars": 384,
+              "footer_ids": [
+                "FX-206"
+              ]
+            }
+          ]
         },
         "text_layer_present": false
       },
       "errors": [],
       "attempts": [
         {
-          "run_id": "20261106T053209Z",
+          "run_id": "20261106T064018Z-192",
           "stage": "download",
           "outcome": "ok",
           "detail": "sha256=44b68d8fcf36 pages=2"
         },
         {
-          "run_id": "20261106T053209Z",
+          "run_id": "20261106T064018Z-192",
           "stage": "submit",
           "outcome": "success",
-          "detail": "http=303 url=http://127.0.0.1:8311/faxes/FX-206?notice_type=success "
+          "detail": "http=303 url=http://127.0.0.1:8000/faxes/FX-206?notice_type=success "
         },
         {
-          "run_id": "20261106T053209Z",
+          "run_id": "20261106T064018Z-192",
           "stage": "verify",
           "outcome": "ok",
           "detail": "routing panel and Routed Documents both match intent"
         }
       ],
+      "submits": 1,
       "retries": 0,
-      "finished_at": 1793943153.512973
+      "finished_at": "2026-11-06T06:40:39Z"
     },
     {
       "fax_id": "FX-207",
@@ -591,6 +708,13 @@
       "pages": 1,
       "extracted_type": "eob",
       "source_doc_id": "EOB-4007",
+      "categories": [
+        "eob"
+      ],
+      "identifiers": [
+        "C-10778",
+        "EOB-4007"
+      ],
       "evidence": [
         "EXPLANATION OF BENEFITS (EOB)",
         "Remittance ID: EOB-4007",
@@ -629,10 +753,10 @@
       },
       "sessions": {
         "download_session_a": [
-          "v2ZMHiyW"
+          "9SGq6FeF"
         ],
         "route_sessions_b": [
-          "PX2nDUAK"
+          "kl4pBy1R"
         ]
       },
       "pdf_sha256": "c8c9944ada8c5582dcfdf79373b5ac773d1812db29f50f518be4265f0ac59b32",
@@ -649,33 +773,44 @@
           "ran": true,
           "contradictions": [],
           "warnings": [],
-          "mean_conf": 91.3
+          "mean_conf": 91.3,
+          "pages": [
+            {
+              "page": 1,
+              "mean_conf": 91.3,
+              "chars": 395,
+              "footer_ids": [
+                "FX-207"
+              ]
+            }
+          ]
         },
         "text_layer_present": false
       },
       "errors": [],
       "attempts": [
         {
-          "run_id": "20261106T053209Z",
+          "run_id": "20261106T064018Z-192",
           "stage": "download",
           "outcome": "ok",
           "detail": "sha256=c8c9944ada8c pages=1"
         },
         {
-          "run_id": "20261106T053209Z",
+          "run_id": "20261106T064018Z-192",
           "stage": "submit",
           "outcome": "success",
-          "detail": "http=303 url=http://127.0.0.1:8311/faxes/FX-207?notice_type=success "
+          "detail": "http=303 url=http://127.0.0.1:8000/faxes/FX-207?notice_type=success "
         },
         {
-          "run_id": "20261106T053209Z",
+          "run_id": "20261106T064018Z-192",
           "stage": "verify",
           "outcome": "ok",
           "detail": "routing panel and Routed Documents both match intent"
         }
       ],
+      "submits": 1,
       "retries": 0,
-      "finished_at": 1793943154.45224
+      "finished_at": "2026-11-06T06:40:40Z"
     },
     {
       "fax_id": "FX-208",
@@ -684,6 +819,12 @@
       "pages": 1,
       "extracted_type": "lab_result",
       "source_doc_id": "LAB-4008",
+      "categories": [
+        "lab_result"
+      ],
+      "identifiers": [
+        "LAB-4008"
+      ],
       "evidence": [
         "LABORATORY REPORT",
         "SUMMIT DIAGNOSTIC LABS",
@@ -691,42 +832,41 @@
         "Status: Final"
       ],
       "flags": [],
-      "action": "routed",
+      "action": "needs_review",
       "reasons": [
-        "classified as lab_result",
-        "note: refers to content not in packet (p1: Results: See values on following table); page markers show packet complete"
+        "Incomplete or unreadable: p1: refers to content after it ('Results: See values on following table') but it is the last page of the packet"
       ],
       "duplicate_of": null,
       "selected_fields": {
-        "assigned_to": "Noah Patel - Clinical Review",
-        "doc_type": "Lab Result",
-        "folder": "Clinical / Labs"
+        "assigned_to": "Jordan Ellis - Manual Review",
+        "doc_type": "Needs Review",
+        "folder": "Review / Unclassified"
       },
-      "note_sent": "Routed by Linda agent: lab_result | source LAB-4008",
+      "note_sent": "NEEDS REVIEW (Linda agent): Incomplete or unreadable: p1: refers to content after it ('Results: See values on following table') but it is the last page of the packet",
       "note_ui_verifiable": false,
       "verification": {
         "status": "ui_verified",
         "detail": "routing panel and Routed Documents both match intent",
         "panel": {
-          "assigned_to": "Noah Patel - Clinical Review",
-          "doc_type": "Lab Result",
-          "folder": "Clinical / Labs"
+          "assigned_to": "Jordan Ellis - Manual Review",
+          "doc_type": "Needs Review",
+          "folder": "Review / Unclassified"
         },
         "queue_row": {
           "fax_id": "FX-208",
-          "doc_type": "Lab Result",
-          "assigned_to": "Noah Patel - Clinical Review",
-          "folder": "Clinical / Labs",
+          "doc_type": "Needs Review",
+          "assigned_to": "Jordan Ellis - Manual Review",
+          "folder": "Review / Unclassified",
           "status": "Routed"
         },
         "submit_outcome": "success"
       },
       "sessions": {
         "download_session_a": [
-          "v2ZMHiyW"
+          "9SGq6FeF"
         ],
         "route_sessions_b": [
-          "ooayK9h3"
+          "IYxeqj7H"
         ]
       },
       "pdf_sha256": "4678dd0bb54f64d50a90220d2602cfca4a4f81b74e58485bda445fa5caa98fc0",
@@ -743,33 +883,44 @@
           "ran": true,
           "contradictions": [],
           "warnings": [],
-          "mean_conf": 91.8
+          "mean_conf": 91.8,
+          "pages": [
+            {
+              "page": 1,
+              "mean_conf": 91.8,
+              "chars": 400,
+              "footer_ids": [
+                "FX-208"
+              ]
+            }
+          ]
         },
         "text_layer_present": false
       },
       "errors": [],
       "attempts": [
         {
-          "run_id": "20261106T053209Z",
+          "run_id": "20261106T064018Z-192",
           "stage": "download",
           "outcome": "ok",
           "detail": "sha256=4678dd0bb54f pages=1"
         },
         {
-          "run_id": "20261106T053209Z",
+          "run_id": "20261106T064018Z-192",
           "stage": "submit",
           "outcome": "success",
-          "detail": "http=303 url=http://127.0.0.1:8311/faxes/FX-208?notice_type=success "
+          "detail": "http=303 url=http://127.0.0.1:8000/faxes/FX-208?notice_type=success "
         },
         {
-          "run_id": "20261106T053209Z",
+          "run_id": "20261106T064018Z-192",
           "stage": "verify",
           "outcome": "ok",
           "detail": "routing panel and Routed Documents both match intent"
         }
       ],
+      "submits": 1,
       "retries": 0,
-      "finished_at": 1793943155.371577
+      "finished_at": "2026-11-06T06:40:41Z"
     },
     {
       "fax_id": "FX-209",
@@ -778,6 +929,10 @@
       "pages": 1,
       "extracted_type": null,
       "source_doc_id": null,
+      "categories": [],
+      "identifiers": [
+        "U-4009"
+      ],
       "evidence": [],
       "flags": [],
       "action": "needs_review",
@@ -811,10 +966,10 @@
       },
       "sessions": {
         "download_session_a": [
-          "v2ZMHiyW"
+          "9SGq6FeF"
         ],
         "route_sessions_b": [
-          "x7D8tG0K"
+          "BlW7al6j"
         ]
       },
       "pdf_sha256": "587f25e225a1fce32d1f02205c969752e3b88f1adc15a4f6b2a1267c411e3d88",
@@ -831,33 +986,44 @@
           "ran": true,
           "contradictions": [],
           "warnings": [],
-          "mean_conf": 90.3
+          "mean_conf": 90.3,
+          "pages": [
+            {
+              "page": 1,
+              "mean_conf": 90.3,
+              "chars": 320,
+              "footer_ids": [
+                "FX-209"
+              ]
+            }
+          ]
         },
         "text_layer_present": false
       },
       "errors": [],
       "attempts": [
         {
-          "run_id": "20261106T053209Z",
+          "run_id": "20261106T064018Z-192",
           "stage": "download",
           "outcome": "ok",
           "detail": "sha256=587f25e225a1 pages=1"
         },
         {
-          "run_id": "20261106T053209Z",
+          "run_id": "20261106T064018Z-192",
           "stage": "submit",
           "outcome": "success",
-          "detail": "http=303 url=http://127.0.0.1:8311/faxes/FX-209?notice_type=success "
+          "detail": "http=303 url=http://127.0.0.1:8000/faxes/FX-209?notice_type=success "
         },
         {
-          "run_id": "20261106T053209Z",
+          "run_id": "20261106T064018Z-192",
           "stage": "verify",
           "outcome": "ok",
           "detail": "routing panel and Routed Documents both match intent"
         }
       ],
+      "submits": 1,
       "retries": 0,
-      "finished_at": 1793943156.228501
+      "finished_at": "2026-11-06T06:40:41Z"
     },
     {
       "fax_id": "FX-210",
@@ -866,6 +1032,12 @@
       "pages": 1,
       "extracted_type": "referral",
       "source_doc_id": null,
+      "categories": [
+        "referral"
+      ],
+      "identifiers": [
+        "RF-3001"
+      ],
       "evidence": [
         "FAX RESEND - REFERRAL REQUEST",
         "Referring physician: Dr. Mira Gomez",
@@ -888,7 +1060,7 @@
       },
       "sessions": {
         "download_session_a": [
-          "v2ZMHiyW"
+          "9SGq6FeF"
         ],
         "route_sessions_b": []
       },
@@ -906,21 +1078,32 @@
           "ran": true,
           "contradictions": [],
           "warnings": [],
-          "mean_conf": 92.4
+          "mean_conf": 92.4,
+          "pages": [
+            {
+              "page": 1,
+              "mean_conf": 92.4,
+              "chars": 469,
+              "footer_ids": [
+                "FX-210"
+              ]
+            }
+          ]
         },
         "text_layer_present": false
       },
       "errors": [],
       "attempts": [
         {
-          "run_id": "20261106T053209Z",
+          "run_id": "20261106T064018Z-192",
           "stage": "download",
           "outcome": "ok",
           "detail": "sha256=4f74c305a578 pages=1"
         }
       ],
+      "submits": 0,
       "retries": 0,
-      "finished_at": 1793943156.639522
+      "finished_at": "2026-11-06T06:40:42Z"
     },
     {
       "fax_id": "FX-211",
@@ -929,6 +1112,12 @@
       "pages": 1,
       "extracted_type": "imaging_report",
       "source_doc_id": "IMG-4111",
+      "categories": [
+        "imaging_report"
+      ],
+      "identifiers": [
+        "IMG-4111"
+      ],
       "evidence": [
         "FINAL IMAGING REPORT",
         "Exam: CT sinus without contrast",
@@ -955,7 +1144,7 @@
       },
       "sessions": {
         "download_session_a": [
-          "v2ZMHiyW"
+          "9SGq6FeF"
         ],
         "route_sessions_b": []
       },
@@ -973,29 +1162,49 @@
           "ran": true,
           "contradictions": [],
           "warnings": [],
-          "mean_conf": 90.6
+          "mean_conf": 90.6,
+          "pages": [
+            {
+              "page": 1,
+              "mean_conf": 90.6,
+              "chars": 349,
+              "footer_ids": [
+                "FX-211"
+              ]
+            }
+          ]
         },
         "text_layer_present": false
       },
       "errors": [],
       "attempts": [
         {
-          "run_id": "20261106T053209Z",
+          "run_id": "20261106T064018Z-192",
           "stage": "download",
           "outcome": "ok",
           "detail": "sha256=83838a6b6580 pages=1"
         }
       ],
+      "submits": 0,
       "retries": 0,
-      "finished_at": 1793943157.038167
+      "finished_at": "2026-11-06T06:40:42Z"
     },
     {
       "fax_id": "FX-212",
       "received": "2026-11-03 09:03",
       "sender": "Central Care Associates",
       "pages": 3,
-      "extracted_type": "lab_result",
+      "extracted_type": "mixed",
       "source_doc_id": "LAB-4012A",
+      "categories": [
+        "imaging_report",
+        "lab_result"
+      ],
+      "identifiers": [
+        "IMG-4012B",
+        "LAB-4012A",
+        "PKT-4012"
+      ],
       "evidence": [
         "LABORATORY REPORT",
         "Panel: Thyroid function",
@@ -1036,10 +1245,10 @@
       },
       "sessions": {
         "download_session_a": [
-          "v2ZMHiyW"
+          "9SGq6FeF"
         ],
         "route_sessions_b": [
-          "BUHyZPht"
+          "VoefeSF6"
         ]
       },
       "pdf_sha256": "38773f9acc30d67ab6aac62f42b3799534c45cfeb76fd426fff77575c5e4bbcb",
@@ -1056,33 +1265,60 @@
           "ran": true,
           "contradictions": [],
           "warnings": [],
-          "mean_conf": 94.6
+          "mean_conf": 94.6,
+          "pages": [
+            {
+              "page": 1,
+              "mean_conf": 94.2,
+              "chars": 381,
+              "footer_ids": [
+                "FX-212"
+              ]
+            },
+            {
+              "page": 2,
+              "mean_conf": 94.8,
+              "chars": 305,
+              "footer_ids": [
+                "FX-212"
+              ]
+            },
+            {
+              "page": 3,
+              "mean_conf": 94.7,
+              "chars": 327,
+              "footer_ids": [
+                "FX-212"
+              ]
+            }
+          ]
         },
         "text_layer_present": false
       },
       "errors": [],
       "attempts": [
         {
-          "run_id": "20261106T053209Z",
+          "run_id": "20261106T064018Z-192",
           "stage": "download",
           "outcome": "ok",
           "detail": "sha256=38773f9acc30 pages=3"
         },
         {
-          "run_id": "20261106T053209Z",
+          "run_id": "20261106T064018Z-192",
           "stage": "submit",
           "outcome": "success",
-          "detail": "http=303 url=http://127.0.0.1:8311/faxes/FX-212?notice_type=success "
+          "detail": "http=303 url=http://127.0.0.1:8000/faxes/FX-212?notice_type=success "
         },
         {
-          "run_id": "20261106T053209Z",
+          "run_id": "20261106T064018Z-192",
           "stage": "verify",
           "outcome": "ok",
           "detail": "routing panel and Routed Documents both match intent"
         }
       ],
+      "submits": 1,
       "retries": 0,
-      "finished_at": 1793943157.857017
+      "finished_at": "2026-11-06T06:40:43Z"
     }
   ]
 }

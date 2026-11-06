@@ -1,6 +1,6 @@
 # Eval report
 
-- Results: `results/sample/results.json` (run `20261106T053209Z`, 12 faxes)
+- Results: `results/sample/results.json` (run `20261106T064018Z-192`, 12 faxes)
 - Events: `results/sample/events.jsonl`
 - Labels: `not used (--ops-only)`
 
@@ -8,13 +8,13 @@
 
 | Stage | n | p50 | max | What it measures |
 |---|---|---|---|---|
-| download | 12 | 222 ms | 363 ms | Session A click → validated PDF on disk (incl. 503 retries) |
+| download | 12 | 210 ms | 310 ms | Session A click → validated PDF on disk (incl. 503 retries) |
 | vision | 12 | 5.16 s | 10.66 s | live Claude vision call, recorded when the cache entry was produced |
-| extract | 12 | 839 ms | 2.16 s | this run's extraction step (cache read in replay, + Tesseract cross-check) |
-| route | 10 | 537 ms | 584 ms | fresh Session B login → navigate → fill → Review → OK response |
-| verify | 12 | 289 ms | 371 ms | UI re-read of routing panel + Routed Documents after submit |
+| extract | 12 | 820 ms | 2.03 s | this run's extraction step (cache read in replay, + Tesseract cross-check) |
+| route | 10 | 544 ms | 570 ms | fresh Session B login → navigate → fill → Review → OK response |
+| verify | 12 | 288 ms | 292 ms | UI re-read of routing panel + Routed Documents after submit |
 
-Run wall-clock (run_started → run_finished): 28.0 s for 12 faxes.
+Run wall-clock (run_started → run_finished): 25.2 s for 12 faxes.
 
 ## Tokens and cost per fax (Claude vision, from the live run that produced the cache)
 

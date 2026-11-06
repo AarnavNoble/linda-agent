@@ -175,7 +175,13 @@ def main(argv=None) -> int:
     L = ["# Perturbation probe (fail-closed check)", "",
          f"Source run: `{os.path.relpath(args.results, ROOT)}`; extraction mode: `{args.mode}`. Only faxes the agent auto-routed are "
          "perturbed (a damaged copy of an already-reviewed fax is trivially safe).", "",
-         f"**{len(rows)} damaged variants, {len(unsafe)} auto-routed** (target 0).", "",
+         "**" + "; ".join(
+             f"{label}: {sum(1 for r in rows if r[2].startswith(prefix))} variants, "
+             f"{sum(1 for r in unsafe if r[2].startswith(prefix))} auto-routed"
+             for prefix, label in (("pipeline/vision", "live vision on the damaged PDF"),
+                                   ("pipeline/replay", "replay cache miss (fail-closed only, not perception)"),
+                                   ("simulated", "decider on edited extractions"))
+             if any(r[2].startswith(prefix) for r in rows)) + "** (target 0 auto-routed).", "",
          "| Fax | Damage | Path | Engine | Decision | First reason |", "|---|---|---|---|---|---|"]
     for fid, dmg, path, eng, act, why in rows:
         L.append(f"| {fid} | {dmg} | {path} | {eng} | **{act}** | {(why[0] if why else '')[:140]} |")
