@@ -166,7 +166,9 @@ def render(doc: dict, events: list[dict], traces: dict[str, list[str]]) -> str:
         for r in results)
     cards = "".join(f'<div id="{_e(r["fax_id"])}">{fax_card(r, per.get(r["fax_id"], []), traces.get(r["fax_id"], []))}</div>'
                     for r in results)
-    gen = datetime.fromtimestamp(doc.get("generated_at") or 0, timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    g = doc.get("generated_at") or 0
+    gen = (datetime.fromtimestamp(g, timezone.utc).strftime("%Y-%m-%d %H:%M UTC") if isinstance(g, (int, float))
+           else str(g).replace("T", " ").replace("Z", " UTC"))
     return f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>Linda Run Report</title>
 <style>{CSS}</style></head><body><main>

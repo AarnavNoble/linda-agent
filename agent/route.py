@@ -44,6 +44,7 @@ def fill_and_review(s: PortalSession, fax_id: str, route: Route, note: str) -> N
 
     for sel, label in (("#assignee", route.assigned_to), ("#doc_type", route.doc_type), ("#folder", route.folder)):
         s.page.select_option(sel, label=label)
+        # read-only: reads back the visible label of the selected option (no DOM change)
         shown = s.page.eval_on_selector(sel, "el => el.selectedOptions[0] ? el.selectedOptions[0].text : ''")
         if shown != label:
             raise PortalError(f"{sel} shows {shown!r} after selecting {label!r}")
@@ -53,6 +54,7 @@ def fill_and_review(s: PortalSession, fax_id: str, route: Route, note: str) -> N
     try:
         s.page.wait_for_selector("#confirmation.show", state="visible", timeout=5000)
     except PWTimeout as e:
+        # read-only: lists empty required fields for the error message (no DOM change)
         empty = s.page.evaluate("""() => [...document.querySelectorAll('#route-form [required]')]
                                    .filter(el => !el.value).map(el => el.id)""")
         raise PortalError(f"confirmation modal did not open; empty required fields: {empty}") from e

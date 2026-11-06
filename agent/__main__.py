@@ -1,4 +1,4 @@
-"""CLI: python -m agent run|report|status"""
+"""CLI: python -m agent run|status"""
 from __future__ import annotations
 
 import argparse

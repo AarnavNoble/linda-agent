@@ -5,7 +5,12 @@ import csv
 import json
 import os
 import time
+from datetime import datetime, timezone
 from pathlib import Path
+
+
+def _iso(ts: float) -> str:
+    return datetime.fromtimestamp(ts, timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
 
 
 def build_result(rec: dict, action: str, verification: dict, errors: list[str], sessions_a: list[str],
@@ -48,7 +53,7 @@ def build_result(rec: dict, action: str, verification: dict, errors: list[str], 
         # (an uncertain 503 that the UI then confirmed is a recovery, not a resubmission).
         "submits": sum(1 for a in attempts if a["stage"] == "submit"),
         "retries": sum(1 for a in attempts if a["outcome"] not in ("ok", "verified_existing", "success")),
-        "finished_at": time.time(),
+        "finished_at": _iso(time.time()),
     }
 
 
@@ -73,7 +78,7 @@ def write_results(store, out_dir: Path, run_id: str) -> tuple[Path, Path, Path]:
     results = [r["result"] for r in recs if r.get("result")]
     newly = [r["fax_id"] for r in recs if r.get("result") and not r["reported"]]
     pending = [r["fax_id"] for r in recs if not r.get("result")]
-    doc = {"run_id": run_id, "generated_at": time.time(), "count": len(results),
+    doc = {"run_id": run_id, "generated_at": _iso(time.time()), "count": len(results),
            "newly_reported_this_run": newly, "pending": pending, "results": results}
     jpath = out_dir / "results.json"
     _atomic_write(jpath, json.dumps(doc, indent=2, default=str))

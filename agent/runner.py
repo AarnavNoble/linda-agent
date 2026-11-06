@@ -354,4 +354,8 @@ class Runner:
             status = "completed_with_failures"
         self.store.finish_run(self.run_id, status)
         self.log.emit("run_finished", status=status, results=str(paths[0]), pending=pending, failed=failed_ids)
+        try:  # human-readable summary on stdout (events go to stderr)
+            print("\n" + paths[2].read_text() + f"\nstatus: {status} | results: {paths[0]}")
+        except (OSError, IndexError):
+            pass
         return 0 if status == "completed" else 1

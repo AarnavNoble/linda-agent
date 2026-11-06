@@ -2,7 +2,7 @@
 PORTAL_DIR ?= ../linda-mini
 export LINDA_PORTAL_DIR := $(abspath $(PORTAL_DIR))
 PORT       ?= 8000
-RESULTS    ?= results/sample/results.json
+RESULTS    ?= results/results.json
 REPORT_OUT ?= $(dir $(RESULTS))report.html
 
 .PHONY: help setup portal run demo test chaos eval perturb report

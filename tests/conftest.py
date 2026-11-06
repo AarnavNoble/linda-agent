@@ -38,7 +38,8 @@ PORTAL_DIR = _find_portal_dir()
 PORTAL_UVICORN = PORTAL_DIR / ".venv" / "bin" / "uvicorn"
 PORT_RANGE = range(8201, 8241)  # never 8000: that is the user's interactive portal
 
-# Expected outcome of a clean run under the documented SOP interpretation (see NOTES.md).
+# Test oracle: expected outcome of a clean run, derived by a human reading each fax against the SOP
+# (see NOTES.md for the FX-208 interpretation). Test-only: never imported by agent/ (test_boundaries checks).
 EXPECTED_ACTIONS = {
     "FX-201": "routed", "FX-203": "routed", "FX-204": "routed", "FX-205": "routed",
     "FX-206": "routed", "FX-207": "routed",

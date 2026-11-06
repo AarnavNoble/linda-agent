@@ -183,7 +183,7 @@ def _with_refs(p, refs=(), enclosures=()):
 def test_reference_to_outside_or_vague_content_is_not_incomplete(ref):
     d = one(fax("FX-1", [_with_refs(page(cat="imaging_report"), [ref])]))
     assert d.action == "routed"
-    assert any("not in packet" in r for r in d.reasons)
+    assert any("other documents not sent" in r for r in d.reasons)
 
 
 def test_positional_reference_on_last_page_is_incomplete():

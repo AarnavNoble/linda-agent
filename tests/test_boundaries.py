@@ -159,3 +159,8 @@ def test_extraction_reads_only_downloaded_files_not_previews():
     hits = [f"{_rel(p)}:{i}" for p in _py(True) for i, line in enumerate(p.read_text().splitlines(), 1)
             if "/preview" in line or "Open preview" in line]
     assert not hits, hits
+
+
+def test_agent_never_imports_test_oracles():
+    hits = [_rel(p) for p in _files() if re.search(r"^\s*(from|import)\s+tests\b", p.read_text(), re.M)]
+    assert not hits, hits

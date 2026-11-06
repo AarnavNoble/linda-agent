@@ -168,7 +168,8 @@ def analyse(fax: dict) -> Packet:
     resend = [r for p in pages for r in (p.get("resend_indicators") or [])]
     evidence = [q for p in content for q in (p.get("evidence_quotes") or [])][:6]
     cc = (ext.get("crosscheck") or {}).get("contradictions") or []
-    absent = [f"p{p.get('page_number')}: {r}" for p in pages for r in (p.get("references_to_absent_content") or [])]
+    absent = [f"p{p.get('page_number')}: {r}" for p in pages for r in (p.get("references_to_absent_content") or [])
+              if not POSITIONAL_REF_RE.search(r)]  # positional refs are checked above against pages present
 
     return Packet(fid, fax.get("received") or "", fax["pages"], ok, ext.get("error"), pages, cats, primary_cat,
                   src, ids, patient, dob, flags, resend, issues, low, list(cc), evidence, absent)
@@ -323,7 +324,8 @@ def decide_all(faxes: list[dict], failed_originals: set[str] = frozenset()) -> d
         # 9. route per SOP
         d.action, d.route = ROUTED, SOP[p.primary_category]
         d.reasons = [f"classified as {p.primary_category}"] + (
-            [f"note: refers to content not in packet ({'; '.join(p.absent_refs)}); page markers show packet complete"]
+            [f"note: refers to other documents not sent in this fax ({'; '.join(p.absent_refs)}); "
+             "not treated as missing pages"]
             if p.absent_refs else [])
         d.note = _note("Routed by Linda agent:", [p.primary_category, f"source {p.source_doc_id or 'n/a'}"])
         out[p.fax_id] = d
