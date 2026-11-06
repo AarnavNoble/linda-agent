@@ -58,7 +58,7 @@ class Runner:
 
     def session(self, browser, label: str, fax_id: str | None = None) -> PortalSession:
         trace = self.run_dir / "traces" / f"{label}-{fax_id or 'inbox'}-{int(time.time()*1000)}.zip"
-        s = PortalSession(browser, self.cfg, label, trace_path=trace).start()
+        s = PortalSession(browser, self.cfg, label, trace_path=trace, tag=f"{label}-{fax_id or 'inbox'}").start()
         self.log.emit("session_started", fax_id, label=label, session=s.session_prefix)
         return s
 

@@ -34,9 +34,10 @@ class RoutingPanel:
 class PortalSession:
     """One isolated, authenticated browser context (Session A or Session B)."""
 
-    def __init__(self, browser: Browser, cfg: Config, label: str, trace_path=None):
+    def __init__(self, browser: Browser, cfg: Config, label: str, trace_path=None, tag: str | None = None):
         self.cfg = cfg
         self.label = label
+        self.tag = tag or label
         self.trace_path = trace_path
         video = {}
         if cfg.video_dir:  # demo recording only; never needed for a normal run
@@ -68,7 +69,7 @@ class PortalSession:
             if video:  # name it by start order and session so the demo can be stitched in sequence
                 try:
                     src = Path(video.path())
-                    src.rename(src.with_name(f"{self.opened_at:.3f}-{self.label}.webm"))
+                    src.rename(src.with_name(f"{self.opened_at:.3f}-{self.tag}.webm"))
                 except Exception:
                     pass
 
