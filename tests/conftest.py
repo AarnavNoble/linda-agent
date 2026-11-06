@@ -26,11 +26,11 @@ PORTAL_DIR = Path(os.getenv("LINDA_PORTAL_DIR", "/Users/aarnavnoble/trifetch_th/
 PORTAL_UVICORN = PORTAL_DIR / ".venv" / "bin" / "uvicorn"
 PORT_RANGE = range(8201, 8241)  # never 8000: that is the user's interactive portal
 
-# Expected outcome of a clean run (hand-labelled from viewing the faxes in the portal UI).
+# Expected outcome of a clean run under the documented SOP interpretation (see NOTES.md).
 EXPECTED_ACTIONS = {
     "FX-201": "routed", "FX-203": "routed", "FX-204": "routed", "FX-205": "routed",
-    "FX-206": "routed", "FX-207": "routed", "FX-208": "routed",
-    "FX-202": "needs_review", "FX-209": "needs_review", "FX-212": "needs_review",
+    "FX-206": "routed", "FX-207": "routed",
+    "FX-202": "needs_review", "FX-208": "needs_review", "FX-209": "needs_review", "FX-212": "needs_review",
     "FX-210": "skipped_duplicate",
     "FX-211": "already_routed",
 }

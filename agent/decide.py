@@ -24,6 +24,9 @@ from .sop import (ALREADY_ROUTED, CATEGORIES, NEEDS_REVIEW, NEEDS_REVIEW_ACTION,
 
 ID_RE = re.compile(r"\b([A-Z]{1,5}-\d{2,})\b")
 PAGE_MARK_RE = re.compile(r"Page\s+(\d+)\s+of\s+(\d+)", re.I)
+POSITIONAL_REF_RE = re.compile(
+    r"\b(?:following|next|subsequent)\s+(?:page|pages|table|sheet)\b|\bcontinued\b|\bsee\s+(?:over|reverse)\b"
+    r"|\bpage\s+(?P<page>\d+)\b", re.I)
 CONTENT_ROLES = ("primary_document", "supporting_attachment")
 
 
@@ -119,6 +122,26 @@ def analyse(fax: dict) -> Packet:
         if seen != expected:
             issues.append(f"page markers {seen} have gaps (expected {expected})")
 
+    # In-packet references that the packet itself must satisfy. Only *positional* references count
+    # ("following table", "next page", "page 2", "continued"); references to outside documents
+    # ("see full report") and vague ones ("attached details") are not evidence of a missing page.
+    present = len(pages)
+    for p in pages:
+        n = p.get("page_number") or 0
+        for ref in p.get("references_to_absent_content") or []:
+            m = POSITIONAL_REF_RE.search(ref)
+            if not m:
+                continue
+            if m.group("page"):
+                if int(m.group("page")) > present:
+                    issues.append(f"p{n}: refers to page {m.group('page')} ({ref!r}) but packet has {present} page(s)")
+            elif n >= present:
+                issues.append(f"p{n}: refers to content after it ({ref!r}) but it is the last page of the packet")
+        for item in p.get("enclosure_list") or []:
+            for num in re.findall(r"\bpage\s+(\d+)", item, re.I):
+                if int(num) > present:
+                    issues.append(f"p{n}: cover lists an enclosure on page {num} ({item!r}) but packet has {present} page(s)")
+
     content = [p for p in pages if p.get("page_role") in CONTENT_ROLES]
     cats = {p.get("category") for p in content} - {"none", None}
     primaries = [p for p in content if p.get("page_role") == "primary_document"]
@@ -165,6 +188,14 @@ def _same_person(a: Packet, b: Packet) -> tuple[bool, str]:
     return True, "same patient name and DOB"
 
 
+def _flag_texts(p: Packet) -> set[str]:
+    return {re.sub(r"^p\d+:\s*", "", f).strip().upper() for f in p.flags}
+
+
+def _new_flags(later: Packet, earlier: Packet) -> list[str]:
+    return sorted(_flag_texts(later) - _flag_texts(earlier))
+
+
 def find_duplicates(packets: list[Packet]) -> dict[str, tuple[str, str | None, str]]:
     """Map fax_id -> (verdict, original_fax_id, reason). verdict in {'duplicate', 'uncertain'}."""
     out: dict[str, tuple[str, str | None, str]] = {}
@@ -185,6 +216,11 @@ def find_duplicates(packets: list[Packet]) -> dict[str, tuple[str, str | None, s
                 out[later.fax_id] = ("uncertain", earlier.fax_id,
                                      f"shares {ids} with {earlier.fax_id} received at the same time; "
                                      "cannot establish which is the original")
+            elif same and same_cat and _new_flags(later, earlier):
+                # A resend that adds an urgency marker the original lacked is new information, not a copy.
+                out[later.fax_id] = ("uncertain", earlier.fax_id,
+                                     f"resend of {earlier.fax_id} ({ids}) but it carries urgency marker(s) the "
+                                     f"original does not: {', '.join(_new_flags(later, earlier))}")
             elif same and same_cat:
                 out[later.fax_id] = ("duplicate", earlier.fax_id,
                                      f"resend of {earlier.fax_id}: same source ID {ids}, {why}, "

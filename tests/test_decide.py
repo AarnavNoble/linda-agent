@@ -171,9 +171,50 @@ def test_every_review_has_a_reason_note():
         assert d.action == "needs_review" and d.note.startswith("NEEDS REVIEW") and len(d.note) > 20
 
 
-def test_reference_to_absent_content_alone_is_not_incomplete():
-    p = page(cat="lab_result")
-    p["references_to_absent_content"] = ["Results: See values on following table"]
-    d = one(fax("FX-1", [p]))
-    assert d.action == "routed" and d.route == SOP["lab_result"]
+def _with_refs(p, refs=(), enclosures=()):
+    p["references_to_absent_content"] = list(refs)
+    p["enclosure_list"] = list(enclosures)
+    return p
+
+
+@pytest.mark.parametrize("ref", ["Impression: See full radiology findings.",
+                                 "Findings documented in full report.",
+                                 "Please review attached patient details."])
+def test_reference_to_outside_or_vague_content_is_not_incomplete(ref):
+    d = one(fax("FX-1", [_with_refs(page(cat="imaging_report"), [ref])]))
+    assert d.action == "routed"
     assert any("not in packet" in r for r in d.reasons)
+
+
+def test_positional_reference_on_last_page_is_incomplete():
+    # Regression: a 1-page lab report that says its values are on a following table was auto-routed.
+    d = one(fax("FX-1", [_with_refs(page(cat="lab_result"), ["Results: See values on following table"])]))
+    assert d.action == "needs_review" and "last page of the packet" in d.note
+
+
+def test_satisfied_positional_references_route_normally():
+    p1 = _with_refs(page(1, 2, cat="records_request", sid="MR-1"), ["Patient authorization: Included on page 2"])
+    p2 = page(2, 2, role="supporting_attachment", cat="records_request", sid=None)
+    cover = _with_refs(page(1, 2, fax="FX-2", role="cover_sheet", cat="none", sid=None), ["paperwork follows on the next page"])
+    assert one(fax("FX-1", [p1, p2])).action == "routed"
+    assert one(fax("FX-2", [cover, page(2, 2, fax="FX-2", cat="referral")])).action == "routed"
+
+
+def test_page_reference_beyond_packet_is_incomplete():
+    d = one(fax("FX-1", [_with_refs(page(cat="records_request"), ["Authorization included on page 2"])]))
+    assert d.action == "needs_review" and "refers to page 2" in d.note
+
+
+def test_cover_sheet_enclosure_missing_from_packet_is_incomplete():
+    cover = _with_refs(page(1, 2, role="cover_sheet", cat="none", sid=None),
+                       enclosures=["Page 2: Laboratory result", "Page 3: Imaging interpretation"])
+    d = one(fax("FX-1", [cover, page(2, 2, cat="lab_result")]))
+    assert d.action == "needs_review" and "enclosure on page 3" in d.note
+
+
+def test_resend_that_adds_an_urgency_marker_is_not_silently_skipped():
+    o, r = orig_and_resend()
+    r["extraction"]["pages"][0]["explicit_flags"] = ["URGENT - PLEASE EXPEDITE"]
+    ds = decide_all([o, r])
+    assert ds["FX-1"].action == "routed"
+    assert ds["FX-2"].action == "needs_review" and "urgency marker" in ds["FX-2"].note

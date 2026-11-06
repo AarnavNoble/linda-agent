@@ -37,8 +37,7 @@ EXPECTED_ROUTES = {
     "FX-206": {"assigned_to": "Mia Gomez - Medical Records", "doc_type": "Records Request",
                "folder": "Records / Requests"},
     "FX-207": {"assigned_to": "Liam Rivera - Billing", "doc_type": "EOB", "folder": "Billing / EOBs"},
-    "FX-208": {"assigned_to": "Noah Patel - Clinical Review", "doc_type": "Lab Result", "folder": "Clinical / Labs"},
-    "FX-202": REVIEW_ROUTE, "FX-209": REVIEW_ROUTE, "FX-212": REVIEW_ROUTE,
+    "FX-202": REVIEW_ROUTE, "FX-208": REVIEW_ROUTE, "FX-209": REVIEW_ROUTE, "FX-212": REVIEW_ROUTE,
 }
 DETERMINISTIC_FIELDS = ("fax_id", "action", "extracted_type", "source_doc_id", "selected_fields", "duplicate_of")
 
