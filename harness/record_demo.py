@@ -1,17 +1,18 @@
-"""Record a narrated demo video of one full agent run, end to end, with no API key.
+"""Record a short captioned demo video of one full agent run, with no API key.
 
-    uv run python -m harness.record_demo [-o results/demo.mp4] [--slow-mo 250]
+    uv run python -m harness.record_demo [-o results/demo.mp4] [--show FX-201,FX-202] [--headless]
 
 What it does (evaluator tooling, like harness/chaos.py; the worker never imports it):
   1. starts a throwaway portal (own port, own LINDA_DB_PATH, seed state) from the supplied linda-mini/;
   2. runs the real agent (`python -m agent run --replay`) against it with LINDA_RECORD_VIDEO_DIR set, so every
      browser session the agent opens (Session A: discover + download; one fresh Session B per routed fax)
-     records its own video;
+     records its own video, named by fax;
   3. films the portal's Routed Documents queue afterwards, as a human would check it;
-  4. stitches title cards, the session videos in the order they were opened, the queue check and a results
-     card into one MP4 with ffmpeg.
+  4. cuts it to about a minute: an intro card, Session A at double speed, the Session B of a few chosen faxes,
+     the queue check and a results card, with lower-third captions and crossfades (ffmpeg).
 
-Needs ffmpeg on PATH. Takes about 2-3 minutes; browser windows open on screen unless --headless.
+Needs ffmpeg on PATH. Takes about 2-3 minutes; browser windows open on screen unless --headless
+(Chromium headless shows the PDF preview pane blank).
 """
 from __future__ import annotations
 
@@ -30,19 +31,33 @@ from playwright.sync_api import sync_playwright
 from harness.chaos import Portal, cleanup_all
 
 ROOT = Path(__file__).resolve().parent.parent
-W, H, FPS = 1280, 800, 25
+W, H, FPS, XFADE = 1280, 800, 25, 0.5
 
 CARD_CSS = """body{margin:0;width:1280px;height:800px;display:flex;flex-direction:column;justify-content:center;
-padding:0 96px;box-sizing:border-box;background:#0f1b2d;color:#e8eef6;font:22px/1.5 -apple-system,Helvetica,Arial}
-h1{font-size:46px;margin:0 0 18px;color:#fff}h2{font-size:22px;color:#8fb3de;margin:0 0 28px;font-weight:600}
-li{margin:6px 0}table{border-collapse:collapse;font-size:17px}td,th{padding:5px 14px;text-align:left;
-border-bottom:1px solid #2a3b55}th{color:#8fb3de}.ok{color:#7ee2a8}.rv{color:#ffd27a}.sk{color:#9fb0c6}"""
+padding:0 96px;box-sizing:border-box;background:linear-gradient(135deg,#0f1b2d,#17324f);color:#e8eef6;
+font:22px/1.5 -apple-system,Helvetica,Arial}h1{font-size:48px;margin:0 0 14px;color:#fff}
+h2{font-size:22px;color:#8fb3de;margin:0 0 26px;font-weight:600}li{margin:6px 0}
+table{border-collapse:collapse;font-size:17px}td,th{padding:5px 14px;text-align:left;border-bottom:1px solid #2a3b55}
+th{color:#8fb3de}.ok{color:#7ee2a8}.rv{color:#ffd27a}.sk{color:#9fb0c6}"""
+
+CAPTION_CSS = """html,body{margin:0;width:1280px;height:800px;background:transparent}
+.bar{position:absolute;left:40px;right:40px;bottom:36px;padding:16px 24px;border-radius:12px;
+background:rgba(12,22,38,.88);color:#fff;font:20px/1.4 -apple-system,Helvetica,Arial;box-shadow:0 6px 24px rgba(0,0,0,.3)}
+.k{display:inline-block;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#8fb3de;margin-bottom:4px}
+b{color:#ffd27a;font-weight:600}"""
 
 
 def card(page, path: Path, title: str, sub: str = "", body: str = "") -> Path:
     page.set_content(f"<html><head><style>{CARD_CSS}</style></head><body><h1>{html.escape(title)}</h1>"
                      f"<h2>{html.escape(sub)}</h2>{body}</body></html>")
     page.screenshot(path=str(path))
+    return path
+
+
+def caption(page, path: Path, kicker: str, text_html: str) -> Path:
+    page.set_content(f"<html><head><style>{CAPTION_CSS}</style></head><body><div class='bar'>"
+                     f"<div class='k'>{html.escape(kicker)}</div><div>{text_html}</div></div></body></html>")
+    page.screenshot(path=str(path), omit_background=True)
     return path
 
 
@@ -73,31 +88,57 @@ def film_queue(browser, url: str, out_dir: Path) -> Path:
     page.wait_for_load_state()
     page.wait_for_timeout(2500)
     page.mouse.wheel(0, 600)
-    page.wait_for_timeout(2500)
+    page.wait_for_timeout(2000)
     video = page.video
     ctx.close()
     return Path(video.path())
 
 
-def to_clip(src: Path, dst: Path, still_s: float | None = None, max_s: float | None = None) -> Path:
-    vf = (f"scale={W}:{H}:force_original_aspect_ratio=decrease,pad={W}:{H}:(ow-iw)/2:(oh-ih)/2,"
-          f"fps={FPS},format=yuv420p")
-    pre = ["-loop", "1", "-t", str(still_s)] if still_s else []
-    cut = ["-t", str(max_s)] if max_s else []
-    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", *pre, "-i", str(src), *cut, "-vf", vf, "-an",
-                    "-c:v", "libx264", "-preset", "veryfast", "-crf", "23", str(dst)], check=True)
+def clip(src: Path, dst: Path, *, still_s: float | None = None, skip_s: float = 0, max_s: float | None = None,
+         speed: float = 1.0, cap: Path | None = None) -> Path:
+    """Normalise any source (card PNG or session webm) to a same-format H.264 clip, optionally sped up,
+    trimmed and with a caption overlaid."""
+    norm = (f"setpts=PTS/{speed},scale={W}:{H}:force_original_aspect_ratio=decrease,"
+            f"pad={W}:{H}:(ow-iw)/2:(oh-ih)/2:color=white,fps={FPS}")
+    inp = (["-loop", "1", "-t", str(still_s)] if still_s else ["-ss", str(skip_s)]) + ["-i", str(src)]
+    if cap:
+        inp += ["-loop", "1", "-i", str(cap)]
+        graph = f"[0:v]{norm}[v];[v][1:v]overlay=0:0:shortest=1,format=yuv420p[o]"
+    else:
+        graph = f"[0:v]{norm},format=yuv420p[o]"
+    out = ["-t", str(max_s)] if max_s else []
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", *inp, "-filter_complex", graph, "-map", "[o]", *out,
+                    "-an", "-c:v", "libx264", "-preset", "veryfast", "-crf", "22", str(dst)], check=True)
     return dst
+
+
+def duration(p: Path) -> float:
+    return float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0",
+                                 str(p)], capture_output=True, text=True, check=True).stdout.strip())
+
+
+def crossfade(clips: list[Path], out: Path) -> None:
+    """Join clips with a short crossfade between each (xfade chain)."""
+    args, graph, prev, t = [], [], "[0:v]", 0.0
+    for c in clips:
+        args += ["-i", str(c)]
+    for i in range(1, len(clips)):
+        t += duration(clips[i - 1]) - XFADE
+        tag = f"[x{i}]"
+        graph.append(f"{prev}[{i}:v]xfade=transition=fade:duration={XFADE}:offset={t:.3f}{tag}")
+        prev = tag
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", *args, "-filter_complex", ";".join(graph),
+                    "-map", prev, "-c:v", "libx264", "-preset", "veryfast", "-crf", "22", "-pix_fmt", "yuv420p",
+                    "-movflags", "+faststart", str(out)], check=True)
 
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="harness.record_demo", description=__doc__.splitlines()[0])
     ap.add_argument("-o", "--out", type=Path, default=ROOT / "results" / "demo.mp4")
-    ap.add_argument("--slow-mo", type=int, default=700, help="ms between browser actions, so clicks are visible")
-    ap.add_argument("--show", default="FX-201,FX-202",
-                    help="faxes whose Session B is shown in full (the rest are summarised on a card)")
-    ap.add_argument("--a-seconds", type=float, default=35, help="how much of Session A (downloads) to show")
-    ap.add_argument("--headless", action="store_true",
-                    help="no visible windows (faster, but Chromium headless shows the PDF preview pane blank)")
+    ap.add_argument("--slow-mo", type=int, default=500, help="ms between browser actions, so clicks are visible")
+    ap.add_argument("--show", default="FX-201,FX-202", help="faxes whose routing session is shown")
+    ap.add_argument("--a-seconds", type=float, default=12, help="seconds of Session A shown (played at 2x)")
+    ap.add_argument("--headless", action="store_true", help="no visible windows (PDF preview pane renders blank)")
     ap.add_argument("--keep", action="store_true", help="keep the temp work dir (videos, portal log)")
     a = ap.parse_args(argv)
     if not shutil.which("ffmpeg"):
@@ -105,9 +146,9 @@ def main(argv=None) -> int:
         return 2
 
     tmp = Path(tempfile.mkdtemp(prefix="linda-demo-"))
-    vids, clips = tmp / "videos", tmp / "clips"
+    vids, work = tmp / "videos", tmp / "clips"
     vids.mkdir()
-    clips.mkdir()
+    work.mkdir()
     portal = Portal("none", tmp).start()
     try:
         print(f"[demo] portal {portal.url} (fresh seed DB); recording agent run ...")
@@ -118,66 +159,55 @@ def main(argv=None) -> int:
         env.pop("ANTHROPIC_API_KEY", None)
         rc = subprocess.run([sys.executable, "-m", "agent", "run", "--replay"], cwd=ROOT, env=env).returncode
         results = json.loads((tmp / "work" / "results" / "results.json").read_text())["results"]
+        by_id = {r["fax_id"]: r for r in results}
         sessions = sorted(vids.glob("*.webm"), key=lambda p: p.name)
+        show = [f.strip() for f in a.show.split(",") if f.strip() in by_id]
         print(f"[demo] agent exit {rc}; {len(sessions)} session videos; filming Routed Documents ...")
 
+        n_sub = sum(r["action"] in ("routed", "needs_review") for r in results)
+        n_rev = sum(r["action"] == "needs_review" for r in results)
         with sync_playwright() as p:
             browser = p.chromium.launch(headless=a.headless)
             queue = film_queue(browser, portal.url, tmp)
-            page = browser.new_page(viewport={"width": W, "height": H})
-            n_routed = sum(r["action"] in ("routed", "needs_review") for r in results)
-            show = [f.strip() for f in a.show.split(",") if f.strip()]
-            by_id = {r["fax_id"]: r for r in results}
-
-            def fax_card(fid: str, n: int) -> Path:
+            pg = browser.new_page(viewport={"width": W, "height": H})
+            intro = card(pg, tmp / "intro.png", "Linda Mini fax-routing agent",
+                         "12 inbound faxes · read every page · route by SOP · verify in the UI",
+                         "<ul><li>Session A logs in and downloads every fax</li>"
+                         "<li>Claude vision reads each page; a tested rule engine applies the SOP</li>"
+                         "<li>Each fax is routed from its own fresh login, then checked in the portal</li></ul>")
+            outro = card(pg, tmp / "outro.png", f"{n_sub} routed, {n_sub} verified in the UI",
+                         f"{n_rev} sent to manual review with a reason · duplicate and pre-routed faxes untouched",
+                         results_body(results))
+            cap_a = caption(pg, tmp / "cap_a.png", "Session A · 2× speed",
+                            "Log in, page through the inbox, download each fax PDF through the portal")
+            caps = {}
+            for fid in show:
                 r = by_id[fid]
                 sel = r.get("selected_fields") or {}
-                why = "; ".join((r.get("reasons") or [])[:1]) or "matches the SOP table"
-                return card(page, tmp / f"f{n}.png", f"{fid}: {r.get('extracted_type') or 'unreadable'} → {r['action']}",
-                            f"{sel.get('assigned_to', '-')} · {sel.get('doc_type', '-')} · {sel.get('folder', '-')}",
-                            f"<p>Why: {html.escape(why[:220])}</p><p style='color:#9fb0c6'>Fresh login (the portal "
-                            "requires routing from a different session than the download) → open the fax → confirm "
-                            "it is still New → choose the three fields by label → Review Routing → check the summary "
-                            "→ OK → re-read the fax and Routed Documents.</p>")
-
-            cards = {
-                "intro": card(page, tmp / "c0.png", "Linda Mini fax-routing agent",
-                              "Playwright worker · Claude vision (replayed from cache) · UI-verified routing",
-                              "<ul><li>Fresh portal, seed state: 12 inbound faxes, one already routed</li>"
-                              "<li>Session A logs in, pages the inbox, downloads every fax PDF</li>"
-                              "<li>Every page is read; a pure, tested decider applies the SOP</li>"
-                              "<li>Each route is submitted from its own fresh login (Session B) and re-read in "
-                              "the UI</li></ul>"),
-                "A": card(page, tmp / "c1.png", "Session A: find and download",
-                          "Log in → page through the inbox → open each fax → Download Fax PDF"),
-                "rest": card(page, tmp / "c2.png", "The other faxes go the same way",
-                             f"{len(results) - len(show)} more: each routed or sent to review from its own fresh "
-                             "login, or deliberately left alone (duplicate, already routed)"),
-                "Q": card(page, tmp / "c3.png", "Check the result in the portal", "Routed Documents work queue"),
-                "R": card(page, tmp / "c4.png", f"Done: {n_routed} submitted, every one verified in the UI",
-                          "Duplicate and pre-routed faxes were left untouched", results_body(results)),
-                **{fid: fax_card(fid, i) for i, fid in enumerate(show) if fid in by_id},
-            }
+                why = (r.get("reasons") or [""])[0] if r["action"] == "needs_review" else "clean single document"
+                caps[fid] = caption(pg, tmp / f"cap_{fid}.png",
+                                    f"Session B · {fid} · fresh login (the portal requires a different session)",
+                                    f"Read as <b>{html.escape(r.get('extracted_type') or '-')}</b> "
+                                    f"({html.escape(why[:90])}) → <b>{html.escape(sel.get('assigned_to') or '-')}</b>"
+                                    f" · then re-read the fax to confirm")
+            others = len(results) - len(show)
+            cap_q = caption(pg, tmp / "cap_q.png", "Verification",
+                            f"The other {others} faxes went the same way. Routed Documents now lists every "
+                            "submitted fax; the duplicate (FX-210) was correctly never submitted")
             browser.close()
 
+        seq = [clip(intro, work / "00.mp4", still_s=5)]
         a_vid = next((v for v in sessions if v.name.endswith("-A-inbox.webm")), None)
-        seq: list[Path] = [to_clip(cards["intro"], clips / "000.mp4", 7), to_clip(cards["A"], clips / "001.mp4", 4)]
         if a_vid:
-            seq.append(to_clip(a_vid, clips / "002.mp4", max_s=a.a_seconds))
+            seq.append(clip(a_vid, work / "01.mp4", skip_s=1, max_s=a.a_seconds, speed=2.0, cap=cap_a))
         for i, fid in enumerate(show):
             v = next((v for v in sessions if v.name.endswith(f"-B-{fid}.webm")), None)
-            if v and fid in cards:
-                seq += [to_clip(cards[fid], clips / f"1{i:02d}c.mp4", 6), to_clip(v, clips / f"1{i:02d}.mp4")]
-        seq += [to_clip(cards["rest"], clips / "800.mp4", 5), to_clip(cards["Q"], clips / "900.mp4", 3),
-                to_clip(queue, clips / "901.mp4"), to_clip(cards["R"], clips / "902.mp4", 10)]
-        lst = tmp / "list.txt"
-        lst.write_text("".join(f"file '{c}'\n" for c in seq))
+            if v:
+                seq.append(clip(v, work / f"1{i}.mp4", skip_s=0.5, speed=1.25, cap=caps[fid]))
+        seq += [clip(queue, work / "80.mp4", skip_s=1.5, cap=cap_q), clip(outro, work / "90.mp4", still_s=7)]
         a.out.parent.mkdir(parents=True, exist_ok=True)
-        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", str(lst),
-                        "-c", "copy", "-movflags", "+faststart", str(a.out)], check=True)
-        dur = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0",
-                              str(a.out)], capture_output=True, text=True).stdout.strip()
-        print(f"[demo] wrote {a.out} ({float(dur or 0):.0f}s, {a.out.stat().st_size / 1e6:.1f} MB)")
+        crossfade(seq, a.out)
+        print(f"[demo] wrote {a.out} ({duration(a.out):.0f}s, {a.out.stat().st_size / 1e6:.1f} MB)")
         return 0 if rc == 0 else 1
     finally:
         portal.release()

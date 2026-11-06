@@ -41,7 +41,7 @@ Every routed and needs_review fax is `ui_verified`: its routing panel **and** it
 
 ## Evidence
 
-[`results/demo.mp4`](results/demo.mp4) (2 min): one full run on a fresh portal, recorded by `make record` from the agent's own browser sessions: Session A downloading, then FX-201 (routed) and FX-202 (critical flag, sent to review) each submitted from a fresh login, then the Routed Documents queue.
+[`results/demo.mp4`](results/demo.mp4) (45 s, captioned): one full run on a fresh portal, recorded by `make record` from the agent's own browser sessions: Session A downloading, then FX-201 (routed) and FX-202 (critical flag, sent to review) each submitted from a fresh login, then the Routed Documents queue.
 
 **Reliability**
 - `make chaos` ([`results/chaos_matrix.md`](results/chaos_matrix.md)): 13 cases, all passing, each against its own throwaway portal and judged only through the UI. Covers every fault mode (download 503, session expiry on submit, commit-then-503), `kill -9` at four checkpoints followed by a resume, a sandbox reset under a stale checkpoint, a genuine 409, an undownloadable fax, a download-time re-login, and a second worker on the same checkpoint.
