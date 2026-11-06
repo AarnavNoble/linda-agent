@@ -38,6 +38,10 @@
 #   Liam Rivera - Billing              | EOB                 | Billing / EOBs
 #   Jordan Ellis - Manual Review       | Needs Review        | Review / Unclassified
 
+# Provenance: the labeller read every page of every fax in the portal UI (routing panel covered) and wrote
+# blind notes. Labels marked "labeller" are their own call. Labels marked "resolved" were uncertain or
+# contradicted the SOP in the notes and were settled by applying the SOP with AI assistance; the
+# labeller's original note is kept in each case.
 labeller:       Aarnav Noble
 labelled_at:    2026-11-06
 faxes:
@@ -46,70 +50,70 @@ faxes:
     expected_category: referral
     expected_route: auto
     expected_duplicate_of:
-    notes: p1 cover sheet, p2 referral RF-3001 (Elena Hart, 04/16/1987), Priority Routine
+    notes: "labeller: page 2 is explicitly a referral request, with referring physician, service and reason"
   FX-202:
     expected_action: needs_review
     expected_category: lab_result
     expected_route: auto
     expected_duplicate_of:
-    notes: lab LAB-8302 (Marcus Bell); printed "CRITICAL RESULT - CALLING PROVIDER"
+    notes: "labeller: lab result marked CRITICAL RESULT and 'for immediate review'"
   FX-203:
     expected_action: routed
     expected_category: imaging_report
     expected_route: auto
     expected_duplicate_of:
-    notes: imaging IMG-4003 (Naomi Lee), MRI c-spine, FINAL REPORT; no flags
+    notes: "resolved: labeller identified an imaging report but was unsure of the action; no review trigger applies (no flag, single document, findings present)"
   FX-204:
     expected_action: routed
     expected_category: prior_authorization
     expected_route: auto
     expected_duplicate_of:
-    notes: prior auth PA-4004 (Oliver Grant); same sender/time as FX-203 but different doc, ID and patient
+    notes: "resolved: labeller first said needs_review because of 'please review coverage requirements'; that is the Authorizations team's normal work, not an SOP review trigger"
   FX-205:
     expected_action: routed
     expected_category: refill_request
     expected_route: auto
     expected_duplicate_of:
-    notes: refill RX-4005 (Sydney Patel), Lisinopril renewal; no flags
+    notes: "resolved: labeller leaned needs_review because of 'no dispensing authorization implied'; that is a standard disclaimer, not an SOP review trigger"
   FX-206:
     expected_action: routed
     expected_category: records_request
     expected_route: auto
     expected_duplicate_of:
-    notes: p1 records request MR-4006 (Cameron Blake); p2 its signed release, referenced on p1, so one document
+    notes: "resolved: labeller noted page 2 is the signed release for the records request (one document); first labelled already_routed through a definition mix-up"
   FX-207:
     expected_action: routed
     expected_category: eob
     expected_route: auto
     expected_duplicate_of:
-    notes: EOB EOB-4007 (Jordan Clark), claim C-10778; no flags
+    notes: "labeller: explanation of benefits per the title; content is billed, paid and owed amounts"
   FX-208:
     expected_action: needs_review
     expected_category: lab_result
     expected_route: auto
     expected_duplicate_of:
-    notes: lab LAB-4008 (Talia Nguyen), says "See values on following table" but fax is 1 page with no table; results missing. Negated "No urgent flag" is not a flag.
+    notes: "labeller: results say 'see following table' but no table follows; contradicting info, so take the safer option and review"
   FX-209:
     expected_action: needs_review
     expected_category: unclear
     expected_route: auto
     expected_duplicate_of:
-    notes: unknown sender, U-4009; "[SCAN CUT OFF]", missing continuation page, no readable category
+    notes: "labeller: seems incomplete, no usable info; needs a closer look"
   FX-210:
     expected_action: skipped_duplicate
     expected_category: referral
     expected_route: none
     expected_duplicate_of: FX-201
-    notes: resend of RF-3001, same patient and DOB, received after FX-201
+    notes: "labeller: resend saying to disregard if the original was received; the original RF-3001 (same patient and DOB) is FX-201, received earlier"
   FX-211:
     expected_action: already_routed
     expected_category: imaging_report
     expected_route: none
     expected_duplicate_of:
-    notes: imaging IMG-4111 (Elliot Brooks); status was Routed in the fresh seed state, before any agent run
+    notes: "resolved: labeller read a final imaging report and first said routed; it was already Routed in the portal's seed state, before any agent run"
   FX-212:
     expected_action: needs_review
     expected_category: mixed
     expected_route: auto
     expected_duplicate_of:
-    notes: p1 cover "multiple enclosures"; p2 lab LAB-4012A, p3 imaging IMG-4012B (Riley Morgan); mixed packet
+    notes: "labeller: contains both a lab report and a radiology report, so unclear; two document types in one fax means mixed"

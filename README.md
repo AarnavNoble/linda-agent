@@ -56,7 +56,7 @@ Every routed and needs_review fax is `ui_verified`: its routing panel **and** it
 
 From [`eval/model_compare.md`](eval/model_compare.md). This measures agreement and repeatability against the committed Opus extraction, not accuracy against human labels.
 - **Damaged PDFs, live vision** ([`eval/perturbation_live.md`](eval/perturbation_live.md)): every auto-routed fax was re-sent with a page blanked or dropped. All 12 variants were detected and sent to review; 0 were auto-routed.
-- **Accuracy vs. human labels** ([`eval/report.md`](eval/report.md)): I labelled all 12 faxes by reading each one in the portal UI ([`eval/labels.yaml`](eval/labels.yaml)). Scored against the sample run: **0 unsafe auto-routes, exact-route match 12/12, over-review 0/6, duplicate precision/recall 1.00/1.00.** n=12 is a smoke test, not an accuracy estimate; FX-208 is the one label that is a policy call rather than a reading (see NOTES). Over-review is reported next to unsafe auto-routes so that sending everything to review can't look "safe".
+- **Accuracy vs. human labels** ([`eval/report.md`](eval/report.md)): I read all 12 faxes in the portal UI and wrote blind notes; 6 labels are my direct call, and 6 where I was unsure were settled by applying the SOP with AI assistance (each is marked, with my original note, in [`eval/labels.yaml`](eval/labels.yaml)). Scored against the sample run: **0 unsafe auto-routes, exact-route match 12/12, over-review 0/6, duplicate precision/recall 1.00/1.00.** n=12 is a smoke test, not an accuracy estimate; FX-208 is the one label that is a policy call rather than a reading (see NOTES). Over-review is reported next to unsafe auto-routes so that sending everything to review can't look "safe".
 
 ## How it works
 
