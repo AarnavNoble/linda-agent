@@ -9,6 +9,7 @@ from __future__ import annotations
 import dataclasses
 import json
 import os
+import re
 import shutil
 import socket
 import subprocess
@@ -72,6 +73,13 @@ class Portal:
     fault_mode: str
     db_path: Path
     proc: subprocess.Popen
+    log_path: Path
+
+    def access_log(self) -> list[tuple[str, str, int]]:
+        """(method, path, status) per request, from this portal process's own uvicorn access log."""
+        rx = re.compile(r'"(GET|POST|PUT|DELETE|PATCH|HEAD) (\S+) HTTP/[\d.]+" (\d{3})')
+        return [(m.group(1), m.group(2), int(m.group(3)))
+                for m in rx.finditer(self.log_path.read_text())]
 
 
 def _start_portal(tmp: Path, fault_mode: str) -> Portal:
@@ -84,12 +92,13 @@ def _start_portal(tmp: Path, fault_mode: str) -> Portal:
     for port in PORT_RANGE:
         if not _port_free(port):
             continue
-        log = (tmp / f"portal-{port}.log").open("w")
+        log_path = tmp / f"portal-{port}.log"
+        log = log_path.open("w")
         proc = subprocess.Popen([str(PORTAL_UVICORN), "app:app", "--host", "127.0.0.1", "--port", str(port)],
                                 cwd=PORTAL_DIR, env=env, stdout=log, stderr=subprocess.STDOUT)
         url = f"http://127.0.0.1:{port}"
         if _wait_ready(url, proc):
-            return Portal(url, port, fault_mode, db, proc)
+            return Portal(url, port, fault_mode, db, proc, log_path)
         proc.kill()
         proc.wait()
     raise RuntimeError("no free port in 8201-8240 for a test portal")

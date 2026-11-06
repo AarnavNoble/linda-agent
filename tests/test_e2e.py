@@ -13,6 +13,7 @@ No __admin endpoint, portal DB, or portal data directory is ever touched.
 from __future__ import annotations
 
 import collections
+import json
 
 import pytest
 
@@ -54,6 +55,7 @@ class Scenario:
         self.doc = self.run.results_doc if has else {}  # frozen: later reruns overwrite the file
         self.results = {r["fax_id"]: r for r in self.doc.get("results", [])}
         self.events = self.run.events()
+        self.requests = self.portal.access_log()  # the agent's traffic only: taken before the observer runs
         obs = UIObserver(self.portal.base_url)
         try:
             self.ui = obs.snapshot(ALL_IDS)
@@ -128,6 +130,17 @@ def submit_events(sc: Scenario, fax_id: str) -> list[dict]:
     return sc.events_for(fax_id, "submit_")
 
 
+def route_posts(sc: Scenario) -> collections.Counter:
+    """Server-side count of route submissions per fax, independent of what the agent logs."""
+    return collections.Counter(path.split("/")[2] for method, path, _ in sc.requests
+                               if method == "POST" and path.endswith("/route"))
+
+
+def assert_no_backdoor_traffic(sc: Scenario) -> None:
+    bad = [r for r in sc.requests if "__admin" in r[1]]
+    assert not bad, bad
+
+
 # ---- 1. normal routing ------------------------------------------------------
 
 def test_normal_routing_results(clean):
@@ -137,6 +150,11 @@ def test_normal_routing_results(clean):
 
 def test_normal_routing_ui_state(clean):
     assert_portal_ui(clean)
+
+
+def test_normal_routing_server_saw_one_route_post_per_fax(clean):
+    assert route_posts(clean) == collections.Counter(ROUTING_IDS)
+    assert_no_backdoor_traffic(clean)
 
 
 def test_normal_routing_submits_each_fax_exactly_once(clean):
@@ -272,6 +290,9 @@ def test_uncertain_submit_is_verified_not_resubmitted(scenario):
     assert [e["event"] for e in submit_events(sc, fid)] == ["submit_unknown"], "must not resubmit after commit"
     assert sc.results[fid]["verification"]["status"] == "ui_verified"
     assert sc.results[fid]["verification"].get("submit_outcome") == "unknown"
+    assert route_posts(sc) == collections.Counter(ROUTING_IDS), "server saw a second POST after the 503"
+    assert (("POST", f"/faxes/{fid}/route", 503)) in sc.requests
+    assert_no_backdoor_traffic(sc)
     assert [r[0] for r in sc.ui["_queue_rows"]].count(fid) == 1
 
 
@@ -286,6 +307,9 @@ def test_download_503_is_retried(scenario):
     seq = [e["event"] for e in sc.events_for(fid, "download_")]
     assert seq == ["download_error_page", "download_ok"], seq
     assert sc.results[fid]["retries"] >= 1
+    statuses = [st for m, path, st in sc.requests if m == "GET" and path == f"/faxes/{fid}/download"]
+    assert statuses == [503, 200], statuses
+    assert_no_backdoor_traffic(sc)
 
 
 def test_session_expiry_on_submit_relogs_and_routes_once(scenario):
@@ -302,6 +326,10 @@ def test_session_expiry_on_submit_relogs_and_routes_once(scenario):
     assert not set(s["route_sessions_b"]) & set(s["download_session_a"])
     assert any("expired" in e for e in sc.results[fid]["errors"])
     assert [r[0] for r in sc.ui["_queue_rows"]].count(fid) == 1
+    # Server view: first POST bounced to login (303, nothing saved), second POST committed.
+    posts = route_posts(sc)
+    assert posts[fid] == 2 and all(posts[f] == 1 for f in ROUTING_IDS if f != fid), posts
+    assert_no_backdoor_traffic(sc)
 
 
 # ---- 5. determinism + idempotent rerun -------------------------------------
@@ -328,3 +356,50 @@ def test_rerun_on_same_checkpoint_is_a_noop(clean):
     assert not [e for e in run_events if e["event"] == "intent_written"]
     assert doc["newly_reported_this_run"] == []
     assert {f: r["action"] for f, r in again.results.items()} == EXPECTED_ACTIONS
+
+
+# ---- 6. PHI hygiene on real run artifacts ----------------------------------
+
+def test_no_patient_identifiers_in_event_log_or_console(clean):
+    """Names/DOBs the vision pass extracted (committed cache) never reach events.jsonl or stderr."""
+    from tests.conftest import REPO
+    phi = set()
+    for f in (REPO / "cache").glob("*.json"):
+        for p in json.loads(f.read_text())["pages"]:
+            phi |= {p[k] for k in ("patient_name", "dob") if p.get(k)}
+    assert phi, "cache should contain extracted identifiers to check against"
+    logs = "".join(f.read_text() for f in (clean.run.work_dir / "runs").glob("*/events.jsonl"))
+    leaked = sorted(v for v in phi if v in logs or v in clean.run.stderr)
+    assert not leaked, leaked
+
+
+# ---- 7. crash around submit, then resume -----------------------------------
+
+@pytest.mark.parametrize("crash_at", ["before_click", "after_click"])
+def test_crash_around_submit_then_resume_routes_once(crash_at, portal_factory, tmp_path):
+    """Hard-kill the worker right before / right after clicking OK on the first fax, restart it on the
+    same checkpoint: every fax ends verified and the server saw exactly one route POST per fax."""
+    p = portal_factory("none")
+    first = run_agent(p.base_url, tmp_path / "work", extra_env={"LINDA_AGENT_CRASH_AT": crash_at})
+    assert first.returncode == 137, first.stderr[-2000:]
+    crashed = [e for e in first.events() if e["event"] == "simulated_crash"]
+    assert len(crashed) == 1 and crashed[0]["at"] == crash_at
+    fid = crashed[0]["fax_id"]
+
+    second = run_agent(p.base_url, tmp_path / "work")
+    assert second.returncode == 0, second.stderr[-2000:]
+    res = second.results
+    assert {f: r["action"] for f, r in res.items()} == EXPECTED_ACTIONS
+    for f in ROUTING_IDS:
+        assert res[f]["verification"]["status"] == "ui_verified", (f, res[f]["verification"])
+    posts = collections.Counter(path.split("/")[2] for m, path, _ in p.access_log()
+                                if m == "POST" and path.endswith("/route"))
+    assert posts == collections.Counter(ROUTING_IDS), posts
+    if crash_at == "after_click":
+        # Resume found it already Routed and verified it instead of resubmitting.
+        run2 = second.results_doc["run_id"]
+        outcomes = [e["event"] for e in second.events() if e.get("fax_id") == fid and e["run"] == run2]
+        assert "route_verified_existing" in outcomes, outcomes
+        assert not [o for o in outcomes if o.startswith("submit_")], outcomes
+    # The first run never got to write results, so every fax is reported by the resumed run, once.
+    assert sorted(second.results_doc["newly_reported_this_run"]) == sorted(EXPECTED_ACTIONS)
